@@ -1,4 +1,4 @@
 consup
 ======
 
-Docker site based on consul &amp; supervisord
+[Docker](http://docker.io) site based on [consul](https://www.consul.io/) and [supervisor](http://supervisord.org/).
