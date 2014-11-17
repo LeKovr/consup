@@ -2,7 +2,7 @@
 # Consup PGWS image
 #
 
-FROM consup_nginx
+FROM lekovr/consup_nginx
 
 ENV DOCKERFILE_VERSION  141116
 
