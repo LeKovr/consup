@@ -1,0 +1,142 @@
+diff -cr mod_perl-1.31.orig/Changes mod_perl-1.31/Changes
+*** mod_perl-1.31.orig/Changes	2009-05-12 05:59:47.000000000 +0400
+--- mod_perl-1.31/Changes	2012-07-07 14:58:58.616416441 +0400
+***************
+*** 8,13 ****
+--- 8,23 ----
+  
+  =over 3
+  
++ =item 1.32-dev
++ 
++ RT 64999, perl 5.14 compatibility, GvCV and GvGP lvalue changes in perl core
++ [<sendwade [at] hotmail>]
++ 
++ [Slaven Rezic <SREZIC [at] cpan>]
++ 
++ Work around a gcc optimization specific bug which
++ cuased seg faults on FreeBSD 7.x during mod_perl startup.
++ 
+  =item 1.31 May 11, 2009
+  
+  Fix static APACI build on Mac OS X. [Gozer]
+diff -cr mod_perl-1.31.orig/src/modules/perl/Constants.xs mod_perl-1.31/src/modules/perl/Constants.xs
+*** mod_perl-1.31.orig/src/modules/perl/Constants.xs	2003-03-14 07:39:39.000000000 +0300
+--- mod_perl-1.31/src/modules/perl/Constants.xs	2012-07-07 15:00:27.420703008 +0400
+***************
+*** 20,26 ****
+  	    SvPVX(caller), sub, SvPVX(pclass), sub);
+  #endif
+      gv = gv_fetchpv(form("%_::%s", caller, sub), TRUE, SVt_PVCV);
+!     GvCV(gv) = perl_get_cv(form("%_::%s", pclass, sub), TRUE);
+      GvIMPORTED_CV_on(gv);
+  }
+  
+--- 20,26 ----
+  	    SvPVX(caller), sub, SvPVX(pclass), sub);
+  #endif
+      gv = gv_fetchpv(form("%_::%s", caller, sub), TRUE, SVt_PVCV);
+!     GvCV_set(gv, perl_get_cv(form("%_::%s", pclass, sub), TRUE));
+      GvIMPORTED_CV_on(gv);
+  }
+  
+diff -cr mod_perl-1.31.orig/src/modules/perl/Log.xs mod_perl-1.31/src/modules/perl/Log.xs
+*** mod_perl-1.31.orig/src/modules/perl/Log.xs	2001-01-25 10:43:05.000000000 +0300
+--- mod_perl-1.31/src/modules/perl/Log.xs	2012-07-07 15:00:51.768797526 +0400
+***************
+*** 10,16 ****
+  static void perl_cv_alias(char *to, char *from)
+  {
+      GV *gp = gv_fetchpv(to, TRUE, SVt_PVCV);
+!     GvCV(gp) = perl_get_cv(from, TRUE);
+  }
+  
+  static void ApacheLog(int level, SV *sv, SV *msg)
+--- 10,16 ----
+  static void perl_cv_alias(char *to, char *from)
+  {
+      GV *gp = gv_fetchpv(to, TRUE, SVt_PVCV);
+!     GvCV_set(gp, perl_get_cv(from, TRUE));
+  }
+  
+  static void ApacheLog(int level, SV *sv, SV *msg)
+diff -cr mod_perl-1.31.orig/src/modules/perl/mod_perl.c mod_perl-1.31/src/modules/perl/mod_perl.c
+*** mod_perl-1.31.orig/src/modules/perl/mod_perl.c	2008-11-20 21:12:31.000000000 +0300
+--- mod_perl-1.31/src/modules/perl/mod_perl.c	2012-07-07 15:01:32.512975902 +0400
+***************
+*** 785,791 ****
+      /* *CORE::GLOBAL::exit = \&Apache::exit */
+      if(gv_stashpv("CORE::GLOBAL", FALSE)) {
+  	GV *exitgp = gv_fetchpv("CORE::GLOBAL::exit", TRUE, SVt_PVCV);
+! 	GvCV(exitgp) = perl_get_cv("Apache::exit", TRUE);
+  	GvIMPORTED_CV_on(exitgp);
+      }
+  
+--- 785,791 ----
+      /* *CORE::GLOBAL::exit = \&Apache::exit */
+      if(gv_stashpv("CORE::GLOBAL", FALSE)) {
+  	GV *exitgp = gv_fetchpv("CORE::GLOBAL::exit", TRUE, SVt_PVCV);
+! 	GvCV_set(exitgp, perl_get_cv("Apache::exit", TRUE));
+  	GvIMPORTED_CV_on(exitgp);
+      }
+  
+diff -cr mod_perl-1.31.orig/src/modules/perl/mod_perl.h mod_perl-1.31/src/modules/perl/mod_perl.h
+*** mod_perl-1.31.orig/src/modules/perl/mod_perl.h	2008-11-20 21:21:18.000000000 +0300
+--- mod_perl-1.31/src/modules/perl/mod_perl.h	2012-07-07 15:02:20.519077229 +0400
+***************
+*** 1026,1031 ****
+--- 1026,1039 ----
+  #define PERL_HEADER_PARSER_CREATE(s)
+  #endif
+  
++ #ifndef GvCV_set
++ #define GvCV_set(gv, cv) (GvCV(gv) = (cv))
++ #endif
++ 
++ #ifndef GvCV_set
++ #define CvGV_set(gv, cv) (CvVG(gv) = (cv))
++ #endif
++ 
+  typedef struct {
+      array_header *PerlPassEnv;
+      array_header *PerlRequire;
+diff -cr mod_perl-1.31.orig/src/modules/perl/perl_config.c mod_perl-1.31/src/modules/perl/perl_config.c
+*** mod_perl-1.31.orig/src/modules/perl/perl_config.c	2003-03-14 07:55:59.000000000 +0300
+--- mod_perl-1.31/src/modules/perl/perl_config.c	2012-07-07 15:02:52.401129276 +0400
+***************
+*** 1720,1726 ****
+  	if((cv = GvCV((GV*)val)) && (GvSTASH((GV*)val) == GvSTASH(CvGV(cv)))) {
+              GV *gv = CvGV(cv);
+              cv_undef(cv);
+!             CvGV(cv) = gv;
+              GvCVGEN(gv) = 1; /* invalidate method cache */
+          }
+      }
+--- 1720,1726 ----
+  	if((cv = GvCV((GV*)val)) && (GvSTASH((GV*)val) == GvSTASH(CvGV(cv)))) {
+              GV *gv = CvGV(cv);
+              cv_undef(cv);
+!             CvGV_set(cv, gv);
+              GvCVGEN(gv) = 1; /* invalidate method cache */
+          }
+      }
+diff -cr mod_perl-1.31.orig/Symbol/Symbol.xs mod_perl-1.31/Symbol/Symbol.xs
+*** mod_perl-1.31.orig/Symbol/Symbol.xs	2000-12-22 09:02:32.000000000 +0300
+--- mod_perl-1.31/Symbol/Symbol.xs	2012-07-07 14:59:41.696891748 +0400
+***************
+*** 30,36 ****
+  	    has_proto = TRUE;
+  
+  	cv_undef(cv);
+! 	CvGV(cv) = gv;   /* let user-undef'd sub keep its identity */
+          if(has_proto) 
+              SvPOK_on(cv); /* otherwise we get `Prototype mismatch:' */
+  
+--- 30,36 ----
+  	    has_proto = TRUE;
+  
+  	cv_undef(cv);
+! 	CvGV_set(cv, gv); /* let user-undef'd sub keep its identity */
+          if(has_proto) 
+              SvPOK_on(cv); /* otherwise we get `Prototype mismatch:' */
+  
