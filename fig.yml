@@ -93,7 +93,7 @@ pgws:
 # -------------------------------------------------------------------------------
 modperl:
   hostname: modperl
-  build: Dockerfiles
+  build: Dockerfiles/modperl
 #  image: lekovr/consup_modperl
   links:
    - master:master
