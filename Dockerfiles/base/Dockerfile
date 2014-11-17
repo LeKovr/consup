@@ -14,7 +14,7 @@ ENV INITRD No
 # -------------------------------------------------------------------------------
 # Setup base packages and supervisor
 
-RUN apt-get update && apt-get install -y wget curl mc python-setuptools \
+RUN apt-get update && apt-get install -y wget curl sudo mc python-setuptools \
   && easy_install supervisor \
   && groupadd supervisor \
   && mkdir -p /var/run/supervisor
