@@ -1,0 +1,7 @@
+{
+  "datacenter": "consup",
+  "log_level": "INFO",
+  "server": true,
+  "bootstrap": true,
+  "client_addr": "0.0.0.0"
+}
