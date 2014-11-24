@@ -25,7 +25,7 @@ Also, [consul](https://www.consul.io/) configured in server mode.
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_master/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_master`
    (alternatively, you can build an image from Dockerfile: `docker build -t="consup_master" github.com/lekovr/consup/Dockerfiles/master`)
-   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/fig.yml) and run `fig build master`
+   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/blob/master/fig.yml) and run `fig build master`
 
 ### Usage
 

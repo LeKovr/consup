@@ -24,7 +24,7 @@ The following packages added to base image:
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_postgres/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_postgres`
    (alternatively, you can build an image from Dockerfile: `docker build -t="consup_postgres" github.com/lekovr/consup/Dockerfiles/postgres`)
-   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/fig.yml) and run `fig build postgres`
+   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/blob/master/fig.yml) and run `fig build postgres`
 
 ### Usage
 

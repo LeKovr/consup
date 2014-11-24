@@ -27,7 +27,7 @@ The following packages added to original debian distro:
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup-base/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup-base`
    (alternatively, you can build an image from Dockerfile: `docker build -t="consup-base" github.com/lekovr/consup/Dockerfiles/base`).
-   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/fig.yml) and run `fig build base`
+   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/blob/master/fig.yml) and run `fig build base`
 
 3. To use image as base, you should tag it: `docker tag CONTAINER_ID lekovr/consup-base`.
 
