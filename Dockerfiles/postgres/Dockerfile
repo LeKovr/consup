@@ -36,7 +36,7 @@ RUN CHKPG_VER=2.21.0 && curl -OL http://bucardo.org/downloads/check_postgres-${C
 
 COPY consul.d /etc/consul.d
 COPY init.d /init.d
-COPY conf.d /etc/supervisor/conf.d
+COPY supervisor.d /etc/supervisor/conf.d
 
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/$PG_MAJOR

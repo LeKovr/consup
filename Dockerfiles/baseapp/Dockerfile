@@ -11,7 +11,7 @@ MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 # -------------------------------------------------------------------------------
 # Setup Consul client
 
-COPY conf.d   /etc/supervisor/conf.d
+COPY supervisor.d   /etc/supervisor/conf.d
 COPY consul.d /etc/consul.d
 COPY init.d   /init.d
 

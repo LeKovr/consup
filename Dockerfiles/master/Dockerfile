@@ -13,7 +13,7 @@ MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
 RUN apt-get install -y apt-cacher-ng
 
-COPY conf.d/apt-cacher.conf /etc/supervisor/conf.d/
+COPY supervisor.d/apt-cacher.conf /etc/supervisor/conf.d/
 EXPOSE 3142
 
 VOLUME /var/cache/apt-cacher-ng
@@ -23,6 +23,6 @@ COPY init.d /init.d
 # Setup Consul server
 
 COPY consul.d /etc/consul.d
-COPY conf.d/consul-server.conf /etc/supervisor/conf.d/
+COPY supervisor.d/consul-server.conf /etc/supervisor/conf.d/
 EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 53/udp
 

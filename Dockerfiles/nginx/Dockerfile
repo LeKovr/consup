@@ -21,5 +21,5 @@ RUN rm /etc/nginx/sites-enabled/default \
 EXPOSE 80
 
 COPY consul.d /etc/consul.d
-COPY conf.d /etc/supervisor/conf.d
+COPY supervisor.d /etc/supervisor/conf.d
 
