@@ -32,7 +32,8 @@ RUN for f in /opt/setup_*.sh ; do . $f ; done && rm /opt/setup_*.sh
 # -------------------------------------------------------------------------------
 # Setup primary lang
 
-ENV LANG en_US.utf8
+ENV LANG en_US.UTF-8
+#? RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
 
 # -------------------------------------------------------------------------------
 # Run init.d.sh on boot before supervisor
