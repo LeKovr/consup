@@ -4,7 +4,7 @@
 
 FROM lekovr/consup_baseapp
 
-ENV DOCKERFILE_VERSION  141116
+ENV DOCKERFILE_VERSION  150130
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
@@ -34,7 +34,7 @@ RUN CHKPG_VER=2.21.0 && curl -OL http://bucardo.org/downloads/check_postgres-${C
 # -------------------------------------------------------------------------------
 # Setup Consul client
 
-COPY consul.d /etc/consul.d
+COPY consul /etc/consul
 COPY init.d /init.d
 COPY supervisor.d /etc/supervisor/conf.d
 

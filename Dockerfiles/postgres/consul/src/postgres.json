@@ -1,7 +1,7 @@
 {
   "service": {
     "name": "db",
-    "tags": ["database", "postgres"],
+    "tags": ["{{env "PROJECT"}}", "{{env "MODE"}}"],
     "port": 5432,
     "check": {
       "#": "script returns 1 if Ok but consul waits 0, so use '!'",

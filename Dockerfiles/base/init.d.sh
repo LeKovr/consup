@@ -7,6 +7,8 @@ export GOMAXPROCS=`nproc`
 
 if [ -d /init.d ]; then
   for f in /init.d/*.sh; do
-    [ -f "$f" ] && . "$f"
+    [ -f "$f" ] && echo  "Run $f.." && . "$f"
   done
 fi
+echo "Run main shell.."
+exec "$@"

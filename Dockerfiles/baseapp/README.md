@@ -14,7 +14,6 @@ This image used as base for consup application images.
 
 The following additions has been made to base image:
 
-* Run apt with  repo caching from master image
 * Run consul agent linked to master consul server
 
 ### Installation
@@ -24,7 +23,6 @@ The following additions has been made to base image:
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_baseapp/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_baseapp`
    (alternatively, you can build an image from Dockerfile: `docker build -t="consup_baseapp" github.com/lekovr/consup/Dockerfiles/baseapp`)
-   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/blob/master/fig.yml) and run `fig build baseapp`
 3. To use image as base, you should tag it: `docker tag CONTAINER_ID lekovr/consup_baseapp`.
 
 ### Usage

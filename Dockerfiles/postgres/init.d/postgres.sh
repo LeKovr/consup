@@ -22,12 +22,12 @@ else
 
   DIR_UID=$(stat -c "%u" $D)
   if [[ "$DIR_UID" ]] && [[ $DIR_UID != $(id -u $U) ]]; then
-    echo  usermod -u $DIR_UID $U
+    usermod -u $DIR_UID $U
   fi
 
   DIR_GID=$(stat -c "%g" $D)
   if [[ "$DIR_GID" ]] && [[ $DIR_GID != $(id -g $U) ]]; then
-    echo  groupmod -g $DIR_GID $U
+    groupmod -g $DIR_GID $U
   fi
-
+  chown -R $DIR_UID:$DIR_GID /var/run/postgresql
 fi

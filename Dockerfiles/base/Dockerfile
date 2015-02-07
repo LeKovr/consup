@@ -1,10 +1,10 @@
-# consup-base
+# consup_base
 # Consul Supervisor based image
 #
 
 FROM debian:wheezy
 
-ENV DOCKERFILE_VERSION_BASE  141116
+ENV DOCKERFILE_VERSION_BASE  150130
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
@@ -40,5 +40,7 @@ ENV LANG en_US.UTF-8
 
 COPY init.d /init.d
 COPY init.d.sh /
-CMD /init.d.sh && exec supervisord -c /etc/supervisor/supervisord.conf -n
+CMD ["/init.d.sh", "supervisord", "-c", "/etc/supervisor/supervisord.conf", "-n" ]
 
+# Default timezone
+ENV TZ="Europe/Moscow"

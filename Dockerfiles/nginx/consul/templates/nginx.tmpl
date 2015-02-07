@@ -1,0 +1,9 @@
+template {
+  source = "/etc/consul/src/nginx-local.conf"
+  destination = "/etc/nginx/sites-enabled/nginx-local.conf"
+}
+template {
+  source = "/etc/consul/src/nginx-front.conf"
+  destination = "/etc/nginx/sites-available/nginx-front.conf"
+}
+

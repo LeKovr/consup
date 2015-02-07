@@ -1,7 +1,7 @@
 ## Consup base image Dockerfile
 
 This repository contains **Dockerfile** for consup base image
-for [Docker](https://www.docker.com/)'s [automated build](https://registry.hub.docker.com/u/lekovr/consup-base/) 
+for [Docker](https://www.docker.com/)'s [automated build](https://registry.hub.docker.com/u/lekovr/consup_base/) 
 published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
 This image used as base for any other consup images.
@@ -24,16 +24,15 @@ The following packages added to original debian distro:
 
 1. Install [Docker](https://www.docker.com/).
 
-2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup-base/) from public
- [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup-base`
-   (alternatively, you can build an image from Dockerfile: `docker build -t="consup-base" github.com/lekovr/consup/Dockerfiles/base`).
-   If you prefer [fig](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/blob/master/fig.yml) and run `fig build base`
+2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_base/) from public
+ [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_base`
+   (alternatively, you can build an image from Dockerfile: `docker build -t="lekovr/consup_base" github.com/lekovr/consup/Dockerfiles/base`).
 
-3. To use image as base, you should tag it: `docker tag CONTAINER_ID lekovr/consup-base`.
+3. To use image as base, you should tag it: `docker tag CONTAINER_ID lekovr/consup_base`.
 
 ### Usage
 
-Place in Dockerfile: `FROM lekovr/consup-base`
+Place in Dockerfile: `FROM lekovr/consup_base`
 
 ### Environment
 
