@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y wget curl sudo mc python-setuptools \
   && easy_install supervisor \
   && groupadd supervisor \
   && mkdir -p /var/run/supervisor
+  && echo "alias svd=\"supervisorctl -c /etc/supervisor/supervisord.conf\"" >> /root/.bashrc
+
+ENV TERM xterm
 
 COPY supervisord.conf /etc/supervisor/
 
