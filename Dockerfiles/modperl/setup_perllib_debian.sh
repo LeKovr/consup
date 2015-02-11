@@ -29,15 +29,20 @@ apt-get -y install \
     cpanminus \
     libio-string-perl \
     libspreadsheet-parseexcel-perl \
-    libdate-calc-perl || exit 1
+    libdate-calc-perl \
+    liblist-moreutils-perl \
+    || exit 1
 
 cpanm enum \
   && cpanm Toolbox::Simple \
   && cpanm Attribute::Property \
-  && cpanm HTML::Restrict \
   && cpanm URI::Escape::JavaScript \
+  && cpanm HTML::Restrict \
   && cpanm http://www.cpan.org/authors/id/S/SA/SAMTREGAR/HTML-Template-2.9.tar.gz \
   || exit 1
 
 # libhtml-template-perl \
 # same as BSD copy
+
+# To build HTML::Restrict without gcc if no liblist-moreutils-perl:
+#  && cpanm http://search.cpan.org/CPAN/authors/id/R/RE/REHSACK/List-MoreUtils-0.400_010.tar.gz \
