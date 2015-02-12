@@ -54,7 +54,7 @@ cd mod_perl-1.31
 patch -p1 < ../../perl-1.14.patch
 
 # make them all
-perl Makefile.PL APACHE_SRC=../apache_1.3.42/src DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
+perl Makefile.PL APACHE_SRC=../apache_1.3.42/src DO_HTTPD=1 USE_APACI=1 EVERYTHING=1 ADD_MODULE="rewrite,usertrack"
 make && make test && checkinstall --install --nodoc --pkgname mod_perl-1.31 -y --exclude=/opt/*
 mv *.deb /opt/
 
