@@ -1,5 +1,0 @@
-#!/bin/sh
-PATH=$PATH:/usr/local/bin
-curl -s http://master:8500/v1/health/service/apt-cacher-ng?passing | \
-  jq -r '.[] | "http://" + .Node.Address + ":" + (.Service.Port | tostring)' | \
-  sort -R | head -n1

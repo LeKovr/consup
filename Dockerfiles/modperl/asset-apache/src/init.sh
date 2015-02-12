@@ -8,18 +8,6 @@ apt-get update
 apt-get -y install curl
 
 # -------------------------------------------------------------------------------
-# Install jq - command-line JSON processor
-
-[ -f /usr/local/bin/jq ] || curl -o /usr/local/bin/jq -SL http://stedolan.github.io/jq/download/linux64/jq \
-  && chmod +x /usr/local/bin/jq
-
-# -------------------------------------------------------------------------------
-# Setup apt-cacher
-cp deb-proxy-discover /usr/local/bin/deb-proxy-discover
-chmod +x /usr/local/bin/deb-proxy-discover
-echo "Acquire::http::ProxyAutoDetect \"/usr/local/bin/deb-proxy-discover\";" > /etc/apt/apt.conf.d/30autoproxy
-
-# -------------------------------------------------------------------------------
 # generate .deb
 
 DIR=tmp
