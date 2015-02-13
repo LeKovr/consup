@@ -1,6 +1,6 @@
 {
   "service": {
-    "name": "webfront", 
+    "name": "{{env "SERVICE"}}", 
     "tags": ["{{env "PROJECT"}}", "{{env "MODE"}}"],
     "port": 80,
     "check": {

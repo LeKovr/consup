@@ -33,5 +33,8 @@ ENV WWW_DOMAIN devel.my
 # Consul upstreams domain
 ENV CONSUL_DOMAIN service.consul
 
-# Run nginx proxy in this MODE
+# Run nginx frontend in this MODE
 ENV FRONT_MODE common
+
+# Register this service in consul
+ENV SERVICE webfront
