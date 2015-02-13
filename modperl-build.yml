@@ -1,0 +1,31 @@
+# -------------------------------------------------------------------------------
+# fidm config file
+# -------------------------------------------------------------------------------
+# Rebuilding apache modperl .deb packages
+
+# usage with fidm:
+# $ time fidm start modperl-build
+#  ...
+# # real 4m30.329s
+# # Dockerfiles/modperl/asset-apache/*.deb ready
+# $ fidm build modperl
+# # Config file modperl does not exists. Using defaults
+
+# usage with docker:
+# $ cd asset-apache
+# $ docker run -ti --rm -v $PWD/Dockerfiles/modperl/asset-apache:/opt debian:wheezy /opt/src/init.sh
+
+creator: library
+image:   debian
+release: wheezy
+
+volume:
+- Dockerfiles/modperl/asset-apache:/opt
+
+cmd: /opt/src/init.sh
+
+# Interactive
+interactive: true
+tty: true
+rm: true
+

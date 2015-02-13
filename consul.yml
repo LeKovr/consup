@@ -1,0 +1,15 @@
+# -------------------------------------------------------------------------------
+# consup_consul fidm config
+# https://github.com/LeKovr/fidm
+# -------------------------------------------------------------------------------
+
+# mount consul database dir
+volume:
+- var/lib/consul:/var/lib/consul
+
+# Daemon
+detach: true
+
+env:
+# resolve non-consul queries via this host
+- DNS_MASTER=8.8.8.8

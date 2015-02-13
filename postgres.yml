@@ -1,0 +1,39 @@
+# -------------------------------------------------------------------------------
+# consup_postgres fidm config
+# https://github.com/LeKovr/fidm
+
+# -------------------------------------------------------------------------------
+# Image exchange info
+# -------------------------------------------------------------------------------
+
+# yml def names for linked containers with autostart
+links:
+- consul    # consul.yml
+
+# -------------------------------------------------------------------------------
+# Image run info
+# -------------------------------------------------------------------------------
+
+# Publish ports bind to
+bind_ip: 127.0.0.1
+
+# mount volume
+# $log_dir/$name_$mode:/var/log/supervisor
+log_dir: var/log
+
+volume:
+- app/db:/var/lib/postgresql
+
+publish:
+- 5432
+
+env:
+- LOCALE=ru_RU
+
+# Daemon
+detach: true
+
+# Interactive
+#interactive: true
+#tty: true
+#rm: true
