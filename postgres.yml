@@ -29,6 +29,8 @@ publish:
 
 env:
 - LOCALE=ru_RU
+#- LC_COLLATE=C
+#- LC_CTYPE=ru_RU.UTF-8
 
 # Daemon
 detach: true

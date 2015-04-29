@@ -1,0 +1,7 @@
+{
+  "service": {
+    "name": "xmpp", 
+    "tags": ["{{env "PROJECT"}}", "{{env "MODE"}}"],
+    "port": 5280
+  }
+}
