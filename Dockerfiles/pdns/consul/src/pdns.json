@@ -1,0 +1,12 @@
+{
+  "service": {
+    "name": "dns",
+    "tags": ["{{env "PROJECT"}}", "{{env "MODE"}}"],
+    "port": 54,
+    "check": {
+      "#": "script returns 1 if Ok but consul waits 0, so use '!'",
+      "script": "! netcat -vuw 1 localhost 54 >/dev/null",
+      "interval": "60s"
+    }
+  }
+}
