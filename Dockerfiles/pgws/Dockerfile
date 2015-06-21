@@ -11,6 +11,7 @@ MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 # -------------------------------------------------------------------------------
 # Install PG client
 
+RUN apt-get update
 RUN apt-get -y install \
     postgresql-client
 
