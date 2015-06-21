@@ -1,10 +1,10 @@
 {
   "service": {
     "name": "{{env "SERVICE"}}", 
-    "tags": ["{{env "PROJECT"}}", "{{env "MODE"}}"],
+    "tags": ["{{env "PROJECT"}}"],
     "port": 80,
     "check": {
-      "script": "curl localhost:80 >/dev/null 2>&1", 
+      "script": "curl localhost:80 >/dev/null 2>&1",
       "interval": "10s"
     }
   }

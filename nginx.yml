@@ -16,7 +16,7 @@ links:
 
 # Publish ports bind to
 #bind_ip: 127.0.53.53
-bind_host: web.dev
+bind_host: www.dev.lan
 
 publish:
 - 80
@@ -29,8 +29,8 @@ log_dir: var/log
 dns: 127.0.0.1
 
 env:
-- WWW_DOMAIN=dev
-- FRONT_MODE=common
+# Redirect 502 errors
+- DEFAULT_SITE=http://localhost
 
 # Daemon
 detach: true

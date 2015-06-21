@@ -27,11 +27,11 @@ COPY init.d /init.d
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
 
-# Common (public) domain
-ENV WWW_DOMAIN devel.my
+# Consul upstreams domain for service named "web"
+ENV CONSUL_DOMAIN web.service.consul
 
-# Consul upstreams domain
-ENV CONSUL_DOMAIN service.consul
+# Redirect 502 errors
+ENV DEFAULT_SITE http://localhost
 
 # Run nginx frontend in this MODE
 ENV FRONT_MODE common
