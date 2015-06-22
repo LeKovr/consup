@@ -26,7 +26,6 @@ log_dir: log
 
 volume:
 - :/home/app
-- log/nginx:/var/log/nginx
 
 private:
 - 80

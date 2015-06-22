@@ -21,16 +21,13 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ wheezy nginx" >> /etc/a
 ENV NGINX_VERSION 1.9.2-1~wheezy
 
 RUN apt-get update && \
-    apt-get install -y ca-certificates nginx=${NGINX_VERSION}
-
-RUN rm /etc/nginx/conf.d/default.conf
+    apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
+    sed -i.bak -e 's|access_log .*|access_log  off;|' -e 's|error_log .*|error_log  /dev/stderr notice;|' /etc/nginx/nginx.conf && \
+    rm /etc/nginx/conf.d/default.conf
 
 VOLUME ["/var/cache/nginx"]
 
 EXPOSE 80 443
-
-# access log only, errors go to supervisor
-VOLUME ["/var/log/nginx"]
 
 COPY init.d /init.d
 COPY consul /etc/consul
