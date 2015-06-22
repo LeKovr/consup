@@ -25,6 +25,9 @@ publish:
 # $log_dir/$name_$mode:/var/log/supervisor
 log_dir: var/log
 
+volume:
+- var/log/nginx:/var/log/nginx
+
 # use local consul as DNS
 dns: 127.0.0.1
 

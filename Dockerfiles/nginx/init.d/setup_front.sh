@@ -1,8 +1,16 @@
+#
+# Setup nginx frontend server
+# if container started with ENV{MODE} == "common"
+#
 
-DEST=/etc/nginx/sites-enabled/nginx-front.conf
 if [[ "$MODE" == "$FRONT_MODE" ]] ; then
-echo "Set front"
+  echo "Setup nginx frontend"
+
   # activate nginx front config in front mode
-  [ ! -f $DEST ] && ln -s /etc/nginx/sites-available/nginx-front.conf $DEST
+  CONF=/etc/nginx/conf.d/nginx-front.conf
+  [ -e $CONF ] && rm $CONF
+  consul-template -once -template=/etc/consul/src/nginx-front.conf:$CONF
+
+  echo "Done"
 fi
-echo "done"
+

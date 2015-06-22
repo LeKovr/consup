@@ -2,6 +2,7 @@
 # consup_postgres fidm config
 # https://github.com/LeKovr/fidm
 
+project: demo.dev.lan
 image: consup_nginx
 mode: test
 
