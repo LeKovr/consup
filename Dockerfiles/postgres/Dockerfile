@@ -16,7 +16,7 @@ ENV PG_MAJOR 9.3
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r postgres && useradd -r -g postgres -d /var/lib/postgresql postgres
 
-RUN apt-get install -y postgresql-common \
+RUN apt-get update && apt-get install -y postgresql-common \
  && sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf \
  && apt-get install -y \
   postgresql-contrib-$PG_MAJOR \
