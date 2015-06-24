@@ -22,7 +22,12 @@ ENV NGINX_VERSION 1.9.2-1~wheezy
 
 RUN apt-get update && \
     apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
-    sed -i.bak -e 's|access_log .*|access_log  off;|' -e 's|error_log .*|error_log  /dev/stderr notice;|' /etc/nginx/nginx.conf && \
+    sed -i.bak \
+      -e 's|access_log .*|access_log  off;|' \
+      -e 's|error_log .*|error_log  /dev/stderr notice;|' \
+      -e 's|$remote_addr|$http_x_forwarded_for|' \
+      -e 's| "$http_x_forwarded_for"||' \
+      /etc/nginx/nginx.conf && \
     rm /etc/nginx/conf.d/default.conf
 
 VOLUME ["/var/cache/nginx"]
@@ -35,6 +40,9 @@ COPY supervisor.d /etc/supervisor/conf.d
 
 ADD *_params /etc/nginx/
 
+# ------------------------------------------------------------
+# Frontend server config
+
 # Consul upstreams domain for service named "web"
 ENV CONSUL_DOMAIN web.service.consul
 
@@ -46,3 +54,15 @@ ENV FRONT_MODE common
 
 # Register this service in consul
 ENV SERVICE webfront
+
+# ------------------------------------------------------------
+# Backend server config (FRONT_MODE != common, SERVICE == web)
+
+# Site hostname
+ENV PROJECT demo.dev.lan
+
+# Document root = /home/www/$HTML_DIR
+ENV HTML_DIR html
+
+# Document root will be under this dir
+VOLUME ["/home/www"]
