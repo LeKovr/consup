@@ -1,6 +1,6 @@
 {
   "service": {
-    "name": "pgws", 
+    "name": "web", 
     "tags": ["{{env "PROJECT"}}", "{{env "MODE"}}"],
     "port": 80,
     "check": {
