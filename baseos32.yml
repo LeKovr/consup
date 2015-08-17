@@ -4,7 +4,6 @@
 # -------------------------------------------------------------------------------
 
 name: baseos
-dockerfile: Dockerfile32
 
 # To get 64bit and 32bit images on same host
 # release: 32bit

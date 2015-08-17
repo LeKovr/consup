@@ -1,11 +1,6 @@
 ## Consup base os image Dockerfile
 
-This repository contains **Dockerfiles** for [consup](https://github.com/LeKovr/consup) base os [Docker](https://www.docker.com/) images.
-
-There are two architectures supported:
-
-* Default, based on [debian:wheezy](https://hub.docker.com/_/debian/)
-* 32bit, based on [debian i386](https://hub.docker.com/r/protomouse/debian-i386/)
+This repository contains **Dockerfiles** for 64bit [consup](https://github.com/LeKovr/consup) base os [Docker](https://www.docker.com/) images.
 
 BaseOS image is intended for use by [fidm](https://github.com/LeKovr/fidm) as part of [consup](https://github.com/LeKovr/consup) docker environment.
 So you should get both of them and run the following scenario:
@@ -18,16 +13,9 @@ fidm build some_app_image
 
 ```
 
-Or on 32bit host:
+### Base image
 
-```
-cd consup
-fidm build baseos32
-fidm build base
-fidm build some_app_image
-
-```
-
+* [debian:wheezy](https://hub.docker.com/_/debian/)
 
 ### Automated Build (64bit only)
 
