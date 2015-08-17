@@ -32,8 +32,8 @@ VOLUME ["/var/run/supervisor", "/var/log/supervisor"]
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
 
-COPY setup_*.sh /opt/
-RUN for f in /opt/setup_*.sh ; do . $f ; done && rm /opt/setup_*.sh
+COPY . /tmp/consup-build/
+RUN for f in /tmp/consup-build/setup_*.sh ; do . $f ; done && rm -rf /tmp/consup-build
 
 # -------------------------------------------------------------------------------
 # Setup primary lang
@@ -49,4 +49,4 @@ COPY init.d.sh /
 CMD ["/init.d.sh", "supervisord", "-c", "/etc/supervisor/supervisord.conf", "-n" ]
 
 # Default timezone
-ENV TZ="Europe/Moscow"
+ENV TZ Europe/Moscow
