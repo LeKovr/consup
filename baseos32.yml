@@ -3,7 +3,7 @@
 # https://github.com/LeKovr/fidm
 # -------------------------------------------------------------------------------
 
-name: baseos
+image: consup_baseos
 
 # To get 64bit and 32bit images on same host
 # release: 32bit
