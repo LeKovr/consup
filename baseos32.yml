@@ -1,0 +1,10 @@
+# -------------------------------------------------------------------------------
+# consup_baseos32 fidm config
+# https://github.com/LeKovr/fidm
+# -------------------------------------------------------------------------------
+
+name: baseos
+dockerfile: Dockerfile32
+
+# To get 64bit and 32bit images on same host
+# release: 32bit

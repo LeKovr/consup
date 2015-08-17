@@ -2,9 +2,9 @@
 # Consul Supervisor based image
 #
 
-FROM debian:wheezy
+FROM lekovr/consup_baseos
 
-ENV DOCKERFILE_VERSION_BASE  150130
+ENV DOCKERFILE_VERSION_BASE  150817
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
