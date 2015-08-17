@@ -12,13 +12,15 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
 # -------------------------------------------------------------------------------
-# Setup base packages and supervisor
+# Setup backports repo
+RUN echo "deb http://http.debian.net/debian wheezy-backports main" > /etc/apt/sources.list.d/backports.list
 
-RUN apt-get update && apt-get install -y wget curl sudo mc python-setuptools \
+# Setup base packages and supervisor
+RUN apt-get update && apt-get install -y wget curl sudo mc python-setuptools jq \
   && easy_install supervisor \
   && groupadd supervisor \
   && mkdir -p /var/run/supervisor \
-  && echo "alias svd=\"supervisorctl -c /etc/supervisor/supervisord.conf\"" >> /root/.bashrc
+  && echo "alias svd=\"supervisorctl -c /etc/supervisor/supervisord.conf\"" >> /root/.bashrc \
   && echo "alias srv=\"curl http://localhost:8500/v1/catalog/services?pretty=1\"" >> /root/.bashrc
 
 ENV TERM xterm
