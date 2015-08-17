@@ -52,8 +52,13 @@ ENV CONSUL_DOMAIN web.service.consul
 # Redirect 502 errors
 ENV DEFAULT_SITE http://localhost
 
-# Run nginx frontend in this MODE
+# Use frontend config in this MODE
+# (see init.d/setup_nginx.sh)
 ENV FRONT_MODE common
+
+# Use redirect config in this MODE
+# (see init.d/setup_nginx.sh)
+ENV REDIR_MODE redir
 
 # Register this service in consul
 ENV SERVICE webfront

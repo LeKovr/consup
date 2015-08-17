@@ -3,7 +3,6 @@
 # https://github.com/LeKovr/fidm
 
 image: consup_nginx
-name: demo.consup
 
 # -------------------------------------------------------------------------------
 # Image exchange info
@@ -37,10 +36,10 @@ env:
 dns: 127.0.0.1
 
 # Daemon
-#detach: true
+detach: true
 
 # Interactive
-interactive: true
-tty: true
-rm: true
+#interactive: true
+#tty: true
+#rm: true
 

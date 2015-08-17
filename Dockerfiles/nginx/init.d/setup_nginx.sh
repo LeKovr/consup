@@ -2,11 +2,12 @@
 # Setup nginx frontend server
 #
 
-NAME=$PROJECT
 if [[ "$MODE" == "$FRONT_MODE" ]] ; then
   # if container started with ENV{MODE} == "common"
   SRC=/etc/consul/src/nginx-front.conf
   NAME="master proxy"
+elif [[ "$MODE" == "$REDIR_MODE" ]] ; then
+  SRC=/etc/consul/src/nginx-redir.conf
 elif [ -f /home/app/nginx.conf ] ; then
   # App got own config
   SRC=/home/app/nginx.conf
@@ -15,7 +16,7 @@ else
   SRC=/etc/consul/src/nginx.conf
 fi
 
-echo "Setup nginx for $NAME"
+echo "Setup nginx for $HOSTNAME"
 echo "Config template: $SRC"
 
 CONF=/etc/nginx/conf.d/nginx.conf

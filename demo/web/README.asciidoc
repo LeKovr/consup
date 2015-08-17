@@ -3,7 +3,7 @@
 //:source-highlighter: pygments
 :source-highlighter: coderay
 
-// Generate htmlf from this file:
+// Generate html from this file:
 // asciidoctor -o www/index.html README.asciidoc
 
 :fidm:   https://github.com/LeKovr/fidm[FIDM]
@@ -32,15 +32,15 @@ All {consup} containers are available at link:https://hub.docker.com/u/lekovr/[D
 .build containers
 ----
 $ cd consup
-$ for c in base baseapp consul nginx ; do fidm build $c creator=$USER ; done
+$ for c in baseos base baseapp consul nginx ; do fidm build $c creator=$USER ; done
 ----
 
 === Configure demo
 
 ./etc/hosts
 ----
-127.0.53.53   web.dev        
-127.0.53.53   test.web.dev   
+127.0.53.53   www.consup
+127.0.53.53   demo.consup
 ----
 
 === Run demo

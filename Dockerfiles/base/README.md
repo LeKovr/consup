@@ -8,7 +8,7 @@ This image used as base for any other consup images.
 
 ### Base Docker Image
 
-* [debian:wheezy](https://registry.hub.docker.com/_/debian/)
+[lekovr/consup_baseos](https://hub.docker.com/r/lekovr/consup_baseos/)
 
 ### Addons
 

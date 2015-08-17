@@ -16,7 +16,7 @@ links:
 
 # Publish ports bind to
 #bind_ip: 127.0.53.53
-bind_host: www.dev.lan
+bind_host: www.consup
 
 publish:
 - 80
