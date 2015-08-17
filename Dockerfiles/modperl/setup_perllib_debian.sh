@@ -31,6 +31,7 @@ apt-get -y install \
     libspreadsheet-parseexcel-perl \
     libdate-calc-perl \
     liblist-moreutils-perl \
+    libimager-perl \
     || exit 1
 
 cpanm enum \
