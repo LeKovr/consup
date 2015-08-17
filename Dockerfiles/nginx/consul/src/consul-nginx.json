@@ -1,7 +1,7 @@
 {
   "service": {
     "name": "{{env "SERVICE"}}", 
-    "tags": ["{{env "HOSTNAME"}}"],
+    "tags": ["{{env "NODENAME"}}"],
     "port": 80,
     "check": {
       "script": "curl localhost:80 >/dev/null 2>&1",

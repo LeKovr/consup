@@ -37,7 +37,7 @@ fidm_run() {
     # included via line in fidm.yml
     # - consup/nginx mode=common
 
-    export ENV_nginx="--env=DEFAULT_SITE=http://$site"
+    export ENV_nginx="--env=NGINX_DEFAULT=http://$site"
     echo "ENV_nginx=$ENV_nginx"
   fi
   echo ""

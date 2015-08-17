@@ -28,10 +28,6 @@ log_dir: var/log
 # use local consul as DNS
 dns: 127.0.0.1
 
-env:
-# Redirect 502 errors
-- DEFAULT_SITE=http://localhost
-
 # Daemon
 detach: true
 
