@@ -40,7 +40,8 @@ COPY init.d /init.d
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
 
-ADD *_params /etc/nginx/
+ADD fastcgi_params /etc/nginx/
+ADD proxy_params /etc/nginx/
 
 # ------------------------------------------------------------
 # Frontend server config
