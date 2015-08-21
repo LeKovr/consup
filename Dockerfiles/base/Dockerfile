@@ -33,7 +33,7 @@ VOLUME ["/var/run/supervisor", "/var/log/supervisor"]
 # Run custom setup scripts
 
 COPY . /tmp/consup-build/
-RUN for f in /tmp/consup-build/setup_*.sh ; do . $f ; done && rm -rf /tmp/consup-build
+RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ;  . $f ; done && rm -rf /tmp/consup-build
 
 # -------------------------------------------------------------------------------
 # Setup primary lang

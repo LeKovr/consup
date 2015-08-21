@@ -1,10 +1,9 @@
 
 
 # -------------------------------------------------------------------------------
-# Install gosu - "run this specific application as this specific user and get out of the pipeline"
+# Install dbcc - "Database superuser agent: Listen http port, 
+#   check if given database & user exists and create them otherwise"
 
-VER=1.0 && curl -o /usr/local/bin/dbcc -SL https://github.com/LeKovr/dbcc/releases/download/$VER/dbcc_linux_amd64 \
+VER=1.1 && NAME=${VER}/dbcc_linux_${DOCKER_ARCH} \
+  && curl -o /usr/local/bin/dbcc -SL https://github.com/LeKovr/dbcc/releases/download/$NAME \
   && chmod +x /usr/local/bin/dbcc
-
-
-

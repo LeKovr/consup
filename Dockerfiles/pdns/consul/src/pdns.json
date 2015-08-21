@@ -1,7 +1,7 @@
 {
   "service": {
     "name": "dns",
-    "tags": ["{{env "PROJECT"}}", "{{env "MODE"}}"],
+    "tags": ["{{env "NODENAME"}}"],
     "port": 54,
     "check": {
       "#": "script returns 1 if Ok but consul waits 0, so use '!'",

@@ -28,8 +28,8 @@ ENV PGDATA /var/lib/postgresql/$PG_MAJOR
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
 
-COPY setup_*.sh /opt/
-RUN for f in /opt/setup_*.sh ; do . $f ; rm $f ; done
+COPY . /tmp/consup-build/
+RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ; . $f ; done && rm -rf /tmp/consup-build
 
 # -------------------------------------------------------------------------------
 # Setup Consul client
