@@ -4,8 +4,7 @@
     "tags": ["{{env "NODENAME"}}"],
     "port": 5432,
     "check": {
-      "#": "script returns 1 if Ok but consul waits 0, so use '!'",
-      "script": "! gosu postgres check_postgres.pl --action connection >/dev/null",
+      "script": "gosu postgres check_postgres.pl --action connection >/dev/null",
       "interval": "60s"
     }
   }
