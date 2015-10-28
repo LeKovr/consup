@@ -1,24 +1,27 @@
-# consup_pgws
-# Consup PGWS image
+# consup_pgrest
+# Consup postgrest image
 #
 
 FROM lekovr/consup_nginx
 
-ENV DOCKERFILE_VERSION  150916
+ENV DOCKERFILE_VERSION  151028
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV INITRD No
 
 # -------------------------------------------------------------------------------
 # Install PG client
 
 RUN apt-get update && apt-get -y upgrade && apt-get -y install \
-    postgresql-client
+    postgresql-client git libgmp10
 
 # -------------------------------------------------------------------------------
 # PGWS staff
 
-COPY setup_*.sh /opt/
-RUN for f in /opt/setup_*.sh ; do . $f ; done && rm /opt/setup_*.sh
+# Setup postgrest
+COPY asset/src/postgrest /usr/local/sbin/
 
 # -------------------------------------------------------------------------------
 # Setup Consup client

@@ -1,0 +1,35 @@
+# -------------------------------------------------------------------------------
+# fidm config file
+# -------------------------------------------------------------------------------
+# Compile PostgREST binary from source
+
+# usage with fidm:
+# $ time fidm start pgrest-build
+#  ...
+# # real	30m5.951s
+# on fresh system:
+# # real	59m31.568s
+
+# $ fidm build pgrest
+
+# usage with docker:
+# $ cd asset-apache
+# $ docker run -ti --rm -v $PWD/Dockerfiles/modperl/asset-apache:/opt debian:wheezy /opt/src/init.sh
+
+creator: library
+project: debian
+release: wheezy
+image: debian
+
+volume:
+- Dockerfiles/pgrest/asset:/opt
+
+cmd: /opt/src/init.sh
+
+# Interactive
+interactive: true
+tty: true
+
+# keep container for future builds
+rm: false
+
