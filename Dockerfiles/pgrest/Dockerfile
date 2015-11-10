@@ -21,7 +21,9 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
 # PGWS staff
 
 # Setup postgrest
-COPY asset/src/postgrest /usr/local/sbin/
+# COPY asset/src/postgrest /usr/local/sbin/
+COPY . /tmp/consup-build/
+RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ;  . $f ; done && rm -rf /tmp/consup-build
 
 # -------------------------------------------------------------------------------
 # Setup Consup client
