@@ -15,7 +15,7 @@ ENV INITRD No
 # Install PG client
 
 RUN apt-get update && apt-get -y upgrade && apt-get -y install \
-    postgresql-client git libgmp10
+    postgresql-client git libgmp10 make
 
 # -------------------------------------------------------------------------------
 # PGWS staff
