@@ -15,6 +15,13 @@ chown -R $APPUSER $DEST
 # Mount point owner
 chown $APPUSER /home/app
 
+# New uid may be
+for dir in data git repos ; do
+  [ -d $dir ] || mkdir $dir
+  chown -R $APPUSER $dir
+done
+
+
 # Create initial gogs config if none
 
 dest="/opt/gogs/custom/conf/app.ini"
@@ -41,7 +48,7 @@ ROOT = /home/app/repos
 [server]
 DOMAIN = $NODENAME
 HTTP_PORT = 3000
-ROOT_URL = $NODENAME
+ROOT_URL = http://$NODENAME/
 DISABLE_SSH = false
 SSH_PORT = $SSHD_PORT
 OFFLINE_MODE = false
