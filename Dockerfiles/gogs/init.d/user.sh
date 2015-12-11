@@ -14,3 +14,39 @@ chown -R $APPUSER $DEST
 
 # Mount point owner
 chown $APPUSER /home/app
+
+# Create initial gogs config if none
+
+dest="/opt/gogs/custom/conf/app.ini"
+
+[ -f $dest ] || {
+  cat > $dest <<EOF
+
+APP_NAME = Gogs: Go Git Service
+RUN_USER = $APPUSER
+RUN_MODE = prod
+
+[database]
+DB_TYPE = postgres
+HOST = $PG_HOST:5432
+NAME = $DB_NAME
+USER = $DB_NAME
+PASSWD = $DB_PASS
+SSL_MODE = disable
+PATH = data/gogs.db
+
+[repository]
+ROOT = /home/app/repos
+
+[server]
+DOMAIN = $NODENAME
+HTTP_PORT = 3000
+ROOT_URL = $NODENAME
+DISABLE_SSH = false
+SSH_PORT = $SSHD_PORT
+OFFLINE_MODE = false
+
+EOF
+}
+chown $APPUSER $dest
+
