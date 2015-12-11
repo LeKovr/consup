@@ -1,6 +1,8 @@
 
 # change perms after generation by consul template
-# Used by gogs install
+# ( name z_* called after [a-y]* )
+
+# DEST Used by gogs install
 
 # This will be removed after switch to consul-template >= 0.11.1
 
