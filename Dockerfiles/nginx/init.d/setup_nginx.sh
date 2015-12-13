@@ -8,6 +8,8 @@ if [[ "$MODE" == "$FRONT_MODE" ]] ; then
   NAME="master proxy"
 elif [[ "$MODE" == "$REDIR_MODE" ]] ; then
   SRC=/etc/consul/src/nginx-redir.conf
+elif [[ "$MODE" == "$PROXY_MODE" ]] ; then
+  SRC=/etc/consul/src/nginx-proxy.conf
 elif [ -f /home/app/nginx.conf ] ; then
   # App got own config
   SRC=/home/app/nginx.conf

@@ -63,6 +63,10 @@ ENV FRONT_MODE common
 # (see init.d/setup_nginx.sh)
 ENV REDIR_MODE redir
 
+# Use proxy config in this MODE
+# (see init.d/setup_nginx.sh)
+ENV PROXY_MODE proxy
+
 # Register this service in consul
 ENV SERVICE webfront
 
@@ -72,8 +76,6 @@ ENV SERVICE webfront
 # nginx server name
 ENV NODENAME demo.consul
 
-# Document root = /home/www/$HTML_DIR
+# Document root = /home/app/$HTML_DIR
 ENV HTML_DIR html
 
-# Document root will be under this dir
-VOLUME ["/home/www"]
