@@ -1,0 +1,19 @@
+[
+  {
+    "id": "samplehook",
+    "execute-command": "./hook.sh",
+    "command-working-directory": "/home/app",
+    "include-command-output-in-response": true,
+    "pass-arguments-to-command": [
+      {
+        "source": "header",
+        "name": "X-Gogs-Event"
+      }
+    ],
+    "pass-environment-to-command": [
+      {
+         "source": "entire-payload"
+      }
+    ]
+  }
+]
