@@ -14,5 +14,6 @@ sed -i "/^PasswordAuthentication *yes/c PasswordAuthentication no" $DEST
 # Allow supervisor logs
 sed -i "/^StrictModes yes/c StrictModes no" $DEST
 
-# Change ssh port to 72
-[[ "$SSHD_PORT" ]] && sed -i "/Port 22/c Port $SSHD_PORT" $DEST
+# Change sshd port if it !=22
+[[ "$SSHD_PORT" != "22" ]] && sed -i "/Port 22/c Port $SSHD_PORT" $DEST
+

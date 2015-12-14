@@ -39,6 +39,7 @@ env:
 - SERVICE=web
 - PG_HOST=postgres.db.service.consul
 - DB_PASS=SET_DB_PASS_HERE_OR_IN_fidm.yml
+- SSHD_PORT=72
 
 # key to create db via dbcc service
 - DBCC_KEY=SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml

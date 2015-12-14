@@ -22,7 +22,9 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
 
 ENV APPUSER git
 ENV SSHD_PORT 72
-EXPOSE 72
+
+# Port exposed by fidm or by hand
+# EXPOSE 72
 
 COPY init.d /init.d
 
