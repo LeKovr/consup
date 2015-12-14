@@ -44,6 +44,15 @@ remote:
 	echo "cd $(CLOUD_ROOT)/$(PRG) && bash setup.sh" | ssh $(CLOUD) 'bash -s'
 	echo "Done"
 
+psql: $(CFG)
+	@echo "*** $@ ***"
+	source $(CFG) && \
+docker exec -ti "$(PRG)_$${APP_SITE}_www" make $@-inside
+
+psql-inside:
+	PGPASSWORD=$${DB_PASS} psql       -U $${DB_NAME} -h $${PG_HOST} -d $${DB_NAME}
+
+
 clean:
 	@echo "*** $@ ***"
 	[ ! -f $(CFG) ] || rm $(CFG)
