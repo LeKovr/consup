@@ -15,5 +15,7 @@ sed -i "/^PasswordAuthentication *yes/c PasswordAuthentication no" $DEST
 sed -i "/^StrictModes yes/c StrictModes no" $DEST
 
 # Change sshd port if it !=22
-[[ "$SSHD_PORT" != "22" ]] && sed -i "/Port 22/c Port $SSHD_PORT" $DEST
+if [[ "$SSHD_PORT" != "22" ]] ; then
+  sed -i "/Port 22/c Port $SSHD_PORT" $DEST
+fi
 
