@@ -10,7 +10,7 @@ sleep 1
 # PGPASSWORD=$DB_PASS psql -X -h $DB_HOST -U $DB_NAME -P tuples_only -c "SELECT NULL" > /dev/null && { echo "Database already exists" ; exit ; }
 
 # Try to create user & database. Get result
-curl -s "http://$DB_HOST:8080/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: .1" && {
+curl -s "http://$DB_HOST:5480/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: .1" && {
 
   echo "DB created right now, create tables"
   PGPASSWORD=$DB_PASS psql -X -h $DB_HOST -U $DB_NAME -f /usr/share/dbconfig-common/data/pdns-backend-pgsql/install/pgsql

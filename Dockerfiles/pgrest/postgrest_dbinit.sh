@@ -8,7 +8,7 @@ while true; do ping -c1 $PG_HOST > /dev/null 2>&1 && break; done
 echo "Done"
 
 # Try to create user & database. Get result
-curl -s "http://$PG_HOST:8080/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: .1" && {
+curl -s "http://$PG_HOST:5480/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: .1" && {
   echo "Created database $DB_NAME"
 }
 

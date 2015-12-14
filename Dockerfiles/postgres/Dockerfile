@@ -40,9 +40,19 @@ COPY supervisor.d /etc/supervisor/conf.d
 
 # -------------------------------------------------------------------------------
 
+# db startup trigger
+COPY db_check_started.sh /usr/local/bin
+
+# consul started by db_check_started.sh
+RUN echo "autostart=false" >> /etc/supervisor/conf.d/consul.conf
+
+# dbcc connect key
 ENV DBCC_KEY SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
+# dbcc port
+ENV DBCC_PORT 5480
 
+# postgres & dbcc ports
+EXPOSE 5432 5480
+
+# this will be mounted externally
 VOLUME ["/var/lib/postgresql"]
-
-EXPOSE 5432 8080
-

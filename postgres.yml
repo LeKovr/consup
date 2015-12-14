@@ -26,7 +26,7 @@ volume:
 
 publish:
 - 5432
-- 8080
+- 5480
 
 env:
 - LOCALE=ru_RU
