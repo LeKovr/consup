@@ -41,7 +41,7 @@ COPY supervisor.d /etc/supervisor/conf.d
 # -------------------------------------------------------------------------------
 
 # db startup trigger
-COPY db_check_started.sh /usr/local/bin
+COPY db_check_started.sh /usr/local/bin/db_check_started.sh
 
 # consul started by db_check_started.sh
 RUN echo "autostart=false" >> /etc/supervisor/conf.d/consul.conf
