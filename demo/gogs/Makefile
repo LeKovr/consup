@@ -24,12 +24,12 @@ start: vars
 fidm rm mode=www name=$$APP_SITE ; \
 fidm start mode=www name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME
 
-rm: $(CFG)
+stop: $(CFG)
 	@echo "*** $@ ***"
 	@source $(CFG) && \
 fidm $@ mode=www name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME
 
-rmall: $(CFG)
+stopall: $(CFG)
 	@echo "*** $@ ***"
 	@source $(CFG) && \
 fidm rm -a mode=www name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME
