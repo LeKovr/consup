@@ -59,6 +59,9 @@ ENV DB_PASS SET_DB_PASS_HERE_OR_IN_fidm.yml
 # key to create db via dbcc service
 ENV DBCC_KEY SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
 
+# Port dbcc listen on
+ENV DBCC_PORT 5480
+
 # gogs config will be under this dir
 VOLUME ["/opt/gogs/custom/conf"]
 

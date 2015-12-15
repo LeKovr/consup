@@ -30,7 +30,7 @@ RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ;  . $f ; done && rm -rf 
 
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
-COPY postgrest_dbinit.sh /usr/local/sbin/
+COPY dbinit.sh /usr/local/sbin/
 
 WORKDIR /home/app
 
@@ -48,6 +48,9 @@ ENV DB_PASS SET_DB_PASS_HERE_OR_IN_fidm.yml
 
 # key to create db via dbcc service
 ENV DBCC_KEY SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
+
+# Port dbcc listen on
+ENV DBCC_PORT 5480
 
 # Secret used to encrypt and decrypt JWT tokens
 ENV JWT_KEY SET_YOUR_JWT_KEY_HERE_OR_IN_fidm.yml

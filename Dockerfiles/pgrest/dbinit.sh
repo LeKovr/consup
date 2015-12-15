@@ -16,11 +16,10 @@ log "DB started"
 log "Check db"
 curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: .1" && {
   log "Created database $DB_NAME"
-  # Init db if needed
 }
 
 log "Start app"
-supervisorctl -c /etc/supervisor/supervisord.conf start gogs
+supervisorctl -c /etc/supervisor/supervisord.conf start pgrest
 
 log "Done"
 # Say all is Ok to supervisor
