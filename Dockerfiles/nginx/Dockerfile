@@ -50,10 +50,13 @@ ADD proxy_params /etc/nginx/
 ENV CONSUL_DOMAIN web.service.consul
 
 # Redirect 502 errors
-ENV NGINX_DEFAULT http://localhost/maintenance.html
+#ENV NGINX_DEFAULT http://localhost/maintenance.html
+# This will be used if NGINX_DEFAULT not set
+COPY nohost.html /usr/share/nginx/html/nohost.html
 
 # Used in /etc/consul/src/nginx-redir.conf
 ENV NGINX_REDIR "http://www.localhost"
+
 
 # Use frontend config in this MODE
 # (see init.d/setup_nginx.sh)
