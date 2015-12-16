@@ -44,7 +44,7 @@ COPY supervisor.d /etc/supervisor/conf.d
 COPY db_check_started.sh /usr/local/bin/db_check_started.sh
 
 # consul started by db_check_started.sh
-RUN echo "autostart=false" >> /etc/supervisor/conf.d/consul.conf
+#RUN echo "autostart=false" >> /etc/supervisor/conf.d/consul.conf
 
 # dbcc connect key
 ENV DBCC_KEY SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
