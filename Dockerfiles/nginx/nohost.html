@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site maintenance</title>
+<style>
+  html { background: #fff; color: #000; font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+  h1 { font-size: 2em; margin: 0.67em 0; }
+</style>
+<script>
+  window.onload = function(e){
+    var host = location.host;
+    document.getElementById("site").innerHTML = "site <a href='" + location.href + "'>" + host + "</a>";
+    document.title = host + ' on maintenance';
+  }
+</script>
+</head>
+<body>
+<h1>Site maintenance</h1>
+<p>We are sorry, but <span id="site">this site</span> is unavailable right now. Try to come back later.</p>
+</body>
+</html>
