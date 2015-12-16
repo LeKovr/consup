@@ -27,7 +27,7 @@ fidm start mode=www name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME
 stop: $(CFG)
 	@echo "*** $@ ***"
 	@source $(CFG) && \
-fidm $@ mode=www name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME
+fidm rm mode=www name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME
 
 stopall: $(CFG)
 	@echo "*** $@ ***"
