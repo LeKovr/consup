@@ -79,6 +79,6 @@ ENV SERVICE webfront
 # nginx server name
 ENV NODENAME demo.consul
 
-# Document root = /home/app/$HTML_DIR
+# Document root = $HTML_ROOT/$HTML_DIR
+ENV HTML_ROOT /home/app
 ENV HTML_DIR html
-
