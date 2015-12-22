@@ -54,3 +54,7 @@ ENV DBCC_PORT 5480
 
 # Secret used to encrypt and decrypt JWT tokens
 ENV JWT_KEY SET_YOUR_JWT_KEY_HERE_OR_IN_fidm.yml
+
+# TODO: add if & move to baseapp
+RUN localedef en_US.UTF-8 -i en_US -fUTF-8
+RUN localedef ru_RU.UTF-8 -i ru_RU -fUTF-8
