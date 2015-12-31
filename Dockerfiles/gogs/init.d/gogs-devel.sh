@@ -1,5 +1,5 @@
 
-# Update gogs disto if there is new version
+# Update gogs distro if there is new version
 SRC=/home/app/gogs.zip
 
 if [ -f $SRC  ] ; then
