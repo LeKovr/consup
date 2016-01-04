@@ -20,7 +20,7 @@ export CONFIG_DEF
 req: vars
 	@echo "*** $@ ***"
 	@source $(CFG) && \
-	curl -d '{"id": "test"}' http://$$APP_SITE/hooks/samplehook
+	curl -d '{"id": "test"}' http://$$APP_SITE/hooks/consuphook
 
 start: vars
 	@echo "*** $@ ***"
@@ -28,12 +28,12 @@ start: vars
 fidm rm mode=proxy name=$$APP_SITE ; \
 fidm start mode=proxy name=$$APP_SITE
 
-rm: $(CFG)
+stop: $(CFG)
 	@echo "*** $@ ***"
 	@source $(CFG) && \
-fidm $@ mode=proxy name=$$APP_SITE
+fidm rm mode=proxy name=$$APP_SITE
 
-rmall: $(CFG)
+stopall: $(CFG)
 	@echo "*** $@ ***"
 	@source $(CFG) && \
 fidm rm -a mode=proxy name=$$APP_SITE

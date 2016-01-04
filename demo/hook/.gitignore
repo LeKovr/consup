@@ -1,2 +1,5 @@
 .config
 log
+hook.key
+hook.pub
+distros

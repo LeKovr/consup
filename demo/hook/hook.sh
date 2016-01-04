@@ -3,14 +3,8 @@
 # This script called by webhook
 # See hooks.json
 
-echo "Hook start"
 
-# X-Gogs-Event header
-EVENT=$1
+CONSUP_ENV=""
 
-echo "Processing event ($EVENT)"
+. hook_lib.sh
 
-# All json payload
-echo "${HOOK_}" | jq '.'
-
-echo "Hook stop"

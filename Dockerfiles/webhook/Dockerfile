@@ -1,7 +1,6 @@
 # consup_webhook
 # Consup webhook image
 
-
 FROM lekovr/consup_nginx
 
 ENV DOCKERFILE_VERSION  151213
@@ -12,7 +11,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
 # -------------------------------------------------------------------------------
-# Install PG client
+# Install deps
 
 RUN apt-get update && apt-get -y upgrade && apt-get -y install \
     git make
@@ -23,10 +22,22 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
 COPY init.d /init.d
 
 # Setup app
-COPY setup_app.sh /tmp/consup-build/
+COPY setup_*.sh /tmp/consup-build/
 RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ;  . $f ; done && rm -rf /tmp/consup-build
 
 ENV APP_PORT 9000
+
+# -------------------------------------------------------------------------------
+# Docker
+
+# hook user
+ENV APPUSER op
+
+# Docker control
+VOLUME /var/run/docker.sock
+
+# Distro root
+ENV DISTRO_DIR /home/app/distros
 
 # -------------------------------------------------------------------------------
 # Setup Consup client

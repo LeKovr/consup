@@ -1,19 +1,17 @@
 
-# Setup container
+# Setup webhook user id
 
-DEST=/home/app/hooks.json
+set -e
 
-[ -f $DEST ] || cat > $DEST <<EOF
-[
-  {
-    "id": "samplehook",
-    "execute-command": "ls -l",
-    "command-working-directory": "/home/app"
-  }
-]
-EOF
+# Create docker group
+if ! grep -q "^${group}:" /etc/group ; then
+  groupadd docker
+fi
 
-# id - specifies the ID of your hook. This value is used to create the HTTP endpoint (http://yourserver:port/hooks/your-hook-id)
-# execute-command - specifies the command that should be executed when the hook is triggered
-# command-working-directory
+# Set docker group id like docker.sock owner
+groupmod -g $(stat -c "%g" /var/run/docker.sock) docker
+
+# Add user to group docker
+usermod -g docker $APPUSER
+
 
