@@ -1,0 +1,13 @@
+# -------------------------------------------------------------------------------
+# fidm config
+# https://github.com/LeKovr/fidm
+
+image: consup_nodejs
+
+volume:
+- :/home/app
+
+# Interactive
+interactive: true
+tty: true
+rm: true
