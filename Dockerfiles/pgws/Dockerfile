@@ -23,7 +23,6 @@ RUN for f in /opt/setup_*.sh ; do . $f ; done && rm /opt/setup_*.sh
 # -------------------------------------------------------------------------------
 # Setup Consup client
 
-COPY consul /etc/consul
 COPY init.d /init.d
 
 WORKDIR /home/app
