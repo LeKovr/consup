@@ -53,6 +53,11 @@ DISABLE_SSH = false
 SSH_PORT = $SSHD_PORT
 OFFLINE_MODE = false
 
+[log]
+MODE = file
+LEVEL = Info
+ROOT_PATH = /home/app/log/gogs
+
 EOF
 }
 chown $APPUSER $dest
