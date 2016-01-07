@@ -1,5 +1,5 @@
 --[[ http://habrahabr.ru/post/132098/ ]]
-settings = {
+settings {
   logfile    = "/home/app/log/lsyncd.log",
   statusFile = "/home/app/log/lsyncd.status",
   statusInterval = 5,
@@ -13,9 +13,15 @@ sync {
   targetdir = "/opt/",
   delay = 3,
   rsync = {
+    archive=true,
     compress=true,
     acls=true,
     verbose=true,
+    temp_dir="/tmp",
+    update=true,
+    links=true,
+    times=true,
+    protect_args=true
   },
   ssh = {
     port = {{env "SSHD_PORT"}}
