@@ -2,22 +2,24 @@
 settings = {
   logfile    = "/home/app/log/lsyncd.log",
   statusFile = "/home/app/log/lsyncd.status",
-  statusInterval = 5, --<== чтобы видеть что происходит без включения подробного лога
+  statusInterval = 5,
+  nodaemon   = true,
 }
 
 sync {
   default.rsyncssh,
   source = "/opt",
   host = "{{env "SYNC_HOST"}}",
-  targetdir = "/opt",
-  rsyncOpts = {"-ausS", "--temp-dir=/tmp"},
+  targetdir = "/opt/",
   delay = 3,
-  rsync={
+  rsync = {
     compress=true,
     acls=true,
     verbose=true,
-    rsh="/usr/bin/ssh -p {{env "SSHD_PORT"}} -o StrictHostKeyChecking=no"
-  }
+  },
+  ssh = {
+    port = {{env "SSHD_PORT"}}
+  },
 --[[,
   init = function(event) --<== перезагрузка функции инициализации. как она выглядела в оригинале можно посмотреть в документации или в исходниках
     log("Normal","Skipping startup synchronization...") --<== чтобы знать, что мы этот код вообще запускали и когда

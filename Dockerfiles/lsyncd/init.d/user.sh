@@ -8,6 +8,7 @@ home=/home/app
 grep -qe "^$APPUSER:" /etc/passwd || useradd -d $home $APPUSER
 
 chown $APPUSER /home/app
+chown $APPUSER /opt
 
 [ -f $home/.ssh/id_dsa ] || {
   gosu $APPUSER mkdir -p $home/.ssh

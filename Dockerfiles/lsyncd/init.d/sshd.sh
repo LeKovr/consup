@@ -19,3 +19,5 @@ if [[ "$SSHD_PORT" != "22" ]] ; then
   sed -i "/Port 22/c Port $SSHD_PORT" $DEST
 fi
 
+# TODO: set this option in lsyncd config
+echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
