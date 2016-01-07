@@ -1,7 +1,7 @@
 
 # Create user & his home dir
 
-home=/home/app/$APPUSER
+home=/home/app
 
 # Check if user exists already
 # grep -qe "^$APPUSER:" /etc/passwd || useradd -m -r -s /bin/bash -Gwww-data -gusers -gsudo $APPUSER
@@ -9,7 +9,8 @@ grep -qe "^$APPUSER:" /etc/passwd || useradd -d $home $APPUSER
 
 chown $APPUSER /home/app
 
-[ -f ~/.ssh/id_dsa ] || {
-  ssh-keygen -q -b 1024 -t dsa -f ~/.ssh/id_dsa -N ""
+[ -f $home/.ssh/id_dsa ] || {
+  gosu $APPUSER mkdir -p $home/.ssh
+  gosu $APPUSER ssh-keygen -q -b 1024 -t dsa -f $home/.ssh/id_dsa -N ""
 }
 
