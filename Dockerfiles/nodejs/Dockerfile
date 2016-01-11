@@ -40,7 +40,9 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 
 RUN npm install -g gulp bower gulp-jshint gulp-uglify gulp-connect \
   gulp-watch gulp-autoprefixer gulp-less gulp-sourcemaps gulp-rigger gulp-imagemin \
-  gulp-cssnano del imagemin-pngquant browser-sync
+  gulp-cssnano del imagemin-pngquant browser-sync \
+  gulp-concat gulp-filter gulp-main-bower-files \
+  gulp-rename gulp-size
 
 ENV NODE_PATH /usr/local/lib/node_modules
 
