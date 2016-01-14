@@ -80,28 +80,29 @@ npm: npm-install
 
 # Use: ARGS="gulp --save-dev" make npm-install
 npm-%:
-	X=$@ ; FIDM_CMD="npm $${X#npm-} $$ARGS" fidm start nodejs.yml
+	X=$@ ; FIDM_CMD="/init.sh npm $${X#npm-} $$ARGS" fidm exec nodejs.yml
 
 # Use: make bower-list
 # Use: PKG=jquery make bower-search
 bower-%:
-	X=$@ ; FIDM_CMD="/init.sh bower $${X#bower-} $$PKG --config.analytics=false" fidm start nodejs.yml
+	X=$@ ; FIDM_CMD="/init.sh bower $${X#bower-} $$PKG --config.analytics=false" fidm exec nodejs.yml
 
 # Use: PKG=angularjs make bower-install
 bower-install:
-	FIDM_CMD="/init.sh bower install --save $$PKG --config.analytics=false" fidm start nodejs.yml
+	FIDM_CMD="/init.sh bower install --save $$PKG --config.analytics=false" fidm exec nodejs.yml
 
 # Use: PKG=gulp-watch make bower-installdev
 bower-installdev:
-	FIDM_CMD="/init.sh bower install --savedev $$PKG --config.analytics=false" fidm start nodejs.yml
+	FIDM_CMD="/init.sh bower install --savedev $$PKG --config.analytics=false" fidm exec nodejs.yml
 
 # Use: make gulp-build:html
 gulp-%:
-	X=$@ ; FIDM_CMD="/init.sh gulp $${X#gulp-}" fidm start nodejs.yml
+	X=$@ ; FIDM_CMD="/init.sh gulp $${X#gulp-}" fidm exec nodejs.yml
+
 
 # Use: CMD=mc make cmd
 cmd:
-	FIDM_CMD="/init.sh $$CMD" fidm start nodejs.yml
+	FIDM_CMD="/init.sh $$CMD" fidm exec nodejs.yml
 
 .PHONY: all start stop stopall
 
