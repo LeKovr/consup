@@ -4,8 +4,8 @@
 
 image: consup_gogs
 project: gogs
-# setup in .config
-# name: gogs.dev.lan
+# setup in .config, used with make start
+#name: gogs.dev.lan
 
 # -------------------------------------------------------------------------------
 # Image exchange info
