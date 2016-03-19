@@ -6,5 +6,3 @@ FROM debian:wheezy
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-# Save arch for childs
-ENV DOCKER_ARCH amd64

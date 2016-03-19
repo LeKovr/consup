@@ -13,5 +13,3 @@ FROM protomouse/debian-i386:wheezy
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-# Save arch for childs
-ENV DOCKER_ARCH 386
