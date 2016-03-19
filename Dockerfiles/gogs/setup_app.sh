@@ -6,7 +6,7 @@
 
 #https://dl.gogs.io/gogs_v0.7.33_linux_amd64.tar.gz
 
-VER=v0.8.10 && PRJ=gogs && NAME=${PRJ}_${VER}_linux_amd64 \
+VER=v0.9.0 && PRJ=gogs && NAME=${PRJ}_${VER}_linux_amd64 \
   && curl -OL https://dl.gogs.io/${NAME}.tar.gz \
   && tar -xaf ${NAME}.tar.gz -C /opt/ \
   && rm ${NAME}.tar.gz
