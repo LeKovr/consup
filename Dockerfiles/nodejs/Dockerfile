@@ -1,5 +1,7 @@
 # consup nodejs
 # node.js v 4.2.4 argon
+# See https://github.com/LeKovr/consup
+#
 
 FROM lekovr/consup_baseapp
 
@@ -42,7 +44,9 @@ RUN npm install -g gulp bower gulp-jshint gulp-uglify gulp-connect \
   gulp-watch gulp-autoprefixer gulp-less gulp-sourcemaps gulp-rigger gulp-imagemin \
   gulp-cssnano del imagemin-pngquant browser-sync \
   gulp-concat gulp-filter gulp-main-bower-files \
-  gulp-rename gulp-size
+  gulp-rename gulp-size \
+  yo generator-gulp-angular \
+  useref ng-annotate csso rev eslint karma protractor gulp-angular-templatecache
 
 ENV NODE_PATH /usr/local/lib/node_modules
 
