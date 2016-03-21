@@ -11,7 +11,9 @@ fi
 # Change user id to FLAG owner's uid
 FLAG_UID=$(stat -c "%u" $FLAG)
 if [[ "$FLAG_UID" ]] && [[ $FLAG_UID != $(id -u $APPUSER) ]]; then
-    usermod -u $FLAG_UID $APPUSER
+  echo "Set uid $FLAG_UID for user $APPUSER"
+  usermod -u $FLAG_UID $APPUSER
+  chown -R $APPUSER /home/op
 fi
 
 echo "Run main shell.."
