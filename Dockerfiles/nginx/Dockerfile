@@ -1,36 +1,21 @@
 # consup_nginx
 # Consup nginx image
+# See https://github.com/LeKovr/consup
 #
 
 FROM lekovr/consup_baseapp
 
-ENV DOCKERFILE_VERSION  150622
-
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
+ENV DOCKERFILE_VERSION  160319
 
 # -------------------------------------------------------------------------------
-# Install nginx
+# Run custom setup scripts
 
-# RUN apt-get -y install nginx-extras
+ADD setup_*.sh /tmp/
+RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 
-# Based on https://github.com/nginxinc/docker-nginx
-RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
-RUN echo "deb http://nginx.org/packages/mainline/debian/ wheezy nginx" > /etc/apt/sources.list.d/nginx.list
-
-ENV NGINX_VERSION 1.9.6-1~wheezy
-
-RUN apt-get update && \
-    apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
-    sed -i.bak \
-      -e 's|access_log .*|access_log  off;|' \
-      -e 's|error_log .*|error_log  /dev/stderr notice;|' \
-      -e 's|$remote_addr|$http_x_real_ip|' \
-      /etc/nginx/nginx.conf && \
-    rm /etc/nginx/conf.d/default.conf
-
-# TODO: remove after checking realip via proxy
-#      -e 's| "$http_x_forwarded_for"||' \
+# -------------------------------------------------------------------------------
 
 VOLUME ["/var/cache/nginx"]
 
@@ -42,6 +27,7 @@ COPY supervisor.d /etc/supervisor/conf.d
 
 ADD fastcgi_params /etc/nginx/
 ADD proxy_params /etc/nginx/
+# ADD ssl.conf /etc/nginx/
 
 # ------------------------------------------------------------
 # Frontend server config
@@ -56,7 +42,6 @@ COPY nohost.html /usr/share/nginx/html/nohost.html
 
 # Used in /etc/consul/src/nginx-redir.conf
 ENV NGINX_REDIR "http://www.localhost"
-
 
 # Use frontend config in this MODE
 # (see init.d/setup_nginx.sh)

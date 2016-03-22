@@ -7,5 +7,5 @@
 VENDOR=LeKovr && PRJ=webhook && VER=2.3.6 && NAME=${PRJ}_linux_amd64 \
   && curl -OL https://github.com/$VENDOR/$PRJ/releases/download/$VER/$NAME.tar.gz \
   && tar -xf ${NAME}.tar.gz \
-  && sudo mv ${NAME} /usr/local/sbin/${PRJ} \
+  && mv ${NAME} /usr/local/sbin/${PRJ} \
   && rm ${NAME}*

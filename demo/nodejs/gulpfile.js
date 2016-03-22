@@ -10,9 +10,14 @@ var gulp = require('gulp'),
     cssnano = require('gulp-cssnano'),
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
-    del = require('del'),
-    browserSync = require("browser-sync"),
+    del = require('del'),    
     jshint = require('gulp-jshint'),
+
+    mainBowerFiles = require('gulp-main-bower-files'),
+    concat = require('gulp-concat'),
+    gulpFilter = require('gulp-filter'),
+
+    browserSync = require("browser-sync"),
     reload = browserSync.reload;
 
 var path = {
@@ -21,7 +26,8 @@ var path = {
         js: 'html/js/',
         css: 'html/css/',
         img: 'html/img/',
-        fonts: 'html/fonts/'
+        fonts: 'html/fonts/',
+        vendor: 'html/assets/'
     },
     src: {
         html: 'src/*.html',
@@ -114,6 +120,86 @@ gulp.task('build:fonts', function() {
     gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.build.fonts))
 });
+
+var filterByExtension = function(extension){  
+    return gulpFilter(function(file){
+        return file.path.match(new RegExp('.' + extension + '$'));
+    });
+};
+
+gulp.task('bower2', function() {
+
+/*  return gulp.src(mainBowerFiles(), {
+      base: 'lib'
+    })
+ */
+ var jsFilter = gulpFilter('**/*.js', {restore: true});
+    return gulp.src('./bower.json')
+        .pipe(mainBowerFiles({
+            overrides: {
+                bootstrap: {
+                    main: [
+                        './dist/js/bootstrap.js',
+                        './dist/fonts/*.*'
+                    ]
+                }
+            }
+        }))
+        .pipe(jsFilter)
+        .pipe(uglify({preserveComments: 'license'}))
+        .pipe(concat('vendor.js'))
+        .pipe(gulp.dest(path.build.js))
+        .pipe(jsFilter.restore)
+        .pipe(filterByExtension('css'))
+        .pipe(prefixer())
+        .pipe(cssnano())
+        .pipe(concat('assets.css'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(path.build.css));
+});
+
+gulp.task('bower1', function(){  
+    var mainFiles = mainBowerFiles();
+
+  //  if(!mainFiles.length){
+        // No main files found. Skipping....
+  //      return;
+  //  }
+
+    var jsFilter = filterByExtension('js');
+
+    return gulp.src('./bower.json')
+        .pipe(mainBowerFiles())
+        .pipe(jsFilter)
+        .pipe(concat('third-party.js'))
+        .pipe(gulp.dest(path.build.js))
+        .pipe(jsFilter.restore())
+        .pipe(filterByExtension('css'))
+        .pipe(concat('third-party.css'))
+        .pipe(gulp.dest(path.build.css));
+});
+
+gulp.task('bower', function() {
+    var filterJS = gulpFilter('**/*.js', { restore: true });
+    return gulp.src('./bower.json')
+        .pipe(mainBowerFiles({
+            overrides: {
+                bootstrap: {
+                    main: [
+                        './dist/js/bootstrap.js',
+                        './dist/css/*.min.*',
+                        './dist/fonts/*.*'
+                    ]
+                }
+            }
+        }))
+        .pipe(filterJS)
+        .pipe(concat('vendor.js'))
+        .pipe(uglify())
+        .pipe(filterJS.restore)
+        .pipe(gulp.dest(path.build.vendor));
+});
+gulp.watch('bower.json',['bower']);
 
 gulp.task('build', [
     'build:html',

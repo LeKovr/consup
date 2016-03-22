@@ -2,7 +2,7 @@
 # fidm config
 # https://github.com/LeKovr/fidm
 
-image: consup_nodejs
+image: consup_nodejs2
 
 volume:
 - :/home/app

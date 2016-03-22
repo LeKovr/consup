@@ -6,7 +6,7 @@
 
 # https://github.com/LeKovr/dbcc/releases/download/v1.4/dbcc_linux_amd64.zip
 
-VER=v1.4 && NAME=dbcc_linux_${DOCKER_ARCH} \
+VER=v1.4 && NAME=dbcc_linux_$(dpkg --print-architecture) \
   && curl -OL https://github.com/LeKovr/dbcc/releases/download/${VER}/$NAME.zip \
   && unzip $NAME.zip && rm $NAME.zip \
   && mv $NAME /usr/local/bin/dbcc

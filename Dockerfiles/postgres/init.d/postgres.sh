@@ -31,3 +31,22 @@ else
   fi
   chown -R $DIR_UID:$DIR_GID /var/run/postgresql
 fi
+
+repl_root=/shares/archive
+[ -d $repl_root ] || mkdir -p $repl_root
+if [[ "$REPLICA_MODE" == "MASTER" ]] ; then
+  grep "** MASTER CONF **" $PGDATA/postgresql.conf > /dev/null || cat >> $PGDATA/postgresql.conf  <<EOF
+  ** MASTER CONF **
+  wal_level = hot_standby
+  archive_mode = on
+  archive_command = 'cp -f %p $repl_root/%f </dev/null '
+EOF
+  [ -f $repl_root/database.tar.gz ] || {
+    echo "Making database.tar.gz..."
+    make full copy
+  }
+elif [[ "$REPLICA_MODE" == "SLAVE" ]] ; then
+  [ -f $PGDATA/recovery.conf ] || cat >> $PGDATA/recovery.conf <<EOF
+restore_command = 'pg_standby $repl_root %f %p %r'
+EOF
+fi

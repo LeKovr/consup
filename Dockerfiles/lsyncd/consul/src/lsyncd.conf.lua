@@ -10,7 +10,7 @@ sync {
   default.rsyncssh,
   source = "/opt",
   host = "{{env "SYNC_HOST"}}",
-  targetdir = "/opt/",
+  targetdir = "{{env "SYNC_PATH"}}",
   delay = 3,
   rsync = {
     archive=true,

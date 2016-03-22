@@ -1,12 +1,13 @@
 # consup_consul
 # Consup consul image
+# See https://github.com/LeKovr/consup
 # https://registry.hub.docker.com/u/lekovr/consup_consul/
 
 FROM lekovr/consup_base
 
-ENV DOCKERFILE_VERSION  150130
-
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
+
+ENV DOCKERFILE_VERSION  160319
 
 # -------------------------------------------------------------------------------
 # Setup Consul server

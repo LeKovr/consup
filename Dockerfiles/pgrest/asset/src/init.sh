@@ -15,7 +15,7 @@ apt-get update && apt-get -y install wget
 # Install haskell
 # stack
 wget -q -O- https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key | apt-key add -
-echo 'deb http://download.fpcomplete.com/debian/wheezy stable main'| tee /etc/apt/sources.list.d/fpco.list
+echo 'deb http://download.fpcomplete.com/debian/$(lsb_release -cs) stable main'| tee /etc/apt/sources.list.d/fpco.list
 apt-get update && apt-get -y --force-yes install stack git libpq-dev
 
 # Compile postgrest

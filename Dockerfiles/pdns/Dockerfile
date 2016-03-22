@@ -1,12 +1,13 @@
 # consup_powerdns
 # Consup powerdns DNS server image
+# See https://github.com/LeKovr/consup
 #
 
 FROM lekovr/consup_baseapp
 
-ENV DOCKERFILE_VERSION  150429
-
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
+
+ENV DOCKERFILE_VERSION  150429
 
 # -------------------------------------------------------------------------------
 # Install PG client

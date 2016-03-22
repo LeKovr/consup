@@ -1,12 +1,13 @@
 # consup_prosody
 # Consup procody xmpp server image
+# See https://github.com/LeKovr/consup
 #
 
 FROM lekovr/consup_baseapp
 
-ENV DOCKERFILE_VERSION  150428
-
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
+
+ENV DOCKERFILE_VERSION  150428
 
 # -------------------------------------------------------------------------------
 # Install PG client

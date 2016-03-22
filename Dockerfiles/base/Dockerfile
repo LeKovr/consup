@@ -1,45 +1,22 @@
 # consup_base
 # Consul Supervisor based image
+# See https://github.com/LeKovr/consup
 #
 
 FROM lekovr/consup_baseos
 
-ENV DOCKERFILE_VERSION_BASE  150817
-
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
+
+ENV DOCKERFILE_VERSION_BASE  160319
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
 # -------------------------------------------------------------------------------
-# Setup backports repo
-RUN echo "deb http://http.debian.net/debian wheezy-backports main" > /etc/apt/sources.list.d/backports.list
-
-# Setup base packages and supervisor
-RUN apt-get update && apt-get install -y wget curl sudo mc python-setuptools jq \
-  && easy_install supervisor \
-  && groupadd supervisor \
-  && mkdir -p /var/run/supervisor \
-  && echo "alias svd=\"supervisorctl -c /etc/supervisor/supervisord.conf\"" >> /root/.bashrc \
-  && echo "alias srv=\"curl http://localhost:8500/v1/catalog/services?pretty=1\"" >> /root/.bashrc
-
-ENV TERM xterm
-
-COPY supervisord.conf /etc/supervisor/
-
-VOLUME ["/var/run/supervisor", "/var/log/supervisor"]
-
-# -------------------------------------------------------------------------------
 # Run custom setup scripts
 
-COPY . /tmp/consup-build/
-RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ;  . $f ; done && rm -rf /tmp/consup-build
-
-# -------------------------------------------------------------------------------
-# Setup primary lang
-
-ENV LANG en_US.UTF-8
-#? RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
+ADD setup_*.sh /tmp/
+RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 
 # -------------------------------------------------------------------------------
 # Run init.d.sh on boot before supervisor
@@ -48,5 +25,16 @@ COPY init.d /init.d
 COPY init.d.sh /
 CMD ["/init.d.sh", "supervisord", "-c", "/etc/supervisor/supervisord.conf", "-n" ]
 
+# -------------------------------------------------------------------------------
+# supervisor staff
+
+COPY supervisord.conf /etc/supervisor/
+VOLUME ["/var/run/supervisor", "/var/log/supervisor"]
+
+# -------------------------------------------------------------------------------
+# Setup primary lang
+ENV LANG en_US.UTF-8
+
 # Default timezone
 ENV TZ Europe/Moscow
+

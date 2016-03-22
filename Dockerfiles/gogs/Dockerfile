@@ -1,21 +1,22 @@
 # consup_gogs
 # Consup gogs image
+# See https://github.com/LeKovr/consup
 #
 
 FROM lekovr/consup_nginx
 
-ENV DOCKERFILE_VERSION  151208
-
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
+
+ENV DOCKERFILE_VERSION  160320
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
 # -------------------------------------------------------------------------------
-# Install PG client
+# Run custom setup scripts
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install \
-    postgresql-client git libgmp10 make openssh-server
+ADD setup_*.sh /tmp/
+RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 
 # -------------------------------------------------------------------------------
 # SSHD staff
@@ -27,13 +28,6 @@ ENV SSHD_PORT 72
 # EXPOSE 72
 
 COPY init.d /init.d
-
-# -------------------------------------------------------------------------------
-# App staff
-
-# Setup app
-COPY setup_app.sh /tmp/consup-build/
-RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ;  . $f ; done && rm -rf /tmp/consup-build
 
 # -------------------------------------------------------------------------------
 # Setup Consup client

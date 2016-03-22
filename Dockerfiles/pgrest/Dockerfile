@@ -1,29 +1,22 @@
 # consup_pgrest
 # Consup postgrest image
+# See https://github.com/LeKovr/consup
 #
 
 FROM lekovr/consup_nginx
 
-ENV DOCKERFILE_VERSION  151028
-
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
+
+ENV DOCKERFILE_VERSION  160320
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 
 # -------------------------------------------------------------------------------
-# Install PG client
+# Run custom setup scripts
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install \
-    postgresql-client git libgmp10 make
-
-# -------------------------------------------------------------------------------
-# PGWS staff
-
-# Setup postgrest
-# COPY asset/src/postgrest /usr/local/sbin/
-COPY . /tmp/consup-build/
-RUN for f in /tmp/consup-build/setup_*.sh ; do echo $f ;  . $f ; done && rm -rf /tmp/consup-build
+ADD setup_*.sh /tmp/
+RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 
 # -------------------------------------------------------------------------------
 # Setup Consup client
@@ -57,7 +50,3 @@ ENV JWT_KEY SET_YOUR_JWT_KEY_HERE_OR_IN_fidm.yml
 
 # postgrest API schema
 ENV DB_SCHEMA public
-
-# TODO: add if & move to baseapp
-RUN localedef en_US.UTF-8 -i en_US -fUTF-8
-RUN localedef ru_RU.UTF-8 -i ru_RU -fUTF-8
