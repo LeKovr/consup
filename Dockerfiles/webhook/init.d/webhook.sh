@@ -3,15 +3,17 @@
 
 set -e
 
+group=docker
+
 # Create docker group
 if ! grep -q "^${group}:" /etc/group ; then
-  groupadd docker
+  groupadd $group
 fi
 
 # Set docker group id like docker.sock owner
-groupmod -g $(stat -c "%g" /var/run/docker.sock) docker
+groupmod -g $(stat -c "%g" /var/run/docker.sock) $group
 
 # Add user to group docker
-usermod -g docker $APPUSER
+usermod -g $group $APPUSER
 
 
