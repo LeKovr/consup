@@ -15,7 +15,7 @@ VER=v0.9.0 && PRJ=gogs && NAME=${PRJ}_${VER}_linux_amd64 \
 
 #apt-get install -y apt-transport-https
 #wget -qO - https://deb.packager.io/key | apt-key add -
-#echo "deb https://deb.packager.io/gh/pkgr/gogs wheezy pkgr" | tee /etc/apt/sources.list.d/gogs.list
+#echo "deb https://deb.packager.io/gh/pkgr/gogs $(lsb_release -cs) pkgr" | tee /etc/apt/sources.list.d/gogs.list
 #apt-get update
 #apt-get install gogs
 
