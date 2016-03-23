@@ -13,20 +13,23 @@ echo "Distro fetch root: $ROOT"
 # All json payload
 # echo "${HOOK_}" | jq '.'
 
-RTYPE=$(echo "${HOOK_}" | jq -r '.ref_type')
-RNAME=$(echo "${HOOK_}" | jq -r '.ref')
+# repository url
 REPO=$(echo "${HOOK_}"  | jq -r '.repository.ssh_url')
-RUSER=$(echo "${HOOK_}" | jq -r '.repository.owner.username')
-#  "http://www.dev.lan"
+# event type ("tag" etc)
+RTYPE=$(echo "${HOOK_}" | jq -r '.ref_type')
+# tag name
+RNAME=$(echo "${HOOK_}" | jq -r '.ref')
+# repository site, eg: "http://www.dev.lan"
 RSITE=$(echo "${HOOK_}" | jq -r '.repository.website')
+
 
 cat <<EOF
 Distros:  $DISTRO_DIR
 
 Repo:  $REPO
-Tag:   $RNAME
 Op:    $RTYPE
-User:  $RUSER
+Tag:   $RNAME
+Site:  $RSITE
 --
 PWD:   $PWD
 EOF
@@ -36,11 +39,13 @@ KEY=/home/app/hook.key
 # ------------------------------------------------------------------------------
 
 if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
-  DEST=$RNAME.$RUSER
+
+  # tag.site
+  DEST=${RNAME}.${RSITE#http://}
 
   if [[ ${RNAME%-rm} != $RNAME ]] ; then
-    DEST=${RNAME%-rm}.$RUSER
     echo "Branch $DEST remove requested"
+    DEST=${RNAME%-rm}.${RSITE#http://}
     if [ -d $ROOT/$DEST ] ; then
       echo "Removing $DEST..."
       pushd $ROOT/$DEST
@@ -69,9 +74,8 @@ if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
   . /home/app/git.sh -i /home/app/hook.key clone --depth=1 --branch $RNAME $REPO $DEST || exit 1
   pushd $DEST
   if [ -f Makefile ] ; then
-    NEWSITE=${RSITE/http:\/\/www/$DEST}
-    echo "Setup site $NEWSITE"
-    APP_TAG="$DEST" APP_SITE="$NEWSITE" make setup
+    echo "Setup site $DEST"
+    APP_TAG="$DEST" APP_SITE="$DEST" make setup
 
     TAG=${NODENAME}_$MODE
     # inspect myself and get host root
