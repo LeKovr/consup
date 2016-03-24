@@ -8,4 +8,4 @@ See Dockerfiles/*/ for details
 
 ## Container structure
 
-![Container structure](master/doc/consup.png)
+![Container structure](doc/consup.png)
