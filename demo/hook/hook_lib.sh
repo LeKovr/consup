@@ -22,7 +22,6 @@ RNAME=$(echo "${HOOK_}" | jq -r '.ref')
 # repository site, eg: "http://www.dev.lan"
 RSITE=$(echo "${HOOK_}" | jq -r '.repository.website')
 
-
 cat <<EOF
 Distros:  $DISTRO_DIR
 
@@ -41,7 +40,8 @@ KEY=/home/app/hook.key
 if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
 
   # tag.site
-  DEST=${RNAME}.${RSITE#http://}
+  DESTURI=${RNAME}.${RSITE#http://}
+  DEST=${DESTURI%/}
 
   if [[ ${RNAME%-rm} != $RNAME ]] ; then
     echo "Branch $DEST remove requested"
