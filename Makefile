@@ -21,13 +21,13 @@ clean: clean-container clean-noname
 
 # delete unused containers
 clean-container:
-	docker rm $(docker ps -a -q)
+	docker rm $$(docker ps -a -q)
 
 # delete unused images (w/o name)
 clean-noname:
-	docker rmi $(docker images | grep "<none>" | awk "{print \$3}")
+	docker rmi $$(docker images | grep "<none>" | awk "{print \$$3}")
 
 # delete consup containers
 clean-consup:
-	docker rmi $(docker images | grep "consup" | awk "{print \$1}")
+	docker rmi $$(docker images | grep "consup" | awk "{print \$$1}")
 
