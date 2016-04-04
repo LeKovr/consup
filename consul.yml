@@ -9,6 +9,7 @@ volume:
 
 # Daemon
 detach: true
+restart: always
 
 env:
 # resolve non-consul queries via this host
