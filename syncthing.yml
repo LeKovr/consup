@@ -33,6 +33,7 @@ volume:
 
 # Daemon
 detach: true
+restart: always
 
 # Interactive
 #interactive: true
