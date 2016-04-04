@@ -1,0 +1,41 @@
+# -------------------------------------------------------------------------------
+# consup_nginx fidm config
+# https://github.com/LeKovr/fidm
+
+# Usage:
+# 1. place this file in sync root folder
+# 2. run fidm start syncthing.yml
+# 3. connect to admin iinterface via http://127.0.1.2:8384/
+
+image: consup_syncthing
+
+# -------------------------------------------------------------------------------
+# Image run info
+# -------------------------------------------------------------------------------
+
+# Publish ports bind to
+
+# Setup 0.0.0.0:22000 
+bind_host: www.consup
+publish: 22000
+
+# Setup 127.0.1.2:8384
+
+bind_ip: 127.0.1.2
+publish: 8384
+
+# mount supervisord logs
+log_dir: log
+
+# pwd as syncthing home
+volume:
+- :/home/op
+
+# Daemon
+detach: true
+
+# Interactive
+#interactive: true
+#tty: true
+#rm: true
+
