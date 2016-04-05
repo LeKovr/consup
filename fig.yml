@@ -1,5 +1,8 @@
 # -------------------------------------------------------------------------------
-#  Consup images config filee
+# Consup images config file
+# This is the file consup project started from
+# fig does not used since that time
+# fidm used instead
 
 # -------------------------------------------------------------------------------
 base:
