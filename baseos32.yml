@@ -3,7 +3,11 @@
 # https://github.com/LeKovr/fidm
 # -------------------------------------------------------------------------------
 
+# image name same as for 64bit
 image: consup_baseos
 
+# build from Dockerfiles/baseos32
+name: baseos32
+
 # To get 64bit and 32bit images on same host
-# release: 32bit
+release: 32bit
