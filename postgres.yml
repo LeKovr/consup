@@ -23,6 +23,8 @@ log_dir: var/log
 
 volume:
 - app/db:/var/lib/postgresql
+# REPLICA_ROOT
+#- app/shared:/opt/shared
 
 publish:
 - 5432
@@ -30,6 +32,7 @@ publish:
 
 env:
 - LOCALE=ru_RU
+#- REPLICA_MODE=NONE  # MASTER/SLAVE/AIR/NONE
 #- LC_COLLATE=C
 #- LC_CTYPE=ru_RU.UTF-8
 
