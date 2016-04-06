@@ -14,7 +14,7 @@ log "DB started"
 
 # Try to create user & database. Get result
 log "Check db"
-curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: .1" && {
+curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: 1" && {
   log "Created database $DB_NAME"
 }
 
