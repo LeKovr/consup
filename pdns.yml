@@ -1,0 +1,62 @@
+# -------------------------------------------------------------------------------
+# consup_postgres fidm config
+# https://github.com/LeKovr/fidm
+
+image: consup_pdns
+name: dns.consup
+
+# -------------------------------------------------------------------------------
+# Image exchange info
+# -------------------------------------------------------------------------------
+
+# yml def names for required images
+requires:
+- consup/postgres mode=common
+
+# yml def names for linked containers with autostart
+links:
+- consup/consul    # consul.yml
+
+# mount volume
+# $log_dir/$name_$mode:/var/log/supervisor
+log_dir: ../consup/var/log
+
+# -------------------------------------------------------------------------------
+
+volume:
+- :/home/app
+
+bind_host: www.consup
+
+publish:
+- 53
+- 53/udp
+
+# dns webserver
+
+bind_ip: 127.0.1.2
+publish: 8081
+
+env:
+- LOCALE=ru_RU
+- SERVICE=dns
+- PDNS_PORT=53
+- PG_HOST=postgres.db.service.consul
+- DB_PASS=SET_DB_PASS_HERE_OR_IN_fidm.yml
+
+# key to create db via dbcc service
+- DBCC_KEY=SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
+
+
+# use local consul as DNS
+dns: 127.0.0.1
+
+# Daemon
+detach: true
+restart: always
+
+# Interactive
+#interactive: true
+#tty: true
+#rm: true
+
