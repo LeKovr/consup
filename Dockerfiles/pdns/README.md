@@ -27,6 +27,7 @@ The following packages added to base image:
 
 ### Usage
 
+    echo "your_ip dns.consup" >> /etc/hosts
     docker run -it --rm lekovr/consup_pdns
 
 Or running with dependent images with fidm via pdns.yml

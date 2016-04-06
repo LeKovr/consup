@@ -7,25 +7,24 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  150429
+ENV DOCKERFILE_VERSION  160324
 
 # -------------------------------------------------------------------------------
-# Install PG client
+# Run custom setup scripts
 
-RUN apt-get -y install \
-    postgresql-client \
-    pdns-backend-pgsql && \
-    rm -f /etc/powerdns/pdns.d/pdns.simplebind && \
-    sed -ri "s/local-port=53/local-port=54/" /etc/powerdns/pdns.conf
+ADD setup_*.sh /tmp/
+RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
+
 # -------------------------------------------------------------------------------
 # Setup Consup client
 
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
-COPY pdns_dbinit.sh /usr/local/bin/
+COPY dbinit_pdns.sh /usr/local/bin/
+COPY dbsave_pdns.sh /usr/local/bin/
 
-EXPOSE 54 54/udp
-
+# Port DNS listening
+ENV PDNS_PORT 53
 
 # pdns database host
 ENV DB_HOST common.db.service.consul
@@ -35,3 +34,5 @@ ENV DB_PASS SET_DB_PASS_HERE_OR_IN_fidm.yml
 # key to create db via dbcc service
 ENV DBCC_KEY SET_DBCC_KEY_HERE_OR_IN_fidm.yml
 
+# Port dbcc listen on
+ENV DBCC_PORT 5480

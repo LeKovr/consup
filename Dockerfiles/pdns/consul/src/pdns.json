@@ -5,7 +5,7 @@
     "port": 54,
     "check": {
       "#": "script returns 1 if Ok but consul waits 0, so use '!'",
-      "script": "! netcat -vuw 1 localhost 54 >/dev/null",
+      "script": "! netcat -vuw 1 localhost {{env "PDNS_PORT"}} >/dev/null",
       "interval": "60s"
     }
   }
