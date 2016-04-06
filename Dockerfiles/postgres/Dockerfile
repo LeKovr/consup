@@ -34,6 +34,7 @@ COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
 
 # -------------------------------------------------------------------------------
+COPY replica_*.conf /etc/postgresql/
 
 # db startup trigger
 COPY db_check_started.sh /usr/local/bin/db_check_started.sh

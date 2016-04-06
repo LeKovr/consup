@@ -8,19 +8,23 @@ log() {
 
 # Check when DB begins accept connections & reload consul after
 log "Wait for PG"
-while ! gosu postgres check_postgres.pl --action connection >/dev/null ; do
-sleep 1
+while ! gosu postgres pg_isready -q ; do
+  sleep 1
 done
-#echo "PG ready. Start Consul"
-#supervisorctl -c /etc/supervisor/supervisord.conf start consul
 
-log "Raise check interval"
-# Change healh check interval
-sed -i '/"interval": "1s"/c       "interval": "1m"' /etc/consul/src/postgres.json && \
-  consul reload
+#log "Raise check interval"
+# Change health check interval
+#sed -i '/"interval": "1s"/c       "interval": "1m"' /etc/consul/src/postgres.json && \
+#  sleep 1 && consul reload
 
 log "Start dbcc"
 supervisorctl -c /etc/supervisor/supervisord.conf start dbcc
+
+echo "PG ready. Start Consul"
+supervisorctl -c /etc/supervisor/supervisord.conf start consul
+
+# Fast reload done, raise check interval
+sleep 1 && consul reload
 
 if [[ "$REPLICA_MODE" == "MASTER" ]] ; then
 
