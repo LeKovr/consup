@@ -5,7 +5,7 @@
 # Usage:
 # 1. place this file in sync root folder
 # 2. run fidm start syncthing.yml
-# 3. connect to admin iinterface via http://127.0.1.2:8384/
+# 3. connect to admin interface via http://127.0.1.2:8384/
 
 image: consup_syncthing
 
