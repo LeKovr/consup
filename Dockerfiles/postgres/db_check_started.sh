@@ -14,13 +14,21 @@ done
 #echo "PG ready. Start Consul"
 #supervisorctl -c /etc/supervisor/supervisord.conf start consul
 
-log "Slow check"
+log "Raise check interval"
 # Change healh check interval
-sed -i '/"interval": "1s"/c       "interval": "1m"' /etc/consul/src/postgres.json
-consul reload
+sed -i '/"interval": "1s"/c       "interval": "1m"' /etc/consul/src/postgres.json && \
+  consul reload
 
 log "Start dbcc"
 supervisorctl -c /etc/supervisor/supervisord.conf start dbcc
+
+if [[ "$REPLICA_MODE" == "MASTER" ]] ; then
+
+  [ -f $REPLICA_ROOT/base.tar.gz ] || {
+    log "Making base dump..."
+    gosu postgres pg_basebackup -D $REPLICA_ROOT -Ft -z -x
+  }
+fi
 
 log "Done"
 # Say all is Ok to supervisor

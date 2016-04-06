@@ -19,7 +19,7 @@ RUN groupadd -r postgres && useradd -r -g postgres -d /var/lib/postgresql postgr
 
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/$PG_MAJOR
-
+ENV PGUSER postgres
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
 
@@ -29,8 +29,8 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 # -------------------------------------------------------------------------------
 # Setup Consul client
 
-COPY consul /etc/consul
 COPY init.d /init.d
+COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
 
 # -------------------------------------------------------------------------------
@@ -53,10 +53,20 @@ VOLUME ["/var/lib/postgresql"]
 # Database locale
 ENV LOCALE en_US
 
-# Run master server
+# -------------------------------------------------------------------------------
+# Replica setup
+
+ENV REPLICA_ROOT /opt/shared
+VOLUME ["/opt/shared"]
+
+# ENV REPLICA_MODE 
+# * MASTER - save log to REPLICA_ROOT
+# * SLAVE - load logs from REPLICA_ROOT, READ-ONLY DB
+# * AIR - Always start with empty database (erased on container rm)
+# * other - standalone server
 # See init.d/postgres.sh
-# Other options are:
-# ENV REPLICA_MODE MASTER
-# ENV REPLICA_MODE SLAVE
 
 ENV REPLICA_MODE ""
+
+# Backup DB on start
+ENV REPLICA_BACKUP ""
