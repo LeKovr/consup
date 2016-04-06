@@ -49,6 +49,7 @@ dns: 127.0.0.1
 
 # Daemon
 detach: true
+restart: always
 
 # Interactive
 #interactive: true
