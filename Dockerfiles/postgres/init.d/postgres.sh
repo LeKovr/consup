@@ -36,7 +36,7 @@ if [[ "$REPLICA_MODE" == "MASTER" ]] || [[ "$REPLICA_MODE" == "SLAVE" ]] ; then
   # ** REPLICA CONF **
   checkpoint_segments = 8
   wal_keep_segments = 8
-  archive_command = 'test ! -f $REPLICA_ROOT/%f.gz && gzip < %p > $REPLICA_ROOT/%f.gz'
+  archive_command = 'test ! -f $REPLICA_ROOT/%f.gz && gzip < %p > $REPLICA_ROOT/%f.gz && chmod a+r $REPLICA_ROOT/%f.gz'
   archive_timeout = 60
 EOF
 
