@@ -30,7 +30,7 @@ fi
 #Setup replication
 echo "** Replication: $REPLICA_MODE"
 
-[ -d $REPLICA_ROOT ] || mkdir -p $REPLICA_ROOT && chown -R $DIR_UID:$DIR_GID $REPLICA_ROOT
+[ -d $REPLICA_ROOT ] || { mkdir -p $REPLICA_ROOT ; chown -R $DIR_UID:$DIR_GID $REPLICA_ROOT ; }
 
 if [[ "$REPLICA_MODE" == "MASTER" ]] || [[ "$REPLICA_MODE" == "SLAVE" ]] ; then
 
