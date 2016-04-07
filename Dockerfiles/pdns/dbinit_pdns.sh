@@ -55,6 +55,9 @@ net=$(ip a | grep global | cut -d " " -f6)
 ip=${net%/*}
 sed -ri "s/# local-address=0.0.0.0/local-address=$ip/" /etc/powerdns/pdns.conf
 
+# add custom config if exists
+[ -f /home/app/pdns.conf.add ] && cat /home/app/pdns.conf.add >> /etc/powerdns/pdns.conf
+
 # start pdns
 log "Start app"
 supervisorctl -c /etc/supervisor/supervisord.conf start pdns
