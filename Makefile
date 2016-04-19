@@ -26,6 +26,10 @@ clean-container:
 # delete unused images (w/o name)
 clean-noname:
 	docker rmi $$(docker images | grep "<none>" | awk "{print \$$3}")
+#docker images -q -f dangling=true
+
+clean-volume:
+	docker volume rm $(docker volume ls -qf dangling=true)
 
 # delete consup containers
 clean-consup:
