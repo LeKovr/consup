@@ -3,6 +3,9 @@
 # https://github.com/LeKovr/fidm
 # -------------------------------------------------------------------------------
 
+# Will run from any dir
+image: consup_consul
+
 # mount consul database dir
 volume:
 - var/lib/consul:/var/lib/consul
