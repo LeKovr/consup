@@ -7,7 +7,7 @@ FROM lekovr/consup_base
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160403
+ENV DOCKERFILE_VERSION  160520
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
