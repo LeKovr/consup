@@ -22,6 +22,9 @@ RNAME=$(echo "${HOOK_}" | jq -r '.ref')
 # repository site, eg: "http://www.dev.lan"
 RSITE=$(echo "${HOOK_}" | jq -r '.repository.website')
 
+[[ "$RTYPE" == "null" ]] && RTYPE=tag
+RNAME=${RNAME#refs/heads/}
+
 cat <<EOF
 Distros:  $DISTRO_DIR
 
@@ -71,18 +74,18 @@ if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
     mkdir -p $ROOT || exit 1
   fi
   pushd $ROOT
-  . /home/app/git.sh -i /home/app/hook.key clone --depth=1 --branch $RNAME $REPO $DEST || exit 1
+  . /home/app/git.sh -i /home/app/hook.key clone --depth=1 --recursive --branch $RNAME $REPO $DEST || exit 1
   pushd $DEST
   if [ -f Makefile ] ; then
     echo "Setup site $DEST"
-    APP_TAG="$DEST" APP_SITE="$DEST" make setup
+    APP_TAG="$RSITE" APP_SITE="$DEST" make setup
 
     TAG=${NODENAME}_$MODE
     # inspect myself and get host root
     DIR=$(docker inspect webhook_$TAG | jq -r ".[0].Mounts[].Source" | grep log/$TAG)
     HOST_ROOT=${DIR%/log/$TAG}${ROOT#/home/app}/$DEST
     echo "Host root: $HOST_ROOT"
-    APP_ROOT=$HOST_ROOT make start
+    APP_ROOT=$HOST_ROOT make start-hook
   fi
   popd > /dev/null
   popd > /dev/null
