@@ -7,7 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160320
+ENV DOCKERFILE_VERSION  160530
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
