@@ -30,6 +30,10 @@
     "pass-environment-to-command": [
       {
          "source": "entire-payload"
+      },
+      {
+         "source": "url",
+         "name": "db"
       }
     ]
   }
