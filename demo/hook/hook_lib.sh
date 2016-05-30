@@ -77,9 +77,8 @@ if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
   . /home/app/git.sh -i /home/app/hook.key clone --depth=1 --recursive --branch $RNAME $REPO $DEST || exit 1
   pushd $DEST
   if [ -f Makefile ] ; then
-    echo "Setup site $DEST"
-    APP_TAG="$RSITE" APP_SITE="$DEST" make setup
-
+    echo "Setup site $DEST (${HOOK_db})"
+    DB_NAME=${HOOK_db} APP_TAG="$RSITE" APP_SITE="$DEST" make setup
     TAG=${NODENAME}_$MODE
     # inspect myself and get host root
     DIR=$(docker inspect webhook_$TAG | jq -r ".[0].Mounts[].Source" | grep log/$TAG)
