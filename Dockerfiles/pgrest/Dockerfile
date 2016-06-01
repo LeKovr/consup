@@ -36,6 +36,10 @@ ENV PG_HOST db.service.consul
 # postgrest database & user
 ENV DB_NAME pgrest
 
+# postgrest database template
+# if none set used default (template1)
+ENV DB_TEMPLATE
+
 # postgrest user password
 ENV DB_PASS SET_DB_PASS_HERE_OR_IN_fidm.yml
 

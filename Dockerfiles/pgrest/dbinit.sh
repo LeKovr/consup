@@ -14,7 +14,13 @@ log "DB started"
 
 # Try to create user & database. Get result
 log "Check db"
-curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: 1" && {
+if [ "$DB_TEMPLATE" ] ; then
+  tmpl="&tmpl=$DB_TEMPLATE"
+else
+  tmpl=""
+fi
+
+curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS$tmpl" | grep "OK: 1" && {
   log "Created database $DB_NAME"
   [ -e /home/app/.ondbcreate ] && . /home/app/.ondbcreate
 }
