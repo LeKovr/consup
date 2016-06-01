@@ -7,7 +7,7 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160320
+ENV DOCKERFILE_VERSION  160601
 
 # -------------------------------------------------------------------------------
 # Install postgresql
