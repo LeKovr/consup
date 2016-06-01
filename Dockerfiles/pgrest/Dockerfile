@@ -7,7 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160530
+ENV DOCKERFILE_VERSION  160602
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
@@ -38,7 +38,7 @@ ENV DB_NAME pgrest
 
 # postgrest database template
 # if none set used default (template1)
-ENV DB_TEMPLATE
+ENV DB_TEMPLATE ""
 
 # postgrest user password
 ENV DB_PASS SET_DB_PASS_HERE_OR_IN_fidm.yml
