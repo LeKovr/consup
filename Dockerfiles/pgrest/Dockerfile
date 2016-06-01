@@ -21,6 +21,7 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 # -------------------------------------------------------------------------------
 # Setup Consup client
 
+COPY init.d /init.d
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
 COPY dbinit.sh /usr/local/sbin/
@@ -54,3 +55,5 @@ ENV JWT_KEY SET_YOUR_JWT_KEY_HERE_OR_IN_fidm.yml
 
 # postgrest API schema
 ENV DB_SCHEMA public
+
+ENV APPUSER op

@@ -1,6 +1,10 @@
 #!/bin/bash
 # Wait postgresql startup, create database if needed & start app
 
+# strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+
 log() {
   D=$(date "+%F %T")
   echo  "$D $1"
