@@ -17,13 +17,15 @@ echo "Distro fetch root: $ROOT"
 REPO=$(echo "${HOOK_}"  | jq -r '.repository.ssh_url')
 # event type ("tag" etc)
 RTYPE=$(echo "${HOOK_}" | jq -r '.ref_type')
+[[ "$RTYPE" == "null" ]] && RTYPE=tag
+
 # tag name
 RNAME=$(echo "${HOOK_}" | jq -r '.ref')
-# repository site, eg: "http://www.dev.lan"
-RSITE=$(echo "${HOOK_}" | jq -r '.repository.website')
-
-[[ "$RTYPE" == "null" ]] && RTYPE=tag
 RNAME=${RNAME#refs/heads/}
+
+# repository site, eg: "http://www.dev.lan" w/o http://
+uri=$(echo "${HOOK_}" | jq -r '.repository.website')
+RSITE=${uri#http://}
 
 cat <<EOF
 Distros:  $DISTRO_DIR
@@ -40,10 +42,13 @@ KEY=/home/app/hook.key
 
 # ------------------------------------------------------------------------------
 
-if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
+if [[ "$EVENT" != "push" || "$RTYPE" != "tag" ]] ; then
+  echo "Hook skipped"
+  exit 0
+fi
 
   # tag.site
-  DESTURI=${RNAME}.${RSITE#http://}
+  DESTURI=${RNAME}.$RSITE
   DEST=${DESTURI%/}
 
   if [[ ${RNAME%-rm} != $RNAME ]] ; then
@@ -52,7 +57,7 @@ if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
     if [ -d $ROOT/$DEST ] ; then
       echo "Removing $DEST..."
       pushd $ROOT/$DEST
-      make stop
+      [ -f Makefile ] && make stop
       popd
       rm -rf $ROOT/$DEST
     fi
@@ -77,17 +82,17 @@ if [[ "$EVENT" == "push" && "$RTYPE" == "tag" ]] ; then
   . /home/app/git.sh -i /home/app/hook.key clone --depth=1 --recursive --branch $RNAME $REPO $DEST || exit 1
   pushd $DEST
   if [ -f Makefile ] ; then
-    echo "Setup site $DEST (${HOOK_db})"
+    echo "Setup site $DEST"
     DB_NAME=${HOOK_db} APP_TAG="$RSITE" APP_SITE="$DEST" make setup
     TAG=${NODENAME}_$MODE
     # inspect myself and get host root
-    DIR=$(docker inspect webhook_$TAG | jq -r ".[0].Mounts[].Source" | grep log/$TAG)
-    HOST_ROOT=${DIR%/log/$TAG}${ROOT#/home/app}/$DEST
+    container_id=$(cat /proc/self/cgroup | grep "cpu:/" | sed 's/\([0-9]\):cpu:\/docker\///g') # '
+    log_dir=$(docker inspect $container_id | jq -r ".[0].Mounts[].Source" | grep log/$TAG)
+    HOST_ROOT=${log_dir%/log/$TAG}${ROOT#/home/app}/$DEST
     echo "Host root: $HOST_ROOT"
     APP_ROOT=$HOST_ROOT make start-hook
   fi
   popd > /dev/null
   popd > /dev/null
-fi
 
 echo "Hook stop"
