@@ -16,6 +16,7 @@ log "DB started"
 log "Check db"
 curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS" | grep "OK: 1" && {
   log "Created database $DB_NAME"
+  [ -e /home/app/.ondbcreate ] && . /home/app/.ondbcreate
 }
 
 log "Start app"
