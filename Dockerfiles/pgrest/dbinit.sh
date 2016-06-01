@@ -16,17 +16,27 @@ log "DB started"
 log "Check db"
 if [ "$DB_TEMPLATE" ] ; then
   tmpl="&tmpl=$DB_TEMPLATE"
+  note=" with template $DB_TEMPLATE"
 else
   tmpl=""
+  note=""
 fi
 
 curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS$tmpl" | grep "OK: 1" && {
-  log "Created database $DB_NAME"
-  [ -e /home/app/.ondbcreate ] && . /home/app/.ondbcreate
+  log "Created database $DB_NAME$note"
+  if [ -e /home/app/.ondbcreate ] ; then
+    log "Run onDBCreate script"
+    . /home/app/.ondbcreate
+  fi
 }
 
 log "Start app"
 supervisorctl -c /etc/supervisor/supervisord.conf start pgrest
+
+if [ -e /home/app/.ondbready ] ; then
+  log "Run onDBReady script"
+  . /home/app/.ondbready
+fi
 
 log "Done"
 # Say all is Ok to supervisor
