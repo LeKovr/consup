@@ -87,7 +87,7 @@ fi
   container_id=$(cat /proc/self/cgroup | grep "cpu:/" | sed 's/\([0-9]\):cpu:\/docker\///g') # '
   log_dir=$(docker inspect $container_id | jq -r ".[0].Mounts[].Source" | grep log/$TAG)
   HOST_ROOT=${log_dir%/log/$TAG}${ROOT#/home/app}/$DEST
-  HOST_LOG=${log_dir%/$TAG}/$DEST
+  HOST_LOG=/home/app/log/$DEST
   echo "Host root: $HOST_ROOT"
   echo "Host log:  $HOST_LOG"
 
