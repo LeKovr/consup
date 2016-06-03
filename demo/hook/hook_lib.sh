@@ -109,7 +109,7 @@ err_log=$HOST_LOG/init-stderr.log
 if [ -f $out_log ] || [ -f $err_log ] ; then
   echo "Attach init monitor.."
   exit="** Init done **"
-  while ! grep "$exit" $out_log ; do sleep 1 ; done
+  while ! grep -q "$exit" $out_log ; do sleep 1 ; done
   echo "** Init STDOUT: **"
   cat $out_log
   if [ -s $err_log ] ; then
