@@ -81,22 +81,26 @@ fi
   pushd $ROOT
   . /home/app/git.sh -i /home/app/hook.key clone --depth=1 --recursive --branch $RNAME $REPO $DEST || exit 1
   pushd $DEST
+
+  TAG=${NODENAME}_$MODE
+  # inspect myself and get host root
+  container_id=$(cat /proc/self/cgroup | grep "cpu:/" | sed 's/\([0-9]\):cpu:\/docker\///g') # '
+  log_dir=$(docker inspect $container_id | jq -r ".[0].Mounts[].Source" | grep log/$TAG)
+  HOST_ROOT=${log_dir%/log/$TAG}${ROOT#/home/app}/$DEST
+  HOST_LOG=${log_dir%/$TAG}/$DEST
+  echo "Host root: $HOST_ROOT"
+  echo "Host log:  $HOST_LOG"
+
   if [ -f Makefile ] ; then
     echo "Setup site $DEST"
     DB_NAME=${HOOK_db} APP_TAG="$RSITE" APP_SITE="$DEST" make setup
-    TAG=${NODENAME}_$MODE
-    # inspect myself and get host root
-    container_id=$(cat /proc/self/cgroup | grep "cpu:/" | sed 's/\([0-9]\):cpu:\/docker\///g') # '
-    log_dir=$(docker inspect $container_id | jq -r ".[0].Mounts[].Source" | grep log/$TAG)
-    HOST_ROOT=${log_dir%/log/$TAG}${ROOT#/home/app}/$DEST
-    echo "Host root: $HOST_ROOT"
     APP_ROOT=$HOST_ROOT make start-hook
   fi
   popd > /dev/null
   popd > /dev/null
 
-out_log=/var/log/supervisor/init-stdout.log
-err_log=/var/log/supervisor/init-stderr.log
+out_log=$HOST_LOG/init-stdout.log
+err_log=$HOST_LOG/init-stderr.log
 
 if [ -f $out_log ] || [ -f $err_log ] ; then
   echo "Attach init monitor.."
