@@ -91,16 +91,20 @@ fi
   echo "Host root: $HOST_ROOT"
   echo "Host log:  $HOST_LOG"
 
+out_log=$HOST_LOG/init-stdout.log
+err_log=$HOST_LOG/init-stderr.log
+
+
   if [ -f Makefile ] ; then
     echo "Setup site $DEST"
+    echo -n "" > $out_log
+    echo -n "" > $err_log
     DB_NAME=${HOOK_db} APP_TAG="$RSITE" APP_SITE="$DEST" make setup
     APP_ROOT=$HOST_ROOT make start-hook
   fi
   popd > /dev/null
   popd > /dev/null
 
-out_log=$HOST_LOG/init-stdout.log
-err_log=$HOST_LOG/init-stderr.log
 
 if [ -f $out_log ] || [ -f $err_log ] ; then
   echo "Attach init monitor.."
@@ -108,7 +112,7 @@ if [ -f $out_log ] || [ -f $err_log ] ; then
   while ! grep "$exit" $out_log ; do sleep 1 ; done
   echo "** Init STDOUT: **"
   cat $out_log
-  if [ -e $err_log ] ; then
+  if [ -s $err_log ] ; then
     echo "Init STDERR:" 1>&2
     cat $err_log 1>&2
   fi
