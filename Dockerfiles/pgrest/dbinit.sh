@@ -5,10 +5,20 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# logging func
 log() {
   D=$(date "+%F %T")
   echo  "$D $1"
 }
+
+# onExit handler
+function finish {
+  # Special formatted message, do not change
+  log "** Init done **"
+}
+trap finish EXIT
+
+# ------------------------------------------------------------------------------
 
 log "***** RUN INIT FOR DB $DB_NAME ***"
 
@@ -42,6 +52,5 @@ if [ -e /home/app/.ondbready ] ; then
   . /home/app/.ondbready
 fi
 
-log "Done"
 # Say all is Ok to supervisor
 exit 0

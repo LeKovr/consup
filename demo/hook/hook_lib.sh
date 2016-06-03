@@ -95,4 +95,20 @@ fi
   popd > /dev/null
   popd > /dev/null
 
+out_log=/var/log/supervisor/init-stdout.log
+err_log=/var/log/supervisor/init-stderr.log
+
+if [ -f $out_log ] || [ -f $err_log ] ; then
+  echo "Attach init monitor.."
+  exit="** Init done **"
+  while ! grep "$exit" $out_log ; do sleep 1 ; done
+  echo "** Init STDOUT: **"
+  cat $out_log
+  if [ -e $err_log ] ; then
+    echo "Init STDERR:" 1>&2
+    cat $err_log 1>&2
+  fi
+
+fi
+
 echo "Hook stop"
