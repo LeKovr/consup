@@ -1,0 +1,47 @@
+# -------------------------------------------------------------------------------
+# consup_nginx fidm config
+# https://github.com/LeKovr/fidm
+
+# Usage:
+# 1. place this file in sync servers cert folder
+# 2. run fidm start syncsup.yml
+# 3. setup syncthing clients
+
+image: consup_syncsup
+
+# -------------------------------------------------------------------------------
+# Image run info
+# -------------------------------------------------------------------------------
+
+# Publish ports bind to
+
+# Setup external ports
+bind_host: www.consup
+publish:
+- 9001
+- 9002
+
+# Setup local ports
+bind_ip: 127.0.1.2
+publish: 22070
+
+env:
+- LISTEN_DISCO :9001
+- LISTEN_RELAY :9002
+
+# mount supervisord logs
+log_dir: log
+
+# pwd as syncthing home
+volume:
+- :/home/op
+
+# Daemon
+detach: true
+restart: always
+
+# Interactive
+#interactive: true
+#tty: true
+#rm: true
+
