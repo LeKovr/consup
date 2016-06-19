@@ -4,7 +4,7 @@
 
 # https://releases.mattermost.com/3.0.3/mattermost-team-3.0.3-linux-amd64.tar.gz
 
-VER=3.0.3
+VER=3.1.0
 DEST=/opt
 setup() {
   local prj=$1
