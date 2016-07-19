@@ -7,12 +7,12 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160601
+ENV DOCKERFILE_VERSION  160719
 
 # -------------------------------------------------------------------------------
 # Install postgresql
 
-ENV PG_MAJOR 9.3
+ENV PG_MAJOR 9.5
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r postgres && useradd -r -g postgres -d /var/lib/postgresql postgres
@@ -20,6 +20,9 @@ RUN groupadd -r postgres && useradd -r -g postgres -d /var/lib/postgresql postgr
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/$PG_MAJOR
 ENV PGUSER postgres
+
+COPY *.conf /etc/postgresql/
+
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
 
@@ -34,7 +37,6 @@ COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
 
 # -------------------------------------------------------------------------------
-COPY *.conf /etc/postgresql/
 
 # db startup trigger
 COPY db_check_started.sh /usr/local/bin/db_check_started.sh

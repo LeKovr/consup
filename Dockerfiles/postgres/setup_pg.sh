@@ -14,7 +14,9 @@ apt-get update && apt-get install -y postgresql-common \
 gosu postgres initdb \
   && sed -ri "s/^#(listen_addresses\s*=\s*)\S+/\1'*'/" $PGDATA/postgresql.conf \
   && echo "include = 'replica.conf'" >> $PGDATA/postgresql.conf \
+  && echo "include = 'pg_stat.conf'" >> $PGDATA/postgresql.conf \
   && sed -ri "s/^#(local\s+replication\s+postgres\s+trust)/\1/" $PGDATA/pg_hba.conf \
   && echo "host  all all 172.17.0.0/16 md5" >> $PGDATA/pg_hba.conf \
   && touch $PGDATA/replica.conf \
+  && mv /etc/postgresql/pg_stat.conf $PGDATA \
   && mv $PGDATA /var/lib/postgresql.eta
