@@ -38,7 +38,6 @@ cpanm enum \
   && cpanm Toolbox::Simple \
   && cpanm Attribute::Property \
   && cpanm URI::Escape::JavaScript \
-  && cpanm HTML::Restrict \
   && cpanm http://www.cpan.org/authors/id/S/SA/SAMTREGAR/HTML-Template-2.9.tar.gz \
   || exit 1
 

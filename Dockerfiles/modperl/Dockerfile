@@ -71,11 +71,6 @@ ADD proxy_params /etc/nginx/
 # Consul upstreams domain for service named "web"
 ENV CONSUL_DOMAIN web.service.consul
 
-# Redirect 502 errors
-#ENV NGINX_DEFAULT http://localhost/maintenance.html
-# This will be used if NGINX_DEFAULT not set
-COPY nohost.html /usr/share/nginx/html/nohost.html
-
 # Used in /etc/consul/src/nginx-redir.conf
 ENV NGINX_REDIR "http://www.localhost"
 
@@ -92,7 +87,7 @@ ENV REDIR_MODE redir
 ENV PROXY_MODE proxy
 
 # Register this service in consul
-ENV SERVICE webfront
+ENV SERVICE web
 
 # ------------------------------------------------------------
 # Backend server config (FRONT_MODE != common, SERVICE == web)
