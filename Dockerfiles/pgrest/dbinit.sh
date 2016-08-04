@@ -46,6 +46,7 @@ curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS$t
 
 log "Start app"
 supervisorctl -c /etc/supervisor/supervisord.conf start pgrest
+supervisorctl -c /etc/supervisor/supervisord.conf start dbrpc
 
 if [ -e /home/app/.ondbready ] ; then
   log "Run onDBReady script"
