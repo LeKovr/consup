@@ -5,7 +5,9 @@
 
 # https://github.com/LeKovr/dbrpc/releases/download/v0.1/dbrpc_linux_amd64.zip
 
-VER=v0.1 && NAME=dbrpc_linux_$(dpkg --print-architecture) \
-  && curl -OL https://github.com/LeKovr/dbrpc/releases/download/${VER}/$NAME.zip \
+PRJ=dbrpc && VER=0.3
+echo "Setup $PRJ v $VER"
+NAME=${PRJ}_linux_$(dpkg --print-architecture) \
+  && curl -OL https://github.com/LeKovr/dbrpc/releases/download/v${VER}/$NAME.zip \
   && unzip $NAME.zip && rm $NAME.zip \
-  && mv $NAME /usr/local/sbin/dbrpc
+  && mv $NAME /usr/local/sbin/${PRJ}
