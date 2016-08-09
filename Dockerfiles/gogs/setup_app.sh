@@ -5,8 +5,10 @@
 # https://gogs.io/docs/installation/install_from_binary
 
 #https://dl.gogs.io/gogs_v0.7.33_linux_amd64.tar.gz
+#https://github.com/gogits/gogs/releases/download/v0.9.46/linux_amd64.tar.gz
+#https://dl.gogs.io/gogs_v0.9.46_linux_amd64.tar.gz
 
-VER=v0.9.0 && PRJ=gogs && NAME=${PRJ}_${VER}_linux_amd64 \
+VER=v0.9.60 && PRJ=gogs && NAME=${PRJ}_${VER}_linux_amd64 \
   && curl -OL https://dl.gogs.io/${NAME}.tar.gz \
   && tar -xaf ${NAME}.tar.gz -C /opt/ \
   && rm ${NAME}.tar.gz
@@ -18,4 +20,3 @@ VER=v0.9.0 && PRJ=gogs && NAME=${PRJ}_${VER}_linux_amd64 \
 #echo "deb https://deb.packager.io/gh/pkgr/gogs $(lsb_release -cs) pkgr" | tee /etc/apt/sources.list.d/gogs.list
 #apt-get update
 #apt-get install gogs
-
