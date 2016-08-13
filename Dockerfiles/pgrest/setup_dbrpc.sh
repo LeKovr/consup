@@ -5,7 +5,7 @@
 
 # https://github.com/LeKovr/dbrpc/releases/download/v0.1/dbrpc_linux_amd64.zip
 
-PRJ=dbrpc && VER=0.3
+PRJ=dbrpc && VER=0.4
 echo "Setup $PRJ v $VER"
 NAME=${PRJ}_linux_$(dpkg --print-architecture) \
   && curl -OL https://github.com/LeKovr/dbrpc/releases/download/v${VER}/$NAME.zip \
