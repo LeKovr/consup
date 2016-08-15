@@ -56,4 +56,7 @@ ENV JWT_KEY SET_YOUR_JWT_KEY_HERE_OR_IN_fidm.yml
 # postgrest API schema
 ENV DB_SCHEMA public
 
+# dbrpc shemas list
+ENV DBRPC_SCHEMAS ws,public
+
 ENV APPUSER op
