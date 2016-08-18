@@ -59,4 +59,7 @@ ENV DB_SCHEMA public
 # dbrpc shemas list
 ENV DBRPC_SCHEMAS ws,public
 
+# dbrpc allowed origins
+ENV DBRPC_ORIGIN *
+
 ENV APPUSER op
