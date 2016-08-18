@@ -34,11 +34,16 @@ command_exists() {
 # ------------------------------------------------------------------------------
 do_install() {
 
-    if [[ ! "$force" ]] && [ -d $prg ] ; then
-        echo "Destination dir already exists. Skip install"
-        return
+    if [ -d $prg ] ; then
+        if [ ! "$force" ] ; then
+            echo "Destination dir '$prg' already exists. Skip install, use '$0 force' to force"
+            return
+        fi
+        echo "Install into existing dir '$prg'.."
+    else
+        echo "Creating dir $prg.."
+        mkdir $prg
     fi
-    [ -d $prg ] || mkdir $prg
     curl=''
     if command_exists curl; then
         curl='curl -SOLR'
@@ -48,12 +53,13 @@ do_install() {
         curl='busybox wget -N'
     fi
 
-    pushd $prg > /dev/null
+    cd $prg
     for f in $files ; do
       echo "$f.."
       $curl $url/$ver/$f.yml
     done
-    popd > /dev/null
+    cd ..
+    echo "Done"
 }
 # ------------------------------------------------------------------------------
 

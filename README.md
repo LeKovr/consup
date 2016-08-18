@@ -33,9 +33,9 @@ links:
 
 ```
 
-Running `fidm start` in application will start ins container and all not started dependencies.
+Running `fidm start` in application dir will start its container and all not started dependencies.
 
-All containers with same row `consup/postgres mode=common` will share the same postgresql database cluster
+All containers with same row `consup/postgres mode=common` in config will use the same postgresql database cluster
 
 Dependensies
 ------------
