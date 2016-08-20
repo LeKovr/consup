@@ -10,6 +10,7 @@
 # See project home for details: https://github.com/LeKovr/consup
 #
 
+ver="1.1"
 
 # strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
@@ -30,7 +31,7 @@ trap finish EXIT
 
 # ------------------------------------------------------------------------------
 
-log "***** RUN INIT FOR DB $DB_NAME ***"
+log "***** Run dbinit.sh v$ver for database $DB_NAME ***"
 
 log "Wait for consul and postgresql startup..."
 while true; do sleep 1 && ping -c1 $PG_HOST > /dev/null 2>&1 && break; done
