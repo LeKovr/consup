@@ -7,7 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160607
+ENV DOCKERFILE_VERSION  160820
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
@@ -30,9 +30,11 @@ COPY init.d /init.d
 
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
-COPY dbinit.sh /usr/local/sbin/
 
 WORKDIR /home/app
+
+# Services started by dbinit.sh
+ENV DBINIT_START "mattermost"
 
 # ------------------------------------------------------------
 # Backend server config
@@ -51,6 +53,9 @@ ENV DBCC_KEY SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
 
 # Port dbcc listen on
 ENV DBCC_PORT 5480
+
+# dir for export/import database
+ENV DB_DUMPDIR /opt/shared/dump
 
 # ------------------------------------------------------------
 # App config
