@@ -36,16 +36,17 @@ log "Wait for consul and postgresql startup..."
 while true; do sleep 1 && ping -c1 $PG_HOST > /dev/null 2>&1 && break; done
 log "DB started"
 
-# Try to create user & database. Get result
-log "Check db"
-if [ "$DB_TEMPLATE" ] ; then
-  tmpl="&tmpl=$DB_TEMPLATE"
-  note=" with template $DB_TEMPLATE"
-else
+if [ -z ${DB_TEMPLATE+x} ]; then
   tmpl=""
   note=""
+else
+  log "Will use template $DB_TEMPLATE"
+  tmpl="&tmpl=$DB_TEMPLATE"
+  note=" with template $DB_TEMPLATE"
 fi
 
+# Try to create user & database. Get result
+log "Check db"
 curl -s "http://$PG_HOST:$DBCC_PORT/?key=$DBCC_KEY&name=$DB_NAME&pass=$DB_PASS$tmpl" | grep "OK: 1" && {
   log "Created database $DB_NAME$note"
   if [ -e /home/app/.ondbcreate ] ; then
