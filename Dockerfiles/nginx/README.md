@@ -33,3 +33,7 @@ Or running some child image with fig
     $ fig run --rm nginx
     ...
     $ docker exec --ti consup_nginx_run_1 bash
+
+### ToDo
+
+* [ ] Slow starting upstream causes plain 502 error

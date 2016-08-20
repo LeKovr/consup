@@ -1,0 +1,25 @@
+#
+#
+# This script started by dbinit.sh when database created
+# See https://github.com/LeKovr/consup/blob/master/dbinit.sh
+
+# DB_DUMPDIR was set and mounted in Makefile
+
+file=$DB_DUMPDIR/$DB_NAME
+if [ -f $file.tgz ] ; then
+  log "Dump file found, restoring database..."
+  zcat $file.tgz | PGPASSWORD=$DB_PASS pg_restore -h $PG_HOST -U $DB_NAME -O -Ft -d $DB_NAME || log "Errors found"
+  log "Restore complete"
+else
+  log "File $file.tgz not found. Skip dump restoring"
+
+  log "Create tables"
+  PGPASSWORD=$DB_PASS psql -X -h $PG_HOST -U $DB_NAME -f /usr/share/dbconfig-common/data/pdns-backend-pgsql/install/pgsql
+
+  log "Load local data if any"
+  DIR=/home/app
+  for f in domains records domainmetadata ; do
+    [ -f $DIR/$f.txt ] && log $f && PGPASSWORD=$DB_PASS psql -X -h $PG_HOST -U $DB_NAME -c "\copy $f from $DIR/$f.txt"
+  done
+
+fi

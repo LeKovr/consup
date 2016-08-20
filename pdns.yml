@@ -3,7 +3,6 @@
 # https://github.com/LeKovr/fidm
 
 image: consup_pdns
-name: dns.consup
 
 # -------------------------------------------------------------------------------
 # Image exchange info

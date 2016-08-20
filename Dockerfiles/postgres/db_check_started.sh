@@ -26,7 +26,9 @@ sed -i -e 's|"interval": "1s"|"interval": "1m"|' /etc/consul/conf.d/postgres.jso
 
 if [[ "$REPLICA_MODE" == "MASTER" ]] && [ ! -f $REPLICA_ROOT/base.tar.gz ] ; then
   log "Making base dump..."
-  gosu postgres pg_basebackup -D $REPLICA_ROOT -Ft -z -x
+  gosu postgres pg_basebackup -D $REPLICA_ROOT/db -Ft -z -x \
+  && mv $REPLICA_ROOT/db/db/base.tar.gz $REPLICA_ROOT/db \
+  && rm $REPLICA_ROOT/db/db
 fi
 
 log "Done"

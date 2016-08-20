@@ -7,7 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160719
+ENV DOCKERFILE_VERSION  160820
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
@@ -24,9 +24,11 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 COPY init.d /init.d
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
-COPY dbinit.sh /usr/local/sbin/
 
 WORKDIR /home/app
+
+# Services started by dbinit.sh
+ENV DBINIT_START "pgrest dbrpc"
 
 # ------------------------------------------------------------
 # Backend server config

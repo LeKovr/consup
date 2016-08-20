@@ -7,7 +7,7 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160324
+ENV DOCKERFILE_VERSION  160820
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
@@ -18,10 +18,16 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 # -------------------------------------------------------------------------------
 # Setup Consup client
 
+COPY init.d /init.d
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
-COPY dbinit_pdns.sh /usr/local/bin/
 COPY dbsave_pdns.sh /usr/local/bin/
+
+# Services started by dbinit.sh
+ENV DBINIT_START "pdns"
+
+# ------------------------------------------------------------
+# Backend server config
 
 # Port DNS listening
 ENV PDNS_PORT 53

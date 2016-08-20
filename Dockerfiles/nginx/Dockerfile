@@ -17,7 +17,8 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 
 # -------------------------------------------------------------------------------
 
-VOLUME ["/var/cache/nginx"]
+# disables nginx remove
+# VOLUME ["/var/cache/nginx"]
 
 EXPOSE 80 443
 

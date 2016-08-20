@@ -1,45 +1,55 @@
 # -------------------------------------------------------------------------------
 # consup_postgres fidm config
 # https://github.com/LeKovr/fidm
-# -------------------------------------------------------------------------------
 
-# Will run from any dir
-image: consup_postgres
+image: consup_pdns
 
 # -------------------------------------------------------------------------------
 # Image exchange info
 # -------------------------------------------------------------------------------
 
+# yml def names for required images
+requires:
+- consup/postgres mode=common
+
 # yml def names for linked containers with autostart
 links:
-- consul    # consul.yml
-
-# -------------------------------------------------------------------------------
-# Image run info
-# -------------------------------------------------------------------------------
-
-# Publish ports bind to
-bind_ip: 127.0.0.1
+- consup/consul    # consul.yml
 
 # mount volume
 # $log_dir/$name_$mode:/var/log/supervisor
-log_dir: var/log
+log_dir: log
+
+# -------------------------------------------------------------------------------
 
 volume:
-- app/db:/var/lib/postgresql
-# REPLICA_ROOT & DB_DUMPDIR
-- app/shared:/opt/shared
+- :/home/app
+- ../../app/shared:/opt/shared
+
+bind_host: www.consup
 
 publish:
-- 5432
-- 5480
+- 54
+- 54/udp
+
+# dns webserver
+
+bind_ip: 127.0.1.2
+publish: 8081
 
 env:
 - LOCALE=ru_RU
+- SERVICE=dns
+- PDNS_PORT=54
+- PG_HOST=postgres.db.service.consul
+- DB_PASS=SET_DB_PASS_HERE_OR_IN_fidm.yml
 - DB_DUMPDIR=/opt/shared/dump
-#- REPLICA_MODE=NONE  # MASTER/SLAVE/AIR/NONE
-#- LC_COLLATE=C
-#- LC_CTYPE=ru_RU.UTF-8
+
+# key to create db via dbcc service
+- DBCC_KEY=SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
+
+# use local consul as DNS
+dns: 127.0.0.1
 
 # Daemon
 detach: true
@@ -49,3 +59,4 @@ restart: always
 #interactive: true
 #tty: true
 #rm: true
+

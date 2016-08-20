@@ -1,0 +1,15 @@
+#
+#
+# This script started by dbinit.sh when database created
+# See https://github.com/LeKovr/consup/blob/master/dbinit.sh
+
+# DB_DUMPDIR was set and mounted in Makefile
+
+file=$DB_DUMPDIR/$DB_NAME
+if [ -f $file.tgz ] ; then
+  log "Dump file found, restoring database..."
+  zcat $file.tgz | PGPASSWORD=$DB_PASS pg_restore -h $PG_HOST -U $DB_NAME -O -Ft -d $DB_NAME || log "Errors found"
+  log "Restore complete"
+else
+  log "File $file.tgz not found. Skip dump restoring"
+fi
