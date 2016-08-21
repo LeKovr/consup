@@ -37,7 +37,8 @@ if [[ "$REPLICA_MODE" == "MASTER" ]] || [[ "$REPLICA_MODE" == "SLAVE" ]] ; then
   [ -f $PGDATA/replica.conf ] && rm $PGDATA/replica.conf
 
   if [[ "$REPLICA_MODE" == "MASTER" ]] ; then
-    cp /etc/postgresql/replica_master.conf $PGDATA/replica.conf
+    [ -f $PGDATA/replica_master.conf ] || cp /etc/postgresql/replica_master.conf $PGDATA/
+    ln -s replica_master.conf $PGDATA/replica.conf
   else #if [[ "$REPLICA_MODE" == "SLAVE" ]] ; then
     [ -f $REPLICA_ROOT/base.tar.gz ] && [ ! -f $PGDATA/imported ] && {
       echo "Loading database.tar.gz..."
@@ -46,7 +47,9 @@ if [[ "$REPLICA_MODE" == "MASTER" ]] || [[ "$REPLICA_MODE" == "SLAVE" ]] ; then
       touch $PGDATA/imported
     }
 
-    cp /etc/postgresql/replica_slave.conf $PGDATA/replica.conf
+    [ -f $PGDATA/replica_slave.conf ] || cp /etc/postgresql/replica_slave.conf $PGDATA/
+    ln -s replica_slave.conf $PGDATA/replica.conf
+
     [ -f $PGDATA/recovery.conf ] || cp /etc/postgresql/replica_recovery.conf $PGDATA/recovery.conf
 
   fi
