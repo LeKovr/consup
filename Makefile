@@ -72,4 +72,12 @@ while true; do sleep 1 && ping -c1 localhost > /dev/null 2>&1 && break; done
 
 ## stop postgres if running
 pg-stop:
+	fidm rm $(PGC_NAME) mode=$(PGC_MODE)
+
+## stop postgres & dependensies if running
+pg-stopall:
 	fidm rm $(PGC_NAME) -a mode=$(PGC_MODE)
+
+psql:
+	@echo "*** $@ ***"
+	docker exec -ti $(PGC) gosu postgres psql
