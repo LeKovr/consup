@@ -61,11 +61,12 @@ if [ -e /home/app/.ondbready ] ; then
   . /home/app/.ondbready
 fi
 
-log "Start app"
-for s in $DBINIT_START ; do
-  supervisorctl -c /etc/supervisor/supervisord.conf start $s
-done
-
+if [ ! -z ${DBINIT_START+x} ]; then
+  log "Start app"
+  for s in $DBINIT_START ; do
+    supervisorctl -c /etc/supervisor/supervisord.conf start $s
+  done
+fi
 
 # Say all is Ok to supervisor
 exit 0
