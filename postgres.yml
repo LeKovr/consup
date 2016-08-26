@@ -37,9 +37,9 @@ publish:
 env:
 - LOCALE=ru_RU
 - DB_DUMPDIR=/opt/shared/dump
+- LC_COLLATE=ru_RU.UTF-8
+- LC_CTYPE=ru_RU.UTF-8
 #- REPLICA_MODE=NONE  # MASTER/SLAVE/AIR/NONE
-#- LC_COLLATE=C
-#- LC_CTYPE=ru_RU.UTF-8
 
 # Daemon
 detach: true
