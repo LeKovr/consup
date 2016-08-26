@@ -65,8 +65,7 @@ VOLUME ["/opt/shared"]
 # ENV REPLICA_MODE 
 # * MASTER - save log to REPLICA_ROOT
 # * SLAVE - load logs from REPLICA_ROOT, READ-ONLY DB
-# * AIR - Always start with empty database (erased on container rm)
-# * other - standalone server
+# * other - standalone server (if /var/lib/postgresql not mounted, every start will use empty cluster)
 # See init.d/postgres.sh
 
 ENV REPLICA_MODE ""
