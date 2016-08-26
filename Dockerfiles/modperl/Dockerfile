@@ -20,7 +20,22 @@ ENV INITRD No
 # Run custom setup scripts
 
 ADD setup_*.sh /tmp/
-RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
+
+# Loop does not cache every step
+#RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
+
+RUN bash /tmp/setup_0backports.sh
+RUN bash /tmp/setup_1pkg.sh
+RUN bash /tmp/setup_2pgdg.sh
+RUN bash /tmp/setup_consul.sh
+RUN bash /tmp/setup_consul-tmpl.sh
+RUN bash /tmp/setup_dbinit.sh
+RUN bash /tmp/setup_gosu.sh
+RUN bash /tmp/setup_lang.sh
+RUN bash /tmp/setup_nginx.sh
+RUN bash /tmp/setup_perl.sh
+RUN bash /tmp/setup_perllib_debian.sh
+RUN bash /tmp/setup_pg_client.sh
 
 # -------------------------------------------------------------------------------
 # Run init.d.sh on boot before supervisor
