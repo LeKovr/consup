@@ -15,14 +15,13 @@ force=$1
 
 # current consup version
 ver=v1.1
-ver=pgrest-160818
 
 # source repo
 prg=consup
 url=https://raw.githubusercontent.com/LeKovr/$prg
 
 # source files
-files="consul nginx postgres"
+files="Makefile consul.yml nginx.yml postgres.yml"
 
 # ------------------------------------------------------------------------------
 # *** BELOW THERE IS NOTHING TO EDIT ***
@@ -56,7 +55,7 @@ do_install() {
     cd $prg
     for f in $files ; do
       echo "$f.."
-      $curl $url/$ver/$f.yml
+      $curl $url/$ver/$f
     done
     cd ..
     echo "Done"
