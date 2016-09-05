@@ -1,6 +1,5 @@
 #!/bin/sh
 # based on https://get.docker.com/ script
-set -e
 #
 # This script installs consup config files for non-developer consup usage via:
 #
@@ -9,6 +8,9 @@ set -e
 #   curl -sSL https://raw.githubusercontent.com/LeKovr/consup/master/install.sh | sh
 #
 #  For making changes in consup itself, use git clone
+# ------------------------------------------------------------------------------
+
+set -e
 
 # do not skip install if destination exists
 force=$1
