@@ -62,8 +62,8 @@ pg-exp: pg-start
 	@echo "*** $@ ***"
 	@echo "$$EXP_SCRIPT" | docker exec -i $(PGC) gosu postgres bash -s - $$DB_NAME
 
-#
-## start postgresql container id not running
+
+## start postgresql container if not running
 pg-start:
 	@RUNNING=$$(docker inspect --format="{{ .State.Running }}" $(PGC) 2> /dev/null) ; \
 [ "$$RUNNING" == "true" ] || fidm start $(PGC_NAME).yml mode=$(PGC_MODE) ; \
