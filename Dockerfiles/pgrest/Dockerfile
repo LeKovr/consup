@@ -28,7 +28,7 @@ COPY supervisor.d /etc/supervisor/conf.d
 WORKDIR /home/app
 
 # Services started by dbinit.sh
-ENV DBINIT_START "pgrest dbrpc"
+ENV DBINIT_START "dbrpc"
 
 # ------------------------------------------------------------
 # Backend server config
@@ -37,7 +37,7 @@ ENV DBINIT_START "pgrest dbrpc"
 ENV PG_HOST db.service.consul
 
 # postgrest database & user
-ENV DB_NAME pgrest
+ENV DB_NAME dbrpc
 
 # postgrest database template
 # if none set used default (template1)
@@ -59,7 +59,7 @@ ENV JWT_KEY SET_YOUR_JWT_KEY_HERE_OR_IN_fidm.yml
 ENV DB_SCHEMA public
 
 # dbrpc shemas list
-ENV DBRPC_SCHEMAS ws,public
+ENV DBRPC_SCHEMAS dbrpc,public
 
 # dbrpc allowed origins
 ENV DBRPC_ORIGIN *
