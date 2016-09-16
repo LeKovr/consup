@@ -16,5 +16,7 @@ if [[ "$FLAG_UID" ]] && [[ $FLAG_UID != $(id -u $APPUSER) ]]; then
   chown -R $APPUSER /home/op
 fi
 
+export PATH=/usr/lib/node_modules/.bin:$PATH
+export NODE_PATH=/usr/lib/node_modules
 echo "Run main shell.."
 gosu $APPUSER $@

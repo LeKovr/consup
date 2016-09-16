@@ -25,11 +25,11 @@ The following packages added to base image:
 
 ### Usage
 
-    $ docker run -it --rm lekovr/consup_nodejs bower list
+    $ docker run -it --rm lekovr/consup_nodejs npm config list
 
 or run with [fidm](https://github.com/LeKovr/fidm)
 
-    $ FIDM_CMD="/init.sh bower list --config.analytics=false" fidm start nodejs.yml
+    $ FIDM_CMD="/init.sh npm build" fidm start nodejs.yml
 
 ### License
 
