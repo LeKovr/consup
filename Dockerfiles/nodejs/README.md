@@ -12,9 +12,8 @@ published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
 The following packages added to base image:
 
-* [webhook](https://github.com/adnanh/webhook)
-* [node.js v4.2.4](https://hub.docker.com/_/node/)
-* bower, gulp and set of usefull libs
+* [node.js v6](https://hub.docker.com/_/node/)
+* babel, webpack, phantomjs, casperjs and set of usefull libs
 
 ### Installation
 

@@ -21,9 +21,10 @@ RUN cd /root \
 # -------------------------------------------------------------------------------
 # Consup
 
+COPY init.sh /
+CMD ["/init.sh"]
+
 WORKDIR /home/app
 
 ENV APPUSER op
 
-COPY init.sh /
-CMD ["/init.sh"]
