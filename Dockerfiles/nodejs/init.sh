@@ -17,6 +17,9 @@ if [[ "$FLAG_UID" ]] && [[ $FLAG_UID != $(id -u $APPUSER) ]]; then
 fi
 
 export PATH=/usr/lib/node_modules/.bin:$PATH
-export NODE_PATH=/usr/lib/node_modules
+
+# Add link to global modules
+[ -L /home/app/web_loaders ] || ln -s /usr/lib/node_modules /home/app/web_loaders
+
 echo "Run main shell.."
 gosu $APPUSER $@

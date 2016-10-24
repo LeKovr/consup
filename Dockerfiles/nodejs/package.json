@@ -1,15 +1,6 @@
 {
-  "name": "iac-frontend",
-  "version": "0.3.0",
-  "description": "",
-  "scripts": {
-    "build": "webpack --config webpack-production.config.js --hot --progress --colors",
-    "windev": "node develop",
-    "config": "node config"
-  },
-  "author": "",
-  "license": "",
   "devDependencies": {
+    "autoprefixer": "^6.5.0",
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",
     "babel-jest": "^14.1.0",
@@ -27,18 +18,16 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "less-plugin-clean-css": "^1.5.1",
+    "postcss-loader": "^0.13.0",
     "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta.22",
     "webpack-dev-server": "^1.15.2",
-    "webpack-node-externals": "^1.4.3"
-  },
-  "dependencies": {
-    "react": "^15.3.1",
-    "react-bootstrap": "^0.30.3",
-    "react-dom": "^15.3.1",
-    "react-lite": "^0.15.19",
-    "react-overlays": "^0.6.6",
-    "react-router": "^2.8.1",
-    "superagent": "^2.2.0"
+    "webpack-node-externals": "^1.4.3",
+
+    "mocha": "*",
+    "chai": "*",
+    "chai-http": "*",
+    "phantomjs-prebuilt": "*",
+    "casperjs": "*"
   }
 }

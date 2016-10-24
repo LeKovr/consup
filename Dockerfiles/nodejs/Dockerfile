@@ -8,7 +8,7 @@ FROM lekovr/consup_baseapp
 ENV DOCKERFILE_VERSION  160916
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-RUN sudo apt-get install -y nodejs
+RUN sudo apt-get install -y nodejs bzip2 libfontconfig1
 
 # -------------------------------------------------------------------------------
 # Extra libs
@@ -16,7 +16,7 @@ RUN sudo apt-get install -y nodejs
 COPY package.json /root
 RUN cd /root \
   && ln -s /usr/lib/node_modules node_modules \
-  && npm update -D
+  && npm install --only=dev
 
 # -------------------------------------------------------------------------------
 # Consup
