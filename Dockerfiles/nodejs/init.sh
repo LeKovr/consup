@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Run command via uid of current user ($FLAG owner)
-FLAG=/home/app/nodejs.yml
+root=$PWD
+FLAG=$root/nodejs.yml
 
 # Create user if none
 if [[ "$APPUSER" ]]; then
@@ -20,7 +21,7 @@ export PATH=/usr/lib/node_modules/.bin:$PATH
 export NODE_PATH=/usr/lib/node_modules
 
 # Add link to global modules
-[ -L /home/app/web_loaders ] || ln -s /usr/lib/node_modules /home/app/web_loaders
+[ -L $root/web_loaders ] || ln -s /usr/lib/node_modules $root/web_loaders
 
 echo "Run main shell.."
 gosu $APPUSER $@
