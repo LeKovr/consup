@@ -33,7 +33,11 @@
       },
       {
          "source": "url",
-         "name": "db"
+         "name": "arg"
+      },
+      {
+         "source": "url",
+         "name": "arg1"
       }
     ]
   }
