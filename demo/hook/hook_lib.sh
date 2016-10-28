@@ -19,13 +19,14 @@ REPO=$(echo "${HOOK_}"  | jq -r '.repository.ssh_url')
 RTYPE=$(echo "${HOOK_}" | jq -r '.ref_type')
 [[ "$RTYPE" == "null" ]] && RTYPE=tag
 
-# tag name
+# tag/branch name
 RNAME=$(echo "${HOOK_}" | jq -r '.ref')
 RNAME=${RNAME#refs/heads/}
 
 # repository site, eg: "http://www.dev.lan" w/o http://
-uri=$(echo "${HOOK_}" | jq -r '.repository.website')
-RSITE=${uri#http://}
+uri0=$(echo "${HOOK_}" | jq -r '.repository.website')
+uri1=${uri0#http://}
+RSITE=${uri1%/}
 
 cat <<EOF
 Distros:  $DISTRO_DIR
@@ -48,12 +49,11 @@ if [[ "$EVENT" != "push" || "$RTYPE" != "tag" ]] ; then
 fi
 
   # tag.site
-  DESTURI=${RNAME}.$RSITE
-  DEST=${DESTURI%/}
+  DEST=${RNAME}.$RSITE
 
   if [[ ${RNAME%-rm} != $RNAME ]] ; then
     echo "Branch $DEST remove requested"
-    DEST=${RNAME%-rm}.${RSITE#http://}
+    DEST=${RNAME%-rm}.$RSITE
     if [ -d $ROOT/$DEST ] ; then
       echo "Removing $DEST..."
       pushd $ROOT/$DEST
@@ -91,15 +91,14 @@ fi
   echo "Host root: $HOST_ROOT"
   echo "Host log:  $HOST_LOG"
 
-out_log=$HOST_LOG/init-stdout.log
-err_log=$HOST_LOG/init-stderr.log
-
+  out_log=$HOST_LOG/init-stdout.log
+  err_log=$HOST_LOG/init-stderr.log
 
   if [ -f Makefile ] ; then
     echo "Setup site $DEST"
     echo -n "" > $out_log
     echo -n "" > $err_log
-    DB_NAME=${HOOK_db} APP_TAG="$RSITE" APP_SITE="$DEST" make setup
+    APP_ARG="${HOOK_arg}" APP_ARG1="${HOOK_arg1}" APP_TAG="$RNAME" APP_DOMAIN="$RSITE" APP_SITE="$DEST" make setup
     APP_ROOT=$HOST_ROOT make start-hook
   fi
   popd > /dev/null
