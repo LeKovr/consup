@@ -13,6 +13,8 @@ published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 The following packages added to base image:
 
 * [node.js v6](https://hub.docker.com/_/node/)
+* [GitBook](https://www.gitbook.com/)
+* [Calibre](https://calibre-ebook.com/)
 * babel, webpack, phantomjs, casperjs and set of usefull libs
 
 ### Installation
