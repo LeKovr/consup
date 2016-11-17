@@ -1,0 +1,14 @@
+# -------------------------------------------------------------------------------
+# fidm config
+# https://github.com/LeKovr/fidm
+
+image: consup_gitbook
+
+publish:
+- 4000
+- 35729
+
+# Interactive
+interactive: true
+tty: true
+rm: true
