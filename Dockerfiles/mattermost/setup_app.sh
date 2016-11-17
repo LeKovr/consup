@@ -4,7 +4,7 @@
 
 # https://releases.mattermost.com/3.0.3/mattermost-team-3.0.3-linux-amd64.tar.gz
 
-VER=3.3.0
+VER=3.5.0
 DEST=/opt
 setup() {
   local prj=$1
@@ -22,7 +22,7 @@ CFG=/opt/mattermost/config/config.json
 mv $CFG $CFG.orig
 
 # Mattermost IRC service
-VER=0.10.0
+VER=0.11.0
 D=/usr/local/sbin
 [ -d $D ] || mkdir -p $D
 curl -OL https://github.com/42wim/matterircd/releases/download/v${VER}/matterircd-linux64 \
