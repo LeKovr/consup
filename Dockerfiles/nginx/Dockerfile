@@ -28,7 +28,8 @@ COPY supervisor.d /etc/supervisor/conf.d
 
 ADD fastcgi_params /etc/nginx/
 ADD proxy_params /etc/nginx/
-# ADD ssl.conf /etc/nginx/
+ADD ssl.conf /etc/nginx/
+ADD acme_mgr.sh /etc/nginx/
 
 # ------------------------------------------------------------
 # Frontend server config

@@ -7,6 +7,18 @@ if [[ "$MODE" == "$FRONT_MODE" ]] ; then
   SRC=/etc/consul/src/nginx-front.conf
   NAME="master proxy"
 
+  cat > /etc/supervisor/conf.d/acme.conf <<EOF
+[program:acme]
+command=consul watch -type=service -service=web -passingonly=true bash /etc/nginx/acme_mgr.sh
+EOF
+
+  cat > /etc/supervisor/conf.d/cron.conf <<EOF
+[program:cron]
+command = cron -f -L 15
+autostart=true
+autorestart=true
+EOF
+
 elif [[ "$MODE" == "$REDIR_MODE" ]] ; then
   SRC=/etc/consul/src/nginx-redir.conf
 

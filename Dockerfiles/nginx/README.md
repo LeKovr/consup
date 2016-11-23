@@ -14,6 +14,7 @@ published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 The following packages added to base image:
 
 * [nginx](http://nginx.org/)
+* [acmetool](https://github.com/hlandau/acme)
 
 ### Installation
 
@@ -33,6 +34,15 @@ Or running some child image with fig
     $ fig run --rm nginx
     ...
     $ docker exec --ti consup_nginx_run_1 bash
+
+### SSL support
+
+This image supports automatic SSL certificate managenent via [acmetool](https://github.com/hlandau/acme).
+To activate it just register cert email with command:
+```
+docker exec consup_nginx_common curl -s -X PUT -d "user@host" http://localhost:8500/v1/kv/conf/https/email
+```
+nginx reconfig script will be runned on any www container start/stop when email is registered.
 
 ### ToDo
 

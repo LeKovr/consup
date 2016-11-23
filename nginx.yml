@@ -24,10 +24,15 @@ bind_host: www.consup
 
 publish:
 - 80
+- 443
 
 # mount volume
 # $log_dir/$name_$mode:/var/log/supervisor
 log_dir: var/log
+
+volume:
+# SSL CERTIFICATES
+- app/certs:/opt/acme
 
 # use local consul as DNS
 dns: 127.0.0.1

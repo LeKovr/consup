@@ -4,7 +4,7 @@
     "tags": ["{{env "NODENAME"}}"],
     "port": 80,
     "check": {
-      "script": "curl localhost:80 >/dev/null 2>&1",
+      "script": "curl -s localhost:80/nginx_status 2>&1",
       "interval": "10s"
     }
   }
