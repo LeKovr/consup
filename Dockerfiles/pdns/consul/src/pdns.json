@@ -4,8 +4,8 @@
     "tags": ["{{env "NODENAME"}}"],
     "port": 54,
     "check": {
-      "#": "script returns 1 if Ok but consul waits 0, so use '!'",
-      "script": "! netcat -vuw 1 localhost {{env "PDNS_PORT"}} >/dev/null",
+      "notes": "udp queries / latency / uptime",
+      "script": "/etc/init.d/pdns mrtg udp-queries latency",
       "interval": "60s"
     }
   }

@@ -2,6 +2,8 @@
 # -------------------------------------------------------------------------------
 # Install App
 
+# TODO: check if v4 installed
+
 CONF=/etc/powerdns/pdns.conf
 apt-get update \
   && apt-get -y install \
