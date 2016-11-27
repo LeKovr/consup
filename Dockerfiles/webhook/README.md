@@ -21,13 +21,14 @@ The following packages added to base image:
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_webhook/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_webhook`
 
+3. Fetch skeleton files for usage example: `docker run --rm lekovr/consup_webhook tar -c -C /skel . | tar x`
+
 ### Usage
 
-    $ docker run -it --rm lekovr/consup_webhook
-
-or run stack of containers with [fidm](https://github.com/LeKovr/fidm)
-
-    $ fidm start webhook project=consup
+```
+$ make deps
+$ make start
+```
 
 ### License
 

@@ -31,13 +31,21 @@ ENV APPUSER op
 # Docker control
 VOLUME /var/run/docker.sock
 
-# Distro root
-ENV DISTRO_DIR /home/app/distros
+# Distro root in /home/app
+ENV DISTRO_ROOT distros
+
+# Any distro stores config in this file
+ENV DISTRO_CONFIG .config
+
+# ssh key filename for git clone
+ENV SSH_KEY_NAME hook
 
 # -------------------------------------------------------------------------------
 # Setup Consup client
 
 COPY supervisor.d /etc/supervisor/conf.d
+
+COPY skel /skel
 
 WORKDIR /home/app
 

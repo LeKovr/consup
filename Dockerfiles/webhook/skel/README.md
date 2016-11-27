@@ -1,10 +1,12 @@
-Webhook Demo site
-=================
+Webhook site
+============
+
+Webhook docker image
 
 ## Setup
 
 ```
-APP_SITE=ci.dev.lan make vars
+APP_SITE=ci.dev.lan make .config
 ```
 
 ## Usage
@@ -20,29 +22,26 @@ http://ci.dev.lan.web.service.consul/hooks/samplehook
 
 ## Use
 
-### Create key
-https://developer.github.com/guides/managing-deploy-keys/
-
-```
-ssh-keygen -t rsa -b 4096 -f hook_rsa -C "your_email@example.com"
-```
-
-
-### Register key
+### Register key at gogs
 
 Project -> Settings -> Deploy keys -> Add deploy key
 
-
 ### Create tag
 
+```
 git tag v2
 git push --tags
-
+```
+This will 
+* `git clone` distro 
+* run `make .config`
+* run `make start-hook`
 
 ### Delete tag
 
+```
 git tag -d v2
-
 git push --delete origin v2
 
 git push origin :refs/tags/v2
+```

@@ -33,11 +33,7 @@
       },
       {
          "source": "url",
-         "name": "arg"
-      },
-      {
-         "source": "url",
-         "name": "arg1"
+         "name": "config"
       }
     ]
   }

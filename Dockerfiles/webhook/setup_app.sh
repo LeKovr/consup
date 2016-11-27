@@ -8,5 +8,5 @@
 VENDOR=adnanh && PRJ=webhook && VER=2.6.0 && NAME=${PRJ}-linux-amd64 \
   && curl -OL https://github.com/$VENDOR/$PRJ/releases/download/$VER/$NAME.tar.gz \
   && tar -xf ${NAME}.tar.gz \
-  && mv ${NAME} /usr/local/sbin/${PRJ} \
-  && rm ${NAME}*
+  && mv ${NAME}/${PRJ} /usr/local/sbin/ \
+  && rm -rf ${NAME}
