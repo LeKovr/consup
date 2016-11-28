@@ -16,4 +16,9 @@ groupmod -g $(stat -c "%g" /var/run/docker.sock) $group
 # Add user to group docker
 usermod -g $group $APPUSER
 
-
+# create user's distro root
+dr=/home/app/$DISTRO_ROOT
+[ -d $dr ] || {
+ mkdir $dr
+ chown $APPUSER $dr
+}
