@@ -22,3 +22,8 @@ dr=/home/app/$DISTRO_ROOT
  mkdir $dr
  chown $APPUSER $dr
 }
+
+
+chown $APPUSER $SSH_KEY_NAME
+chown $APPUSER ${SSH_KEY_NAME}.pub
+
