@@ -1,5 +1,5 @@
 
 # Every host got new ip at every consul server start 
-# so old database must be erased
+# but KV store must be persistent
 
-rm -rf /var/lib/consul/*
+#rm -rf /var/lib/consul/*
