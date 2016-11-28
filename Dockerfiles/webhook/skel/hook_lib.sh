@@ -3,6 +3,9 @@
 #
 # ------------------------------------------------------------------------------
 
+# vars from hook uri args
+[[ "$HOOK_config" ]] || HOOK_config=default
+
 # strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
 IFS=$'\n\t'
@@ -18,7 +21,7 @@ log() {
 kv2vars() {
   local key=$1
   echo "# Generated from KV store $key"
-  jq -r '.[] | (.Key|ltrimstr("'$key'/")) +" "+  .Value ' | while read k v ; do
+  jq -r '.[] | (.Key|ltrimstr("'$key'/")) +"\t"+  .Value ' | while read k v ; do
     val=$(echo -n "$v" | base64 -d)
     echo "$k=$val"
   done
@@ -94,7 +97,7 @@ setup_config() {
 host_home_app() {
 
   # get webhook container id
-  local container_id=$(cat /proc/self/cgroup | grep "cpu:/" | sed 's/\([0-9]\):cpu:\/docker\///g') # '
+  local container_id=$(cat /proc/self/cgroup | grep "cpuset:/" | sed 's/\([0-9]\):cpuset:\/docker\///g') # '
   # get host path for /home/app
   docker inspect $container_id | jq -r '.[0].Mounts[] | if .Destination == "/home/app" then .Source else empty end'
 }
@@ -154,8 +157,10 @@ integrate() {
   fi
 
   if [ -d $path ] ; then
-    log "Updating $path..."
-    # just rm, no make stop - make start will do it anyway
+    log "ReCreating $path..."
+    pushd $path
+    [ -f Makefile ] && make stop
+    popd
     rm -rfd $path || { echo "mkdir error: $!" ; exit $? ; }
   else
     log "Creating $path..."
@@ -163,7 +168,7 @@ integrate() {
   fi
   pushd $DISTRO_ROOT
     log "Clone $repo / $tag..."
-    . /home/app/git.sh -i $SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path || exit 1
+    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path || exit 1
   pushd $distro_path
 
   if [ -f Makefile ] ; then
@@ -171,10 +176,9 @@ integrate() {
 
     setup_config conf/$distro_path $DISTRO_CONFIG
 
-    # APP_ROOT - hosted application dirname for mount
+    # APP_ROOT - hosted application dirname for mount /home/app and /var/log/supervisor
     local host_root=$(host_home_app)
-     APP_ROOT=$host_root/$DISTRO_ROOT/$distro_path make start-hook
-
+     APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make start-hook
   fi
   popd > /dev/null
   popd > /dev/null
