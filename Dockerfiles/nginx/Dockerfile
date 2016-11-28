@@ -20,6 +20,9 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 # disables nginx remove
 # VOLUME ["/var/cache/nginx"]
 
+# default nginx log destination
+VOLUME ["/var/log/nginx"]
+
 EXPOSE 80 443
 
 COPY init.d /init.d
