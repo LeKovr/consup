@@ -23,7 +23,6 @@ dr=/home/app/$DISTRO_ROOT
  chown $APPUSER $dr
 }
 
-
 chown $APPUSER $SSH_KEY_NAME
 chown $APPUSER ${SSH_KEY_NAME}.pub
 

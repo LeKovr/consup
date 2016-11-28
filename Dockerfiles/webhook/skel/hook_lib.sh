@@ -76,7 +76,7 @@ setup_config() {
   local kv=$(curl -s http://localhost:8500/v1/kv/$key?recurse)
 
   if [[ ! "$kv" ]] ; then
-    make $config
+    make setup
     echo "Load KV $key from $config"
     cat $config | vars2kv $key
   elif [ ! -f $config ] ; then
