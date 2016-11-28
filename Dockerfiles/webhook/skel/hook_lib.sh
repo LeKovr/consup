@@ -156,14 +156,14 @@ integrate() {
   if [ -d $path ] ; then
     log "Updating $path..."
     # just rm, no make stop - make start will do it anyway
-##    rm -rfd $path || { echo "mkdir error: $!" ; exit $? ; }
+    rm -rfd $path || { echo "mkdir error: $!" ; exit $? ; }
   else
     log "Creating $path..."
     mkdir -p $path || { echo "mkdir error: $!" ; exit $? ; }
   fi
   pushd $DISTRO_ROOT
     log "Clone $repo / $tag..."
-##  . /home/app/git.sh -i $SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path || exit 1
+    . /home/app/git.sh -i $SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path || exit 1
   pushd $distro_path
 
   if [ -f Makefile ] ; then
