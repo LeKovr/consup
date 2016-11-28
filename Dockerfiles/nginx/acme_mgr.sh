@@ -78,12 +78,13 @@ EOF
 
 # ------------------------------------------------------------------------------
 # Run quickstart once
-[ -d $ACME_ROOT/accounts ] || pgrep acmetool > /dev/null || acmetool quickstart --state="$ACME_ROOT" --batch && rm $hook
-
+# rm $hook only after quickstart
+[ -d $ACME_ROOT/accounts ] ||  pgrep acmetool > /dev/null || { acmetool quickstart --state="$ACME_ROOT" --batch && rm $hook ; }
 # ------------------------------------------------------------------------------
 # Setup nginx reload hook
 
 if [ ! -f $hook ] ; then
+  [ -d $hooks ] || mkdir -p $hooks
   cat > $hook <<EOF
 #!/bin/sh
 set -e
