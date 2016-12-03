@@ -24,5 +24,6 @@ dr=/home/app/$DISTRO_ROOT
 }
 
 chown $APPUSER $SSH_KEY_NAME
+chmod 500 $SSH_KEY_NAME
 chown $APPUSER ${SSH_KEY_NAME}.pub
 
