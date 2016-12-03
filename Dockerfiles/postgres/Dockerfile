@@ -7,12 +7,12 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160719
+ENV DOCKERFILE_VERSION  161203
 
 # -------------------------------------------------------------------------------
 # Install postgresql
 
-ENV PG_MAJOR 9.5
+ENV PG_MAJOR 9.6
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r postgres && useradd -r -g postgres -d /var/lib/postgresql postgres

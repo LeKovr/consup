@@ -4,8 +4,8 @@
     "tags": ["{{env "NODENAME"}}"],
     "port": 5432,
     "check": {
-      "script": "gosu postgres pg_isready -q",
-      "interval": "1s"
+      "script": "gosu postgres check_postgres.pl --action commitratio --host=localhost --warning='90%' --critical='50%'",
+      "interval": "10s"
     }
   }
 }
