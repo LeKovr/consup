@@ -7,7 +7,7 @@ FROM lekovr/consup_baseos
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION_BASE  160319
+ENV DOCKERFILE_VERSION_BASE  161203
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
