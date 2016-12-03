@@ -1,3 +1,7 @@
 
 # Create consup symlink
-[ -d /home/consup ] && [ ! -L /home/app/consup ] && ln -s /home/consup /home/app/consup
+if [ -d /home/consup ] ; then
+  if [ ! -L /home/app/consup ] ; then
+    ln -s /home/consup /home/app/consup
+  fi
+fi
