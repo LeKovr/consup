@@ -76,4 +76,8 @@ fi
 
 # Setup tsearch if files exists
 TSEARCH=/var/log/supervisor/pg-skel/tsearch_data
-[ -d $TSEARCH ] && cp -rf $TSEARCH /usr/share/postgresql/$PG_MAJOR
+if [ -d $TSEARCH ] ; then
+  cp -rf $TSEARCH /usr/share/postgresql/$PG_MAJOR
+fi
+
+echo "Postgresql setup complete"
