@@ -7,12 +7,11 @@ FROM lekovr/consup_base
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160319
+ENV DOCKERFILE_VERSION  161203
 
 # -------------------------------------------------------------------------------
 # Setup Consul server
 
-COPY init.d /init.d
 COPY consul /etc/consul
 
 EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 53 53/udp
