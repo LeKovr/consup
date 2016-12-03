@@ -11,7 +11,7 @@ if [ -d $SRC ] ; then
   rm -rf $DEST
 else
   # save keys for persistense
-  mv $SRC $DEST
+  mv $DEST $SRC
 fi
 
 # create link

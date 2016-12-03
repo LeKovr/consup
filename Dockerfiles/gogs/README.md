@@ -4,7 +4,6 @@ This repository contains **Dockerfile** for consup gogs image
 for [Docker](https://www.docker.com/)'s [automated build](https://registry.hub.docker.com/u/lekovr/consup_gogs/) 
 published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
-
 ### Base Docker Image
 
 * [lekovr/consup_nginx](https://registry.hub.docker.com/u/lekovr/consup_nginx/)
@@ -22,12 +21,17 @@ The following packages added to base image:
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_gogs/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_gogs`
 
+3. Fetch skeleton files for usage example: `docker run --rm lekovr/consup_gogs tar -c -C /skel . | tar x`
+
 ### Usage
 
-    docker run -it --rm lekovr/consup_gogs
+```
+$ make deps
+$ make start
+```
 
-Or running some child image with fig
+### License
 
-    $ fig run --rm gogs
-    ...
-    $ docker exec --ti consup_gogs_run_1 bash
+The MIT License (MIT)
+
+Copyright (c) 2015 Alexey Kovrizhkin lekovr@gmail.com

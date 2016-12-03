@@ -7,10 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160820
-
-ENV DEBIAN_FRONTEND noninteractive
-ENV INITRD No
+ENV DOCKERFILE_VERSION_GOGS  161203
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
@@ -32,6 +29,7 @@ COPY init.d /init.d
 # -------------------------------------------------------------------------------
 # Setup Consup client
 
+COPY skel /skel
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
 
@@ -39,6 +37,8 @@ WORKDIR /home/app
 
 # Services started by dbinit.sh
 ENV DBINIT_START "gogs"
+
+ENV APP_PORT 3000
 
 # ------------------------------------------------------------
 # Backend server config

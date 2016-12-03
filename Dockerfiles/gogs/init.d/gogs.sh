@@ -15,12 +15,16 @@ chown -R $APPUSER $DEST
 # Mount point owner
 chown $APPUSER /home/app
 
+# gogs logs
+LOGDIR=/var/log/supervisor/gogs
+[ -d $LOGDIR ] || mkdir $LOGDIR
+chown $APPUSER $LOGDIR
+
 # New uid may be
 for dir in data git repos ; do
   [ -d $dir ] || mkdir $dir
   chown -R $APPUSER $dir
 done
-
 
 # Create initial gogs config if none
 
@@ -56,7 +60,7 @@ OFFLINE_MODE = false
 [log]
 MODE = file
 LEVEL = Info
-ROOT_PATH = /home/app/log/gogs
+ROOT_PATH = $LOGDIR
 
 EOF
 }

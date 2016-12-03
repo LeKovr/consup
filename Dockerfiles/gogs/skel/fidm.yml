@@ -4,8 +4,6 @@
 
 image: consup_gogs
 project: gogs
-# setup in .config, used with make start
-#name: gogs.dev.lan
 
 # -------------------------------------------------------------------------------
 # Image exchange info
@@ -20,20 +18,10 @@ requires:
 links:
 - consup/consul    # consul.yml
 
-# mount volume
-# $log_dir/$name_$mode:/var/log/supervisor
-log_dir: log
-
 # -------------------------------------------------------------------------------
 
 publish:
 - 22
-
-volume:
-- :/home/app
-- conf:/opt/gogs/custom/conf
-- data:/opt/gogs/data
-- ../../app/shared:/opt/shared
 
 env:
 - LOCALE=ru_RU
