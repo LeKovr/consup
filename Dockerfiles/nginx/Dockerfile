@@ -7,7 +7,7 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160319
+ENV DOCKERFILE_VERSION_NGINX  161203
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
