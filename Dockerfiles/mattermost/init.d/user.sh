@@ -11,7 +11,7 @@ grep -qe "^$APPUSER:" /etc/passwd || useradd -d $home $APPUSER
 chown $APPUSER $home
 
 # New uid may be
-for d in data log ; do
+for d in data ; do
   dir=$home/$d
   [ -d $dir ] || mkdir $dir
   chown -R $APPUSER $dir

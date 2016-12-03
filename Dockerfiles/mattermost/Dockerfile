@@ -7,10 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  160820
-
-ENV DEBIAN_FRONTEND noninteractive
-ENV INITRD No
+ENV DOCKERFILE_VERSION_MATTERMOST  161203
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
@@ -24,6 +21,7 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 ENV APPUSER op
 
 COPY init.d /init.d
+COPY skel /skel
 
 # -------------------------------------------------------------------------------
 # Setup Consup client

@@ -49,10 +49,8 @@
     "LogSettings": {
         "EnableConsole": true,
         "ConsoleLevel": "DEBUG",
-        "EnableFile": true,
-        "FileLevel": "INFO",
-        "FileFormat": "",
-        "FileLocation": "/home/app/log/mmost.log"
+        "EnableFile": false,
+        "EnableWebhookDebugging": true
     },
     "FileSettings": {
         "DriverName": "local",

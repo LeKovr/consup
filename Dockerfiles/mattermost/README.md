@@ -22,6 +22,17 @@ The following packages added to base image:
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_mattermost/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_mattermost`
 
+3. Fetch skeleton files for usage example: `docker run --rm lekovr/consup_mattermost tar -c -C /skel . | tar x`
+
 ### Usage
 
-    See consup/demo/mmost
+```
+$ make deps
+$ make start
+```
+
+### License
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Alexey Kovrizhkin lekovr@gmail.com

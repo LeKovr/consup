@@ -2,9 +2,9 @@
 # -------------------------------------------------------------------------------
 # Install App
 
-# https://releases.mattermost.com/3.0.3/mattermost-team-3.0.3-linux-amd64.tar.gz
+# https://releases.mattermost.com/3.5.1/mattermost-team-3.5.1-linux-amd64.tar.gz
 
-VER=3.5.0
+VER=3.5.1
 DEST=/opt
 setup() {
   local prj=$1

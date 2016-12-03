@@ -23,15 +23,7 @@ links:
 #publish:
 #- 6667
 
-# mount volume
-# $log_dir/$name_$mode:/var/log/supervisor
-log_dir: log
-
 # -------------------------------------------------------------------------------
-
-volume:
-- :/home/app
-- ../../app/shared:/opt/shared
 
 env:
 - LOCALE=ru_RU
@@ -54,4 +46,3 @@ restart: always
 #interactive: true
 #tty: true
 #rm: true
-
