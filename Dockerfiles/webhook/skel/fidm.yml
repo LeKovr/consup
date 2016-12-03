@@ -3,7 +3,7 @@
 # https://github.com/LeKovr/fidm
 
 image: consup_webhook
-project: webhook
+project: consup
 
 # -------------------------------------------------------------------------------
 # Image exchange info
