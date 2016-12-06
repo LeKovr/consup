@@ -128,7 +128,7 @@ integrate() {
   local op=$(echo "${HOOK_}" | jq -r '.ref_type')
   [[ "$op" == "null" ]] && op="tag"
 
-  if [[ "$event" != "push" || "$op" != "tag" ]] ; then
+  if [[ "$event" != "push" && "$event" != "create" ]] || [[ "$op" != "tag" ]] ; then
     log "Hook skipped - no event"
     exit 0
   fi
