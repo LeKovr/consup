@@ -22,7 +22,6 @@ links:
 volume:
 - :/home/app
 - /var/run/docker.sock:/var/run/docker.sock
-- /opt/consup:/home/consup
 
 # Bind webtail
 # Only localhost allowed
