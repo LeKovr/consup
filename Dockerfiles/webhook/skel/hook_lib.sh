@@ -5,6 +5,7 @@
 
 # vars from hook uri args
 [[ "$HOOK_config" ]] || HOOK_config=default
+[[ "$HOOK_tag" ]] || HOOK_tag="-"
 
 # strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
@@ -134,9 +135,12 @@ integrate() {
   fi
 
   # tag/branch name
-  local tag=$(echo "${HOOK_}" | jq -r '.ref')
-  tag=${tag#refs/heads/}
-
+  if [[ $HOOK_tag != "-" ]] ; then
+    local tag=$HOOK_tag
+  else
+    local tag=$(echo "${HOOK_}" | jq -r '.ref')
+    tag=${tag#refs/heads/}
+  fi
   local distro_path=$(mkroot $repo $tag ${HOOK_config})
 
   # consup domain on same host

@@ -34,6 +34,10 @@
       {
          "source": "url",
          "name": "config"
+      },
+      {
+         "source": "url",
+         "name": "tag"
       }
     ]
   }
