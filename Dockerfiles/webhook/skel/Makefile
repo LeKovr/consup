@@ -6,6 +6,11 @@ CFG     ?= .config
 APP_SITE ?= ci.dev.lan
 SSH_KEY_NAME ?= hook
 
+# Полный путь к текущему каталогу
+APP_ROOT ?= $(shell dirname $$PWD)
+# Имя текущего каталога
+APP_PATH ?= $(shell basename $$PWD)
+
 all: start
 
 define CONFIG_DEF
@@ -23,7 +28,9 @@ start: $(CFG) ssh-key
 	@echo "*** $@ ***"
 	@source $(CFG) && \
 fidm rm name=$$APP_SITE ; \
-fidm start name=$$APP_SITE
+fidm start name=$$APP_SITE \
+    args_add=--volume=$(APP_ROOT)/$(APP_PATH)/log/http/$$APP_SITE:/var/log/nginx \
+    args_add=--volume=$(APP_ROOT)/$(APP_PATH)/log/$$APP_SITE:/var/log/supervisor
 
 stop: $(CFG)
 	@echo "*** $@ ***"

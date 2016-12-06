@@ -17,16 +17,12 @@ requires:
 links:
 - consup/consul    # consul.yml
 
-# mount volume
-# $log_dir/$name_$mode:/var/log/supervisor
-log_dir: log
-
 # -------------------------------------------------------------------------------
 
 volume:
 - :/home/app
 - /var/run/docker.sock:/var/run/docker.sock
-- ../consup:/home/consup
+- /opt/consup:/home/consup
 
 # Bind webtail
 # Only localhost allowed
