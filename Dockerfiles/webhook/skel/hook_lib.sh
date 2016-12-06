@@ -109,6 +109,16 @@ host_home_app() {
   docker inspect $container_id | jq -r '.[0].Mounts[] | if .Destination == "/home/app" then .Source else empty end'
 }
 
+make_stop() {
+  local path=$1
+  if [ -f $path/Makefile ] ; then
+    pushd $path
+    echo "make stop"
+    make stop
+    popd
+  fi
+}
+
 integrate() {
 
   local event=$1
@@ -157,10 +167,8 @@ integrate() {
     path=$DISTRO_ROOT/$distro_path
     if [ -d $path ] ; then
       echo "Removing $distro_path..."
-      pushd $path
-      [ -f Makefile ] && make stop
-      popd
-      rm -rfd $path
+      make_stop $path
+      rm -rfd $path || { echo "rmdir error: $!" ; exit $? ; }
     fi
     log "Hook cleanup complete"
     exit 0
@@ -168,17 +176,17 @@ integrate() {
 
   if [ -d $path ] ; then
     log "ReCreating $path..."
-    pushd $path
-    [ -f Makefile ] && make stop
-    popd
-    rm -rfd $path || { echo "mkdir error: $!" ; exit $? ; }
+    make_stop $path
+    rm -rfd $path || { echo "rmdir error: $!" ; exit $? ; }
   else
     log "Creating $path..."
     mkdir -p $path || { echo "mkdir error: $!" ; exit $? ; }
   fi
   pushd $DISTRO_ROOT
     log "Clone $repo / $tag..."
-    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path || exit 1
+
+    echo bash /home/app/git.sh -i /home/app/$SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path
+    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path || { echo "Clone error: $?" ; exit 1 ; }
   pushd $distro_path
 
   if [ -f Makefile ] ; then
@@ -188,6 +196,7 @@ integrate() {
 
     # APP_ROOT - hosted application dirname for mount /home/app and /var/log/supervisor
     local host_root=$(host_home_app)
+     echo APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make start-hook
      APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make start-hook
   fi
   popd > /dev/null
@@ -195,4 +204,3 @@ integrate() {
   log "Hook stop"
 
 }
-
