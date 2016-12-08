@@ -7,7 +7,7 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  161121
+ENV DOCKERFILE_VERSION  161208
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y libwxbase3.0-0 libwxgtk3.0-0 libsctp1 \
 
 COPY mix.exs /root/mix.exs
 RUN cd /root \
-  && mix do local.hex --force, deps.get
+  && mix do local.hex --force, local.rebar --force, deps.get
 
 # ------------------------------------------------------------
 
