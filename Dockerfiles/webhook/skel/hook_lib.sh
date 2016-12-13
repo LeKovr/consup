@@ -7,6 +7,12 @@
 [[ "$HOOK_config" ]] || HOOK_config=default
 [[ "$HOOK_tag" ]] || HOOK_tag="-"
 
+# KV-store key to allow this hook
+_CI_HOOK_ENABLED=no
+
+# make target to start app
+_CI_MAKE_START=start-hook
+
 # strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
 IFS=$'\n\t'
@@ -79,19 +85,28 @@ setup_config() {
   if [[ ! "$kv" ]] ; then
     if [ ! -f $config ] ; then
       make setup
-      echo "Load KV $key from default $config"
+      log "Load KV $key from default $config"
       cat $config | vars2kv $key
+      echo "_CI_HOOK_ENABLED=${_CI_HOOK_ENABLED}" | vars2kv $key
+      echo "_CI_MAKE_START=${_CI_MAKE_START}" | vars2kv $key
       log "Prepared default config. Exiting"
       exit 0
     fi
-    echo "Load KV $key from $config"
+    log "Load KV $key from $config"
     cat $config | vars2kv $key
   elif [ ! -f $config ] ; then
-    echo "Save KV $key into $config"
+    log "Save KV $key into $config"
     echo $kv | kv2vars $key > $config
   else
-    echo "Use existing $config, ignore KV"
+    log "Use existing $config, ignore KV"
   fi
+
+  . $config
+  if [[ "${_CI_HOOK_ENABLED}" != "yes" ]] ; then
+    log "_CI_HOOK_ENABLED value disables hook because not equal to 'yes'. Exiting"
+    exit 1
+  fi
+
 }
 # setup_config tests:
 # all empty - default .config generated & saved to KV
@@ -113,7 +128,7 @@ make_stop() {
   local path=$1
   if [ -f $path/Makefile ] ; then
     pushd $path
-    echo "make stop"
+    log "make stop"
     make stop
     popd
   fi
@@ -166,9 +181,9 @@ integrate() {
     log "Requested cleanup for $distro_path"
     path=$DISTRO_ROOT/$distro_path
     if [ -d $path ] ; then
-      echo "Removing $distro_path..."
+      log "Removing $distro_path..."
       make_stop $path
-      rm -rfd $path || { echo "rmdir error: $!" ; exit $? ; }
+      rm -rfd $path || { log "rmdir error: $!" ; exit $? ; }
     fi
     log "Hook cleanup complete"
     exit 0
@@ -177,15 +192,15 @@ integrate() {
   if [ -d $path ] ; then
     log "ReCreating $path..."
     make_stop $path
-    rm -rfd $path || { echo "rmdir error: $!" ; exit $? ; }
+    rm -rfd $path || { log "rmdir error: $!" ; exit $? ; }
   else
     log "Creating $path..."
-    mkdir -p $path || { echo "mkdir error: $!" ; exit $? ; }
+    mkdir -p $path || { log "mkdir error: $!" ; exit $? ; }
   fi
   pushd $DISTRO_ROOT
     log "Clone $repo / $tag..."
 
-    echo bash /home/app/git.sh -i /home/app/$SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path
+    log bash /home/app/git.sh -i /home/app/$SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path
     . /home/app/git.sh -i /home/app/$SSH_KEY_NAME clone --depth=1 --recursive --branch $tag $repo $distro_path || { echo "Clone error: $?" ; exit 1 ; }
   pushd $distro_path
 
@@ -196,8 +211,8 @@ integrate() {
 
     # APP_ROOT - hosted application dirname for mount /home/app and /var/log/supervisor
     local host_root=$(host_home_app)
-     echo APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make start-hook
-     APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make start-hook
+    log APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START}
+    APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START}
   fi
   popd > /dev/null
   popd > /dev/null
