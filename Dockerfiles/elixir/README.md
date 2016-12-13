@@ -1,6 +1,6 @@
 ## Consup elixir image Dockerfile
 
-This repository contains **Dockerfile** for consup elixit image
+This repository contains **Dockerfile** for consup elixir image
 for [Docker](https://www.docker.com/)'s [automated build](https://registry.hub.docker.com/u/lekovr/consup_elixir/) 
 published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
