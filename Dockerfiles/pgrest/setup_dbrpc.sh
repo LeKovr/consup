@@ -3,7 +3,7 @@
 # -------------------------------------------------------------------------------
 # Install dbrpc - RPC server for database stored procedures
 
-PRJ=dbrpc && VER=0.20
+PRJ=dbrpc && VER=0.21
 echo "Setup $PRJ v$VER"
 NAME=${PRJ}_linux_$(dpkg --print-architecture) \
   && curl -OL https://github.com/LeKovr/dbrpc/releases/download/v${VER}/$NAME.zip \
