@@ -13,6 +13,8 @@
     "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.24.0",
     "exports-loader": "^0.6.3",
+    "extract-text-webpack-plugin": "^2.0.0-beta.5",
+    "file-loader": "^0.9.0",
     "gutil": "^1.6.4",
     "imports-loader": "^0.6.5",
     "less": "^2.7.1",
