@@ -9,6 +9,7 @@
 
 # KV-store key to allow this hook
 _CI_HOOK_ENABLED=no
+ENABLE_KEY="_CI_HOOK_ENABLED"
 
 # make target to start app
 _CI_MAKE_START=start-hook
@@ -103,7 +104,7 @@ setup_config() {
 
   . $config
   if [[ "${_CI_HOOK_ENABLED}" != "yes" ]] ; then
-    log "_CI_HOOK_ENABLED value disables hook because not equal to 'yes'. Exiting"
+    log "$ENABLE_KEY value disables hook because not equal to 'yes'. Exiting"
     exit 1
   fi
 
@@ -187,6 +188,13 @@ integrate() {
     fi
     log "Hook cleanup complete"
     exit 0
+  fi
+
+  # check if hook is enabled
+  local enabled=$(curl -s http://localhost:8500/v1/kv/conf/$distro_path/$ENABLE_KEY | jq -r '.[] | .Value' |  base64 -d)
+  if [[ "$enabled" == "no" ]] ; then
+    log "$ENABLE_KEY value disables hook because equal to 'no'. Exiting"
+    exit 1
   fi
 
   if [ -d $path ] ; then
