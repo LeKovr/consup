@@ -24,10 +24,11 @@ req: $(CFG)
 	@source $(CFG) && \
 	curl -d '{"id": "test"}' http://$$APP_SITE/hooks/consuphook
 
-start: $(CFG) ssh-key
+start: ssh-key stop startonly
+
+startonly: $(CFG)
 	@echo "*** $@ ***"
 	@source $(CFG) && \
-fidm rm name=$$APP_SITE ; \
 fidm start name=$$APP_SITE \
     args_add=--volume=$(APP_ROOT)/$(APP_PATH)/log/http/$$APP_SITE:/var/log/nginx \
     args_add=--volume=$(APP_ROOT)/$(APP_PATH)/log/$$APP_SITE:/var/log/supervisor
@@ -72,5 +73,11 @@ deps:
 	# контейнеры Docker
 	for n in consul nginx webhook ; do docker pull lekovr/consup_$$n ; done
 	@echo Done
+
+# запуск bash в контейнере
+bash: startonly
+	@echo "*** $@ ***"
+	source $(CFG) && \
+docker exec -ti "consup_$${APP_SITE}_main" bash
 
 .PHONY: all push remote build restore deps

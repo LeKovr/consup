@@ -170,7 +170,7 @@ integrate() {
   local distro_path=$(mkroot $repo $tag ${HOOK_config})
 
   # consup domain on same host
-  [[ "$is_consup" ]] && repo=${repo/:/.web.service.consul:/}
+  [[ "$is_consup" == "true" ]] && repo=${repo/:/.web.service.consul:/}
 
   local path=$DISTRO_ROOT/$distro_path
 
