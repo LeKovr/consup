@@ -78,12 +78,15 @@ locale-gen $LC_NAME
 }
 
 # ------------------------------------------------------------------------------
+
+DEBIAN_FRONTEND=noninteractive
+
 echo "*** Install docker"
-wget -qO- https://get.docker.com/ | sh
+which docker > /dev/null || wget -qO- https://get.docker.com/ | sh
 
 echo "*** Update packages"
 apt-get -y remove apache2 python-samba samba-common
-apt-get -y install mc wget make
+apt-get -y install mc wget make sudo ntpdate
 
 #apt-get update
 #apt-get -y upgrade

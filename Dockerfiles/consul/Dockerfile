@@ -10,6 +10,12 @@ MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 ENV DOCKERFILE_VERSION  161203
 
 # -------------------------------------------------------------------------------
+# Run custom setup scripts
+
+ADD setup_*.sh /tmp/
+RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
+
+# -------------------------------------------------------------------------------
 # Setup Consul server
 
 COPY consul /etc/consul
@@ -22,3 +28,6 @@ ENV DNS_MASTER 8.8.8.8
 VOLUME ["/var/lib/consul"]
 
 CMD ["/init.d.sh", "/usr/local/bin/consul", "agent", "-config-dir=/etc/consul/conf.d" ]
+
+# Backup / restore
+ENV CONSUL_DUMP /var/lib/consul/backup
