@@ -13,6 +13,7 @@ published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 The following packages added to base image:
 
 * [webhook](https://github.com/adnanh/webhook)
+* [webtail](https://github.com/LeKovr/webtail)
 
 ### Installation
 
