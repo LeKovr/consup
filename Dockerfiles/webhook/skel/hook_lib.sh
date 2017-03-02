@@ -9,10 +9,17 @@
 
 # KV-store key to allow this hook
 _CI_HOOK_ENABLED=no
-ENABLE_KEY="_CI_HOOK_ENABLED"
+VAR_ENABLED="_CI_HOOK_ENABLED"
 
 # make target to start app
+VAR_MAKE_START="_CI_MAKE_START"
 _CI_MAKE_START=start-hook
+
+# make hot update without container restart
+VAR_UPDATE_HOT="_CI_HOOK_UPDATE_HOT"
+VAR_MAKE_UPDATE="_CI_MAKE_UPDATE"
+_CI_HOOK_UPDATE_HOT="no"
+_CI_MAKE_UPDATE="update"
 
 # strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
@@ -31,8 +38,20 @@ kv2vars() {
   echo "# Generated from KV store $key"
   jq -r '.[] | (.Key|ltrimstr("'$key'/")) +"\t"+  .Value ' | while read k v ; do
     val=$(echo -n "$v" | base64 -d)
-    echo "$k=$val"
+    if [[ "${val/ /}" != "$val" ]] ; then
+      echo "$k=\"$val\""
+    else
+      echo "$k=$val"
+    fi
   done
+}
+
+# ------------------------------------------------------------------------------
+# Get value from KV store
+kv_read() {
+  local key=$1
+  val=$(curl -s http://localhost:8500/v1/kv/conf/$distro_path/$key | jq -r '.[] | .Value' |  base64 -d)
+  echo $val
 }
 
 # ------------------------------------------------------------------------------
@@ -43,7 +62,8 @@ vars2kv() {
     s=${line%%#*} # remove endline comments
     [ -n "${s##+([[:space:]])}" ] || continue # ignore line if contains only spaces
     name=${s%=*}
-    val=${s#*=}
+    val=$(eval echo ${s#*=})
+
     #echo "=$name: $val="
     curl -s -X PUT -d "$val" http://localhost:8500/v1/kv/$key/$name > /dev/null || echo "err saving $name"
   done
@@ -88,35 +108,33 @@ setup_config() {
       make setup
       log "Load KV $key from default $config"
       cat $config | vars2kv $key
-      echo "_CI_HOOK_ENABLED=${_CI_HOOK_ENABLED}" | vars2kv $key
-      echo "_CI_MAKE_START=${_CI_MAKE_START}" | vars2kv $key
+      echo "${VAR_ENABLED}=${_CI_HOOK_ENABLED}" | vars2kv $key
+      echo "${VAR_MAKE_START}=${_CI_MAKE_START}" | vars2kv $key
+
+      echo "${VAR_UPDATE_HOT}=${_CI_HOOK_UPDATE_HOT}" | vars2kv $key
+      echo "${VAR_MAKE_UPDATE}=\"${_CI_MAKE_UPDATE}\"" | vars2kv $key
+
       log "Prepared default config. Exiting"
       exit 0
     fi
     log "Load KV $key from $config"
     cat $config | vars2kv $key
-  elif [ ! -f $config ] ; then
+  else
     log "Save KV $key into $config"
     echo $kv | kv2vars $key > $config
-  else
-    log "Use existing $config, ignore KV"
   fi
 
   . $config
-  if [[ "${_CI_HOOK_ENABLED}" != "yes" ]] ; then
-    log "$ENABLE_KEY value disables hook because not equal to 'yes'. Exiting"
-    exit 1
-  fi
 
 }
 # setup_config tests:
 # all empty - default .config generated & saved to KV
 # only KV - .config loaded from KV
 # only .config - .config saved to KV
-# both exists - nothing changed
+# both exists - .config updated from KV
 
 # ------------------------------------------------------------------------------
-
+# get host path for /home/app
 host_home_app() {
 
   # get webhook container id
@@ -125,6 +143,8 @@ host_home_app() {
   docker inspect $container_id | jq -r '.[0].Mounts[] | if .Destination == "/home/app" then .Source else empty end'
 }
 
+# ------------------------------------------------------------------------------
+# Run 'make stop' if Makefile exists
 make_stop() {
   local path=$1
   if [ -f $path/Makefile ] ; then
@@ -135,13 +155,15 @@ make_stop() {
   fi
 }
 
+# ------------------------------------------------------------------------------
+
 integrate() {
 
   local event=$1
   local is_consup=$2
 
   # Docker ENVs
-  # $DISTRO_ROOT - git clone into /home/app/$DISTRO_DIR
+  # DISTRO_ROOT - git clone into /home/app/$DISTRO_DIR
   # DISTRO_CONFIG - file to save app config
   # SSH_KEY_NAME - ssh priv key in /home/app
 
@@ -191,10 +213,35 @@ integrate() {
   fi
 
   # check if hook is enabled
-  local enabled=$(curl -s http://localhost:8500/v1/kv/conf/$distro_path/$ENABLE_KEY | jq -r '.[] | .Value' |  base64 -d)
-  if [[ "$enabled" == "no" ]] ; then
-    log "$ENABLE_KEY value disables hook because equal to 'no'. Exiting"
+  local enabled=$(kv_read $VAR_ENABLED)
+  if [[ "$enabled" != "yes" ]] ; then
+    log "$VAR_ENABLED value disables hook because not equal to 'yes' ($enabled). Exiting"
     exit 1
+  fi
+
+  local hot_enabled=$(kv_read $VAR_UPDATE_HOT)
+
+  if [[ "$hot_enabled" == "yes" ]] ; then
+    log "Requested hot update for $path..."
+    [ -d $DISTRO_ROOT/$distro_path ] || { log "Dir $distro_path does not exists. Exiting" ; exit 1 ; }
+    pushd $DISTRO_ROOT/$distro_path
+    local hot_cmd=$(kv_read $HOT_CMD)
+    if [ -f Makefile ] ; then
+      log "Setup $distro_path"
+      setup_config conf/$distro_path $DISTRO_CONFIG
+    fi
+    local hot_cmd=$(kv_read $VAR_MAKE_UPDATE)
+    log "Pull..."
+    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME pull || { echo "Pull error: $?" ; exit 1 ; }
+    if [[ "$hot_cmd" != "" ]] ; then
+      log "Run update cmd ($hot_cmd)..."
+      local host_root=$(host_home_app)
+      log "APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd"
+      APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd
+    fi
+    popd > /dev/null
+    log "Hook stop"
+    return
   fi
 
   if [ -d $path ] ; then
