@@ -8,12 +8,12 @@
 * Каждый контейнер представляет собой логический сервис, который может состоять из нескольких процессов. Например, сервис [postgresql](Dockerfiles/postgres/README.ru.md), кроме СУБД, содержит сервер [dbcc](https://github.com/LeKovr/dbcc) для автоматического создания БД и пользователей. Эти процессы управляются [supervisor](http://supervisord.org/)
 * Взаимодействие между контейнерами осуществляется с помощью [consul](https://www.consul.io/) (каждый контейнер линкуется с контейнером consul и содержит в своем составе consul agent, который дополнительно выполняет функции Health check сервисов контейнера)
 * Совместно используемые контейнеры описываются как зависимости. Например, единственный запущенный контейнер postgres может использоваться несколькими другими контейнерами. При старте контейнера его зависимости запускаются автоматически.
-* Конфигурация контейнеров задается в yml-файлах, транслация который в аргументы docker производится bash-скриптом [fidm](https://github.com/LeKovr/fidm)
+* Конфигурация контейнеров задается в yml-файлах, трансляция которых в аргументы docker производится bash-скриптом [fidm](https://github.com/LeKovr/fidm)
 
 ## Зависимости
 
-* Linux 64bit
-* [Docker](https://www.docker.com/)
+* linux 64bit
+* [docker](https://www.docker.com/)
 * [fidm](https://github.com/LeKovr/fidm)
 
 ## Поддерживаемые сервисы
@@ -25,7 +25,7 @@
 
 Прикладные
 * [consul-ui](Dockerfiles/consul/skel/README.ru.md) - Web-интерфейс с consul
-* [webhook](Dockerfiles/webhook/skel/README.ru.md) - сервис Continuous intergation
+* [webhook](Dockerfiles/webhook/skel/README.ru.md) - сервис Continuous integration
 * gitbook - генерация статического сайта документации по файлам Markdown
 * [gogs](Dockerfiles/gogs/skel/README.ru.md) - управление Git
 * mattermost - платформа обмена сообщениями
