@@ -27,7 +27,7 @@
 * [consul-ui](Dockerfiles/consul/skel/README.ru.md) - Web-интерфейс с consul
 * [webhook](Dockerfiles/webhook/skel/README.ru.md) - сервис Continuous intergation
 * gitbook - генерация статического сайта документации по файлам Markdown
-* gogs - управление Git
+* [gogs](Dockerfiles/gogs/skel/README.ru.md) - управление Git
 * mattermost - платформа обмена сообщениями
 * pdns - DNS-сервер
 
