@@ -4,6 +4,9 @@
 
 SHELL    = /bin/bash
 
+# consup parent dir
+CONSUP_ROOT ?= ..
+
 # build docker image
 build-%:
 	X=$@ ; fidm build $${X#build-}
@@ -34,6 +37,28 @@ clean-volume:
 # delete consup containers
 clean-consup:
 	docker rmi $$(docker images | grep "consup" | awk "{print \$$1}")
+
+## установка зависимостей
+deps:
+	@echo "*** $@ ***"
+	@echo "Consup root: $(CONSUP_ROOT)"
+	# code from http://docs.docker.com/linux/step_one/
+	which docker > /dev/null || wget -qO- https://get.docker.com/ | sh
+	# code from https://github.com/LeKovr/fidm
+	which fidm > /dev/null || wget -qO- https://raw.githubusercontent.com/LeKovr/fidm/master/install.sh | sh
+	# Каталог **consup** должен быть доступен из каталога **iac** как `../consup` или `../../consup`.
+	[[ -d $(CONSUP_ROOT)/consup ]] || cd $(CONSUP_ROOT) && wget -qO- https://raw.githubusercontent.com/LeKovr/consup/master/install.sh | sh
+	# контейнеры Docker
+	docker pull lekovr/consup_consul
+	@echo Done
+
+## установка зависимостей postgres
+deps-pg: deps
+	docker pull lekovr/consup_postgres
+
+## установка зависимостей nginx
+deps-nginx: deps
+	docker pull lekovr/consup_nginx
 
 PGC_PROJECT ?= consup
 PGC_NAME    ?= postgres
