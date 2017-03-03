@@ -3,7 +3,7 @@ GOGS Demo site
 
 Setup:
 ```
-APP_SITE=gogs.dev.lan make vars
+APP_SITE=gogs.dev.lan make setup
 ```
 
 Usage:
