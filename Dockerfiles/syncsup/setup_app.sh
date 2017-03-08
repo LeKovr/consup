@@ -5,7 +5,7 @@
 #https://github.com/syncthing/relaysrv/releases/download/v0.13.5/relaysrv-linux-amd64-v0.13.5.tar.gz
 
 USER=syncthing
-VER=0.13.5
+VER=0.14.5
 
 setup() {
   local prj=$1
