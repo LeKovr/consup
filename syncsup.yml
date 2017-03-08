@@ -17,6 +17,7 @@ image: consup_syncsup
 
 # Setup external ports
 bind_host: www.consup
+
 publish:
 - 9001
 - 9002
@@ -26,8 +27,8 @@ bind_ip: 127.0.1.2
 publish: 22070
 
 env:
-- LISTEN_DISCO :9001
-- LISTEN_RELAY :9002
+- LISTEN_DISCO=:9001
+- LISTEN_RELAY=:9002
 
 # mount supervisord logs
 log_dir: log
