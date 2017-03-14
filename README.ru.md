@@ -71,6 +71,7 @@ wget -qO- https://raw.githubusercontent.com/LeKovr/consup/master/install.sh | sh
 docker будет установлен согласно [инструкции](http://docs.docker.com/linux/step_one/). Если такой вариант не подходит, надо предварительно поставить docker вручную.
 
 ```
+cd /opt/consul
 make deps
 ```
 
@@ -83,4 +84,4 @@ sudo usermod -a -G docker $USER
 
 The MIT License (MIT), see [LICENSE](LICENSE).
 
-Copyright (c) 2016 Alexey Kovrizhkin ak@elfire.ru
+Copyright (c) 2016 Alexey Kovrizhkin lekovr@gmail.com

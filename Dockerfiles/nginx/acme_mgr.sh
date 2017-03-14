@@ -1,6 +1,6 @@
 #
 # Manage nginx SSL via acmetool
-# Copyright (c) 2016 Alexey Kovrizhkin <ak@elfire.ru>
+# Copyright (c) 2016 Alexey Kovrizhkin <lekovr@gmail.com>
 #
 # This script called everytime when web services list changed via
 # $ consul watch -type=service -service=web bash /etc/nginx/acme_mgr.sh

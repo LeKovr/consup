@@ -3,7 +3,7 @@ consup
 
 [consup](https://github.com/LeKovr/consup) - shared containers orchestration
 
-*Read this in other languages: [English](README.en.md), [Russian](README.md)*
+*Read this in other languages: [English](README.md), [Russian](README.ru.md)*
 
 ---
 
@@ -76,4 +76,4 @@ License
 
 The MIT License (MIT), see [LICENSE](LICENSE).
 
-Copyright (c) 2016 Alexey Kovrizhkin ak@elfire.ru
+Copyright (c) 2016 Alexey Kovrizhkin lekovr@gmail.com
