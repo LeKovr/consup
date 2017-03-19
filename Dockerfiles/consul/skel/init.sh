@@ -2,7 +2,7 @@
 cd /home/app
 if [ ! -d html ] ; then
   echo "Getting web ui..."
-  VER=0.7.1 && NAME=consul_${VER}_web_ui \
+  VER=0.7.5 && NAME=consul_${VER}_web_ui \
     && curl -OL https://releases.hashicorp.com/consul/${VER}/${NAME}.zip \
     && unzip ${NAME}.zip -d html \
     && rm ${NAME}.zip || exit 1
