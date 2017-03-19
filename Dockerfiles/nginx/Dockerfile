@@ -7,7 +7,7 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION_NGINX  161203
+ENV DOCKERFILE_VERSION_NGINX  170319
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
@@ -28,6 +28,7 @@ EXPOSE 80 443
 COPY init.d /init.d
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
+COPY skel /skel
 
 ADD fastcgi_params /etc/nginx/
 ADD proxy_params /etc/nginx/

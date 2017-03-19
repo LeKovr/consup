@@ -8,7 +8,7 @@ apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6A
 # -------------------------------------------------------------------------------
 # Install nginx
 
-NGINX_VERSION=1.11.0-1 \
+NGINX_VERSION=1.11.10-1 \
   && apt-get update \
   && apt-get install -y nginx=${NGINX_VERSION}~$CONSUP_UBUNTU_CODENAME cron \
   && apt-get install --only-upgrade libssl1.0.0 openssl \
