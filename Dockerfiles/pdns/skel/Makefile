@@ -3,6 +3,9 @@ SHELL    = /bin/bash
 PRG     ?= $(shell basename $$PWD)
 CFG     ?= .config
 
+# docker images для "make deps"
+CONSUP_IMAGES = consul postgres pdns
+
 APP_SITE ?= ns.dev.lan
 DB_NAME  ?= pdns
 
@@ -19,7 +22,10 @@ start: vars
 	@echo "*** $@ ***"
 	@source $(CFG) && \
 fidm rm name=$$APP_SITE ; \
-fidm start name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME
+fidm start name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME \
+    args_add=--volume=$(APP_ROOT)/$(APP_PATH):/home/app \
+    args_add=--volume=$(APP_ROOT)/../log/$(APP_PATH):/var/log/supervisor \
+    args_add=--volume=$(CONSUP_ROOT)/consup/app/shared:/opt/shared
 
 stop: $(CFG)
 	@echo "*** $@ ***"
@@ -63,7 +69,7 @@ deps:
 	# Каталог **consup** дожен быть доступен из каталога **iac** как `../consup` или `../../consup`.
 	cd .. &&[ -d consup ] || [ -d ../consup ] || git clone https://github.com/LeKovr/consup.git
 	# контейнеры Docker
-	for n in consul nginx postgres mattermost ; do docker pull lekovr/consup_$$n ; done
+	for n in $(CONSUP_IMAGES) ; do docker pull lekovr/consup_$$n ; done
 	@echo Done
 
 .PHONY: all push remote build restore deps

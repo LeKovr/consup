@@ -21,6 +21,7 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 COPY init.d /init.d
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
+COPY skel /skel
 COPY dbsave_pdns.sh /usr/local/bin/
 
 # Services started by dbinit.sh
