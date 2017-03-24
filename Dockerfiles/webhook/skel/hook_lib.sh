@@ -237,6 +237,7 @@ integrate() {
       log "Run update cmd ($hot_cmd)..."
       local host_root=$(host_home_app)
       log "APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd"
+      # NOTE: This command must start container if it does not running
       APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd
     fi
     popd > /dev/null
