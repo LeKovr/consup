@@ -71,7 +71,7 @@ wget -qO- https://raw.githubusercontent.com/LeKovr/consup/master/install.sh | sh
 docker будет установлен согласно [инструкции](http://docs.docker.com/linux/step_one/). Если такой вариант не подходит, надо предварительно поставить docker вручную.
 
 ```
-cd /opt/consul
+cd /opt/consup
 make deps
 ```
 
