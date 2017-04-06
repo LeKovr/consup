@@ -84,4 +84,4 @@ sudo usermod -a -G docker $USER
 
 The MIT License (MIT), see [LICENSE](LICENSE).
 
-Copyright (c) 2016 Alexey Kovrizhkin lekovr@gmail.com
+Copyright (c) 2014 - 2017 Alexey Kovrizhkin lekovr@gmail.com
