@@ -212,9 +212,10 @@ integrate() {
     exit 0
   fi
 
-  # check if hook is enabled
+  # check if hook is set and disabled
+  # continue setup otherwise
   local enabled=$(kv_read $VAR_ENABLED)
-  if [[ "$enabled" != "yes" ]] ; then
+  if [[ "$enabled" == "no" ]] ; then
     log "$VAR_ENABLED value disables hook because not equal to 'yes' ($enabled). Exiting"
     exit 1
   fi
@@ -264,6 +265,12 @@ integrate() {
     log "Setup $distro_path"
 
     setup_config conf/$distro_path $DISTRO_CONFIG
+
+    # check if hook was enabled directly
+    if [[ "$enabled" != "yes" ]] ; then
+      log "$VAR_ENABLED value disables hook because not equal to 'yes' ($enabled). Exiting"
+      exit 2
+    fi
 
     # APP_ROOT - hosted application dirname for mount /home/app and /var/log/supervisor
     local host_root=$(host_home_app)
