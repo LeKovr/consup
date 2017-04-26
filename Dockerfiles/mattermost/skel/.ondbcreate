@@ -6,10 +6,23 @@
 # DB_DUMPDIR was set and mounted in Makefile
 
 file=$DB_DUMPDIR/$DB_NAME
+
+# lookup DB_NAME suffix dump
+dbext=${DB_NAME##*.}  # remove prefix
+
+[ -r $DB_DUMPDIR/$dbext.tgz ] || echo "No file $DB_DUMPDIR/$dbext.tgz"
+
+echo "Available dumps:"
+ls -l $DB_DUMPDIR/*.tgz
+
+# if no DB_NAME.tgz but DB_NAME_suffix.tgz exists - load it
+[ ! -f $file.tgz ] && [ -f $DB_DUMPDIR/$dbext.tgz ] && file=$DB_DUMPDIR/$dbext
+
 if [ -f $file.tgz ] ; then
-  log "Dump file found, restoring database..."
+  log "Found dump file $file.tgz, restoring database..."
   zcat $file.tgz | PGPASSWORD=$DB_PASS pg_restore -h $PG_HOST -U $DB_NAME -O -Ft -d $DB_NAME || log "Errors found"
   log "Restore complete"
 else
   log "File $file.tgz not found. Skip dump restoring"
+exit 1
 fi
