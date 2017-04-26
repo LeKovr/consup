@@ -77,7 +77,8 @@ psql --tuples-only -P format=unaligned \
   while read d ; do echo $$d ; pg_dump -d $$d -Ft | gzip > $$DB_DUMPDIR/$$d.tgz ; done ; \
 else \
 echo "Exporting database $$DB_NAME..." ; \
-pg_dump -d $$DB_NAME -Ft | gzip > $$DB_DUMPDIR/$$DB_NAME.tgz ; \
+dt=$$(date +%y%m%d) ; \
+pg_dump -d $$DB_NAME -Ft | gzip > $$DB_DUMPDIR/$${DB_NAME}-$${dt}.tgz ; \
 fi
 endef
 export EXP_SCRIPT
