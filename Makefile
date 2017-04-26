@@ -70,14 +70,14 @@ define EXP_SCRIPT
 DB_NAME=$$1 ; \
 [[ "$$DB_NAME" ]] || DB_NAME=all ; \
 [ -d $$DB_DUMPDIR ] || mkdir $$DB_DUMPDIR || exit 1 ; \
+dt=$$(date +%y%m%d) ; \
 if [[ $$DB_NAME == "all" ]] ; then \
 echo "Exporting all databases..." ; \
 psql --tuples-only -P format=unaligned \
   -c "SELECT datname FROM pg_database WHERE NOT datistemplate AND datname <> 'postgres'" | \
-  while read d ; do echo $$d ; pg_dump -d $$d -Ft | gzip > $$DB_DUMPDIR/$$d.tgz ; done ; \
+  while read d ; do echo $$d ; pg_dump -d $$d -Ft | gzip > $$DB_DUMPDIR/$${d}-$${dt}.tgz ; done ; \
 else \
 echo "Exporting database $$DB_NAME..." ; \
-dt=$$(date +%y%m%d) ; \
 pg_dump -d $$DB_NAME -Ft | gzip > $$DB_DUMPDIR/$${DB_NAME}-$${dt}.tgz ; \
 fi
 endef
