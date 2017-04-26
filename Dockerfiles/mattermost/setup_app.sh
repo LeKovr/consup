@@ -2,9 +2,8 @@
 # -------------------------------------------------------------------------------
 # Install App
 
-# https://releases.mattermost.com/3.5.1/mattermost-team-3.5.1-linux-amd64.tar.gz
-
-VER=3.5.1
+# https://releases.mattermost.com/3.8.2/mattermost-team-3.8.2-linux-amd64.tar.gz
+VER=3.8.2
 DEST=/opt
 setup() {
   local prj=$1
@@ -22,7 +21,8 @@ CFG=/opt/mattermost/config/config.json
 mv $CFG $CFG.orig
 
 # Mattermost IRC service
-VER=0.11.0
+# https://github.com/42wim/matterircd/releases/download/v0.11.3/matterircd-linux64
+VER=0.11.3
 D=/usr/local/sbin
 [ -d $D ] || mkdir -p $D
 curl -OL https://github.com/42wim/matterircd/releases/download/v${VER}/matterircd-linux64 \

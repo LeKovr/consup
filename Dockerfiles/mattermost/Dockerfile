@@ -7,7 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION_MATTERMOST  161203
+ENV DOCKERFILE_VERSION_MATTERMOST  170319
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
@@ -21,13 +21,13 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 ENV APPUSER op
 
 COPY init.d /init.d
-COPY skel /skel
 
 # -------------------------------------------------------------------------------
 # Setup Consup client
 
 COPY consul /etc/consul
 COPY supervisor.d /etc/supervisor/conf.d
+COPY skel /skel
 
 WORKDIR /home/app
 
