@@ -7,7 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION_GOGS  161203
+ENV DOCKERFILE_VERSION_GOGS  170429
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
