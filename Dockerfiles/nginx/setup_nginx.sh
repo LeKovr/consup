@@ -1,16 +1,17 @@
 
 # -------------------------------------------------------------------------------
 # Setup nginx repo
+curl http://nginx.org/keys/nginx_signing.key | apt-key add - \
+ && echo "deb http://nginx.org/packages/debian/ $CONSUP_UBUNTU_CODENAME nginx" >> /etc/apt/sources.list
 
-apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-  && echo "deb http://nginx.org/packages/mainline/debian/ ${CONSUP_UBUNTU_CODENAME} nginx" > /etc/apt/sources.list.d/nginx.list
+#apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
+#  && echo "deb http://nginx.org/packages/mainline/debian/ ${CONSUP_UBUNTU_CODENAME} nginx" > /etc/apt/sources.list.d/nginx.list
 
 # -------------------------------------------------------------------------------
 # Install nginx
 
-NGINX_VERSION=1.11.10-1 \
-  && apt-get update \
-  && apt-get install -y nginx=${NGINX_VERSION}~$CONSUP_UBUNTU_CODENAME cron \
+apt-get update \
+  && apt-get install -y nginx cron \
   && apt-get install --only-upgrade libssl1.0.0 openssl \
   && sed -i.bak \
       -e 's|access_log .*|access_log  off;|' \
@@ -25,6 +26,3 @@ NGINX_VERSION=1.11.10-1 \
 
 
 # -------------------------------------------------------------------------------
-# Cleanup nginx repo
-
-rm /etc/apt/sources.list.d/nginx.list
