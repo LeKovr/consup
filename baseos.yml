@@ -1,0 +1,15 @@
+# -------------------------------------------------------------------------------
+# consup_baseos8 fidm config
+# https://github.com/LeKovr/fidm
+# -------------------------------------------------------------------------------
+
+# image name same as for 64bit
+image: consup_baseos
+
+# build from Dockerfiles/baseos
+name: baseos
+
+# To get 64bit and 32bit images on same host
+release: jessie
+
+# TODO: make a doc for chained build (mod_perl)
