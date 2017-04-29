@@ -25,10 +25,38 @@ _CI_MAKE_UPDATE="update"
 set -euo pipefail
 IFS=$'\n\t'
 
+# ------------------------------------------------------------------------------
 # logging func
 log() {
-  D=$(date "+%F %T")
-  echo  "$D $1"
+  local dt=$(date "+%F %T")
+  echo  "$dt $1"
+}
+
+# ------------------------------------------------------------------------------
+# prepare deploy.log
+deplog_begin() {
+  local dest=$1
+  shift
+  local dt=$(date "+%F %T")
+  echo "------------------ $dt / $@" >> $dest
+}
+
+# ------------------------------------------------------------------------------
+# finish deploy.log
+deplog_end() {
+  local dest=$1
+  shift
+  local dt=$(date "+%F %T")
+  echo "================== $dt" >> $dest
+}
+
+# ------------------------------------------------------------------------------
+# write line into deploy.log & double it with log()
+deplog() {
+  local dest=$1
+  shift
+  log $@
+  echo $@ >> $dest
 }
 
 # ------------------------------------------------------------------------------
@@ -136,7 +164,7 @@ setup_config() {
 # ------------------------------------------------------------------------------
 # get host path for /home/app
 host_home_app() {
-
+#echo "/opt/srv/ci"
   # get webhook container id
   local container_id=$(cat /proc/self/cgroup | grep "cpuset:/" | sed 's/\([0-9]\):cpuset:\/docker\///g') # '
   # get host path for /home/app
@@ -155,6 +183,7 @@ make_stop() {
   fi
 }
 
+
 # ------------------------------------------------------------------------------
 
 integrate() {
@@ -163,7 +192,7 @@ integrate() {
   local is_consup=$2
 
   # Docker ENVs
-  # DISTRO_ROOT - git clone into /home/app/$DISTRO_DIR
+  # DISTRO_ROOT - git clone into /home/app/ci/$DISTRO_ROOT
   # DISTRO_CONFIG - file to save app config
   # SSH_KEY_NAME - ssh priv key in /home/app
 
@@ -222,11 +251,17 @@ integrate() {
 
   local hot_enabled=$(kv_read $VAR_UPDATE_HOT)
 
+  local host_root=$(host_home_app)
+
+  # deploy log directory
+  local deplog_root="/home/app/log/deploy"
+  [ -d $deplog_root ] || mkdir -pm 777 $deplog_root || { echo "mkdir error, disable deploy logging" && deplog_root="" ; }
+  local deplog_dest="$deplog_root/$distro_path.log"
+
   if [[ "$hot_enabled" == "yes" ]] ; then
     log "Requested hot update for $path..."
     [ -d $DISTRO_ROOT/$distro_path ] || { log "Dir $distro_path does not exists. Exiting" ; exit 1 ; }
     pushd $DISTRO_ROOT/$distro_path
-    local hot_cmd=$(kv_read $HOT_CMD)
     if [ -f Makefile ] ; then
       log "Setup $distro_path"
       setup_config conf/$distro_path $DISTRO_CONFIG
@@ -236,10 +271,11 @@ integrate() {
     . /home/app/git.sh -i /home/app/$SSH_KEY_NAME pull || { echo "Pull error: $?" ; exit 1 ; }
     if [[ "$hot_cmd" != "" ]] ; then
       log "Run update cmd ($hot_cmd)..."
-      local host_root=$(host_home_app)
-      log "APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd"
+      deplog_begin $deplog_dest "update"
+      deplog $deplog_dest "APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd"
       # NOTE: This command must start container if it does not running
-      APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd
+      APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make $hot_cmd >> $deplog_dest 2>&1
+      deplog_end $deplog_dest
     fi
     popd > /dev/null
     log "Hook stop"
@@ -274,8 +310,10 @@ integrate() {
 
     # APP_ROOT - hosted application dirname for mount /home/app and /var/log/supervisor
     local host_root=$(host_home_app)
-    log APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START}
-    APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START}
+    deplog_begin $host_root/$deplog_dest "create"
+    deplog $host_root/$deplog_dest APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START}
+    APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START} >> $host_root/$deplog_dest/deploy.log 2>&1
+    deplog_end $host_root/$deplog_dest
   fi
   popd > /dev/null
   popd > /dev/null
