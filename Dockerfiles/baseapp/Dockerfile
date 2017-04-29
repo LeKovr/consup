@@ -7,7 +7,7 @@ FROM lekovr/consup_base
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION_BASEAPP  170319
+ENV DOCKERFILE_VERSION_BASEAPP  170429
 
 # -------------------------------------------------------------------------------
 # Setup Consul client

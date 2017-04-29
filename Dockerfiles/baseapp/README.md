@@ -1,7 +1,7 @@
 ## Consup base app image Dockerfile
 
 This repository contains **Dockerfile** for consup base app image
-for [Docker](https://www.docker.com/)'s [automated build](https://registry.hub.docker.com/u/lekovr/consup_base/) 
+for [Docker](https://www.docker.com/)'s [automated build](https://registry.hub.docker.com/u/lekovr/consup_baseapp/) 
 published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
 This image used as base for consup application images.
