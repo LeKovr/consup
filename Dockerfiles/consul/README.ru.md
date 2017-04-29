@@ -18,18 +18,18 @@ In this image  [consul](https://www.consul.io/) configured in server mode.
 
 1. Install [Docker](https://www.docker.com/).
 
-2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_master/) from public
- [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_master`
-   (alternatively, you can build an image from Dockerfile: `docker build -t="consup_master" github.com/lekovr/consup/Dockerfiles/master`)
-   If you prefer [docr.sh](http://www.fig.sh) than use [config file](https://github.com/LeKovr/consup/blob/master/consul.yml) and run `docr.sh consul build`
+2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_consul/) from public
+ [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_consul`
+   (alternatively, you can build an image from Dockerfile: `docker build -t="consup_consul" github.com/lekovr/consup/Dockerfiles/consul`)
+   If you prefer [fidm.sh](https://github.com/LeKovr/fidm) than use [config file](https://github.com/LeKovr/consup/blob/master/consul.yml) and run `fidm.sh build consul`
 
 ### Usage
 
-    docker run -it --rm lekovr/consup_master
+    docker run -it --rm lekovr/consup_consul
 
-Or running some child image with docr.sh
+Or running some child image with fidm.sh
 
-    $ docr.sh postgres start
+    $ fidm.sh start postgres
     Starting consup_consul_master...
     Starting consup_postgres_master...
     ...

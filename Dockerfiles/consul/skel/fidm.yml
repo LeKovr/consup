@@ -3,6 +3,7 @@
 # https://github.com/LeKovr/fidm
 
 project: consup
+name: consul-ui
 image: consup_baseapp
 
 # -------------------------------------------------------------------------------
@@ -22,6 +23,9 @@ links:
 # Only localhost allowed
 bind_ip: 127.0.1.2
 publish: 8500
+
+# use local consul as DNS
+dns: 127.0.0.1
 
 # Daemon
 detach: true

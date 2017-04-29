@@ -1,6 +1,9 @@
-# iac.tender.pro backend Makefile
+# consup app Makefile
 SHELL    = /bin/bash
 PRG     ?= $(shell basename $$PWD)
+
+# docker images для "make deps"
+CONSUP_IMAGES = consul baseapp
 
 APP_ROOT ?= $$PWD
 
@@ -42,7 +45,7 @@ deps:
 	# Каталог **consup** должен быть доступен из каталога **iac** как `../consup` или `../../consup`.
 	[[ -d $(CONSUP_ROOT)/consup ]] || cd $(CONSUP_ROOT) && wget -qO- https://raw.githubusercontent.com/LeKovr/consup/master/install.sh | sh
 	# контейнеры Docker
-	for n in consul ; do docker pull lekovr/consup_$$n ; done
+	for n in $(CONSUP_IMAGES) ; do docker pull lekovr/consup_$$n ; done
 	@echo Done
 
 .PHONY: all start startonly stop stopall deps
