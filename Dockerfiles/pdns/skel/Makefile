@@ -6,6 +6,12 @@ CFG     ?= .config
 # docker images для "make deps"
 CONSUP_IMAGES = consul postgres pdns
 
+# Absolute path to current dir
+APP_ROOT ?= $(shell dirname $$PWD)
+
+# dir which consup/ placed in
+CONSUP_ROOT ?= $(shell dirname $(APP_ROOT))
+
 APP_SITE ?= ns.dev.lan
 DB_NAME  ?= pdns
 
@@ -24,7 +30,7 @@ start: vars
 fidm rm name=$$APP_SITE ; \
 fidm start name=$$APP_SITE args_add=--env=DB_NAME=$$DB_NAME \
     args_add=--volume=$(APP_ROOT)/$(APP_PATH):/home/app \
-    args_add=--volume=$(APP_ROOT)/../log/$(APP_PATH):/var/log/supervisor \
+    args_add=--volume=$(CONSUP_ROOT)/consup/log/$(APP_PATH):/var/log/supervisor \
     args_add=--volume=$(CONSUP_ROOT)/consup/app/shared:/opt/shared
 
 stop: $(CFG)

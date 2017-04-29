@@ -19,7 +19,10 @@ else
   log "Load local data if any"
   DIR=/home/app
   for f in domains records domainmetadata ; do
-    [ -f $DIR/$f.txt ] && log $f && PGPASSWORD=$DB_PASS psql -X -h $PG_HOST -U $DB_NAME -c "\copy $f from $DIR/$f.txt"
+    if [ -f $DIR/$f.txt ] ; then
+      log $f
+      PGPASSWORD=$DB_PASS psql -X -h $PG_HOST -U $DB_NAME -c "\copy $f from $DIR/$f.txt"
+    fi
   done
 
 fi

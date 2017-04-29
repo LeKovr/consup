@@ -16,10 +16,12 @@ requires:
 links:
 - consup/consul    # consul.yml
 
+# mount volume
+# $log_dir/$name_$mode:/var/log/supervisor
+
 # -------------------------------------------------------------------------------
 
-volume:
-- :/home/app
+# volume: see Makefile
 
 bind_host: www.consup
 
@@ -42,7 +44,6 @@ env:
 
 # key to create db via dbcc service
 - DBCC_KEY=SET_YOUR_DBCC_KEY_HERE_OR_IN_fidm.yml
-
 
 # use local consul as DNS
 dns: 127.0.0.1
