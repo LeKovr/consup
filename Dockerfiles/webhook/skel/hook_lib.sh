@@ -310,10 +310,10 @@ integrate() {
 
     # APP_ROOT - hosted application dirname for mount /home/app and /var/log/supervisor
     local host_root=$(host_home_app)
-    deplog_begin $host_root/$deplog_dest "create"
-    deplog $host_root/$deplog_dest APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START}
-    APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START} >> $host_root/$deplog_dest/deploy.log 2>&1
-    deplog_end $host_root/$deplog_dest
+    deplog_begin $deplog_dest "create"
+    deplog $deplog_dest APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START}
+    APP_ROOT=$host_root/$DISTRO_ROOT APP_PATH=$distro_path make ${_CI_MAKE_START} >> $deplog_dest 2>&1
+    deplog_end $deplog_dest
   fi
   popd > /dev/null
   popd > /dev/null
