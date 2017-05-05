@@ -9,14 +9,14 @@ hname=$1
 
 [[ "$hname" ]] || {
   echo "  Usage:"
-  echo "    rsm.sh HOST_IP"
+  echo "    srvinit.sh HOST_IP"
   exit 1
 }
 
 # ------------------------------------------------------------------------------
 
-[[ "$SSHKEY" ]] || SSHKEY=~/.ssh/id_dsa.pub
-[[ "$SWAP" ]]   || SWAP=none
+[[ "$SSHKEY" ]] || SSHKEY=~/.ssh/id_rsa.pub
+[[ "$SWAP" ]]   || SWAP=auto
 [[ "$ADMIN" ]]  || ADMIN=op
 
 cat <<EOF
@@ -32,6 +32,7 @@ read -p "[Hit Enter to continue]" X
 # ------------------------------------------------------------------------------
 
 echo "** Copy ssh pub key..."
+echo "You might be asked for root password here"
 ssh-copy-id -i $SSHKEY root@$hname
 
 # ------------------------------------------------------------------------------
@@ -46,9 +47,11 @@ set -e
 # https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
 
 swap_file=/swapfile
-if [[ "$SWAP" != "none" ]] && [ ! -f \$swap_file ] ; then
+swap=$SWAP
+if [[ "\$swap" != "none" ]] && [ ! -f \$swap_file ] ; then
   echo "*** Enable swap"
-  fallocate -l $SWAP \$swap_file
+  [[ "\$swap" == "auto" ]] || swap=\$(grep MemTotal /proc/meminfo | awk '{print \$2}')
+  fallocate -l \$swap \$swap_file
   chmod 600 \$swap_file
   mkswap \$swap_file
   swapon \$swap_file
@@ -68,7 +71,7 @@ grep vfs_cache_pressure /etc/sysctl.conf || {
 }
 
 # ------------------------------------------------------------------------------
-echo "*** Setup locale"
+echo "*** Setup locale as in local host"
 locale-gen $LC_NAME
 
 # ------------------------------------------------------------------------------
@@ -86,10 +89,10 @@ which docker > /dev/null || wget -qO- https://get.docker.com/ | sh
 
 echo "*** Update packages"
 apt-get -y remove apache2 python-samba samba-common
-apt-get -y install mc wget make sudo ntpdate
+apt-get -y install mc wget make sudo ntpdate curl
 
-#apt-get update
-#apt-get -y upgrade
+apt-get update
+apt-get -y upgrade
 # apt-get install -y linux-generic linux-headers-generic linux-image-generic
 
 # ------------------------------------------------------------------------------
@@ -127,10 +130,10 @@ fi
 # ------------------------------------------------------------------------------
 echo "*** Setup ssh"
 
-# Deny root login via ssh
+# Disable root login via ssh
 sed -i "/^PermitRootLogin.*/c PermitRootLogin no" /etc/ssh/sshd_config
 
-# Deny password login
+# Disable password login
 sed -i "/#PasswordAuthentication *yes/c PasswordAuthentication no" /etc/ssh/sshd_config
 
 service ssh reload

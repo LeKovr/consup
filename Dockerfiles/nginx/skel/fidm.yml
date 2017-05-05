@@ -1,29 +1,38 @@
 # -------------------------------------------------------------------------------
-# fidm config for consup_nginx based project
+# consup_nginx fidm config
 # https://github.com/LeKovr/fidm
+# -------------------------------------------------------------------------------
 
+# Will run from any dir
 image: consup_nginx
 
 # -------------------------------------------------------------------------------
 # Image exchange info
 # -------------------------------------------------------------------------------
 
-# yml def names for required images
-requires:
-- consup/nginx mode=common
-
 # yml def names for linked containers with autostart
 links:
-- consup/consul    # consul.yml
+- consul mode=common    # consul.yml
 
 # -------------------------------------------------------------------------------
+# Image run info
+# -------------------------------------------------------------------------------
 
-private:
+# Publish ports bind to
+#bind_ip: 127.0.53.53
+bind_host: www.consup
+
+publish:
 - 80
+- 443
 
-env:
-- LOCALE=ru_RU
-- SERVICE=web
+# mount volume
+# $log_dir/$name_$mode:/var/log/supervisor
+log_dir: ../../log
+
+volume:
+# SSL CERTIFICATES
+- data:/opt/acme
 
 # use local consul as DNS
 dns: 127.0.0.1

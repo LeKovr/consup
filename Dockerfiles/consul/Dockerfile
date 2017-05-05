@@ -7,7 +7,7 @@ FROM lekovr/consup_base
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  170429
+ENV DOCKERFILE_VERSION  170501
 
 # -------------------------------------------------------------------------------
 # Setup Consul server
@@ -24,6 +24,3 @@ ENV DNS_MASTER 8.8.8.8
 VOLUME ["/var/lib/consul"]
 
 CMD ["/init.d.sh", "/usr/local/bin/consul", "agent", "-config-dir=/etc/consul/conf.d" ]
-
-# Backup / restore
-ENV CONSUL_DUMP /var/lib/consul/backup

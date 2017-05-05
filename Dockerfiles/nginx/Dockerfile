@@ -7,7 +7,7 @@ FROM lekovr/consup_baseapp
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION_NGINX  170429
+ENV DOCKERFILE_VERSION_NGINX  170501
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
@@ -22,6 +22,9 @@ RUN for f in /tmp/setup_*.sh ; do >&2 echo ">>>> $f" ; . $f ; rm $f ; done
 
 # default nginx log destination
 VOLUME ["/var/log/nginx"]
+
+# acmetool storage dir
+VOLUME ["/opt/acme"]
 
 EXPOSE 80 443
 

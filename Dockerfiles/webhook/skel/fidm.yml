@@ -11,23 +11,31 @@ project: consup
 
 # yml def names for required images
 requires:
-- consup/nginx mode=common
+- nginx mode=common
 
 # yml def names for linked containers with autostart
 links:
-- consup/consul    # consul.yml
+- consul mode=common    # consul.yml
 
 # -------------------------------------------------------------------------------
+
+# mount volume
+# $log_dir/$name_$mode:/var/log/supervisor
+log_dir: ../../log
 
 volume:
 - :/home/app
 - /var/run/docker.sock:/var/run/docker.sock
-- /opt/consup:/home/consup
+- ../../app:/opt/app
+- ../../log:/opt/log
+- ../../sys:/opt/consup
 
 # Bind webtail
 # Only localhost allowed
 bind_ip: 127.0.1.2
-publish: 8600
+publish:
+- 8600
+- 8500
 
 env:
 - LOCALE=ru_RU

@@ -1,5 +1,5 @@
 # consup_baseos
-# CONSUP base os image for default (64bit) platform
+# CONSUP base OS image for default (64bit) platform
 # See https://github.com/LeKovr/consup
 #
 

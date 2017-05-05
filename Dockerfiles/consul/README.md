@@ -21,7 +21,7 @@ In this image  [consul](https://www.consul.io/) configured in server mode.
 2. Download [automated build](https://registry.hub.docker.com/u/lekovr/consup_consul/) from public
  [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull lekovr/consup_consul`
    (alternatively, you can build an image from Dockerfile: `docker build -t="consup_consul" github.com/lekovr/consup/Dockerfiles/consul`)
-   If you prefer [fidm.sh](https://github.com/LeKovr/fidm) than use [config file](https://github.com/LeKovr/consup/blob/master/consul.yml) and run `fidm.sh build consul`
+   If you prefer [fidm.sh](https://github.com/LeKovr/fidm) than run `fidm.sh build build=../` from the skel directory.
 
 ### Usage
 
