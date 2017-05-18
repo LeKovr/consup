@@ -7,7 +7,7 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION_MATTERMOST  170429
+ENV DOCKERFILE_VERSION_MATTERMOST  170518
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
