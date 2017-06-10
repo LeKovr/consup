@@ -268,8 +268,9 @@ integrate() {
     fi
     local hot_cmd=$(kv_read $VAR_MAKE_UPDATE)
     log "Pull..."
-    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME pull --recurse-submodules || { echo "Pull error: $?" ; exit 1 ; }
-    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME submodule update --recursive --remote || { echo "sPull error: $?" ; exit 1 ; }
+    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME pull --recurse-submodules 2>&1 || { echo "Pull error: $?" ; exit 1 ; }
+    log "Pull submodules..."
+    . /home/app/git.sh -i /home/app/$SSH_KEY_NAME submodule update --recursive --remote 2>&1 || { echo "sPull error: $?" ; exit 1 ; }
     if [[ "$hot_cmd" != "" ]] ; then
       log "Run update cmd ($hot_cmd)..."
       deplog_begin $deplog_dest "update"
