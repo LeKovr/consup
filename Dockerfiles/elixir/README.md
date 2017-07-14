@@ -6,7 +6,7 @@ published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
 ### Base Docker Image
 
-* [lekovr/consup_baseapp](https://registry.hub.docker.com/u/lekovr/consup_baseapp/)
+* [lekovr/consup_nginx](https://registry.hub.docker.com/u/lekovr/consup_nginx/)
 
 ### Addons
 
