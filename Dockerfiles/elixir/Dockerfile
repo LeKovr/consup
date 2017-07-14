@@ -3,11 +3,11 @@
 # See https://github.com/LeKovr/consup
 #
 
-FROM lekovr/consup_baseapp
+FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  170517
+ENV DOCKERFILE_VERSION  170714
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
