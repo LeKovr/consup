@@ -7,10 +7,13 @@ FROM lekovr/consup_nginx
 
 MAINTAINER Alexey Kovrizhkin <lekovr+docker@gmail.com>
 
-ENV DOCKERFILE_VERSION  170714
+ENV DOCKERFILE_VERSION  170718
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
+
+# user op
+RUN useradd -m -r -s /bin/bash -Gwww-data -gusers -gsudo op
 
 # -------------------------------------------------------------------------------
 # Run custom setup scripts
@@ -36,3 +39,4 @@ RUN cd /root \
 
 WORKDIR /home/app
 
+ENV APPUSER op
