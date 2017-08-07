@@ -16,7 +16,7 @@ set -e
 force=$1
 
 # current consup version
-ver=v1.2
+ver=v1.3
 
 # source repo
 prg=consup
