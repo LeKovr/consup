@@ -12,6 +12,6 @@ url=https://raw.githubusercontent.com/LeKovr/$prg
 name=dbinit.sh
 
 echo "Setup $name from $prg $branch" \
-  && curl -OL $url/$branch/$name \
+  && curl -OLsS $url/$branch/$name \
   && chmod a+x $name \
   && mv $name /usr/local/sbin/

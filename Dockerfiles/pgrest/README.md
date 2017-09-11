@@ -14,6 +14,7 @@ published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 The following packages added to base image:
 
 * [PostgRest](https://github.com/begriffs/postgrest)
+* [dbrpc](https://github.com/LeKovr/dbrpc)
 
 ### Installation
 

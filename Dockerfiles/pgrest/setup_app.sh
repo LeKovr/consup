@@ -7,7 +7,7 @@
 
 USER=begriffs && PRJ=postgrest && VER=0.4.0.0 && NAME=${PRJ}-${VER}-ubuntu
 echo "Setup $PRJ v$VER"
-curl -OL https://github.com/${USER}/${PRJ}/releases/download/v${VER}/${NAME}.tar.xz \
+curl -OLsS https://github.com/${USER}/${PRJ}/releases/download/v${VER}/${NAME}.tar.xz \
   && tar -xaf ${NAME}.tar.xz \
   && mv ${PRJ} /usr/local/sbin/${PRJ} \
   && rm ${PRJ}*
