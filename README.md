@@ -1,3 +1,5 @@
+**WARNING: this project is deprecated. Now I am use [dcape](https://github.com/dopos/dcape) for this purposes.**
+
 consup
 ======
 
